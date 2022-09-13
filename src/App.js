@@ -1,3 +1,4 @@
+// FINNHUB CAN ONLY DO MAX OF 30 REQUESTS PER MINUTE OF API...
 import { useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Account from "./components/Account";
@@ -12,6 +13,7 @@ import Signup from "./components/Signup";
 import Stock from "./components/Stock";
 import Trade from "./components/Trade";
 
+// NEED TO HAVE FROM BACKEND THE USER'S STOCK DATA...SO WHAT STOCKS THEY OWN, WHAT PRICE THEY BOUGHT THEM, AND HOW MANY SHARES...IN ORDER TO USE THAT DATA HERE IN THE FRONT END AND DISPLAY TO THE USER
 
 function App() {
     
@@ -21,10 +23,16 @@ function App() {
 
     const [loggedIn, setLoggedIn] = useState(false)
 
+    const [ticker, setTicker] = useState('')
+
     const flashMsg = (message, category) => {
         setMessage(message);
         setCategory(category);
-    }
+    };
+
+    const changeTicker = (newTicker) => {
+        setTicker(newTicker)
+    };
     
     const login = () => {
         setLoggedIn(true)
@@ -34,7 +42,7 @@ function App() {
         navigate('/login')
     }
     
-    // LATER: if user loggedin, then hide homepage, signup, login, etc
+    // LATER: if user loggedin, then hide homepage, signup, login, etc. if logged out, hide account page, stock, trade, etc
     return (
         <>
             <Navbar loggedIn={loggedIn} />
@@ -47,15 +55,15 @@ function App() {
                     {/* if user not signed up, show signup page */}
                     <Route path='/signup' element={<Signup flashMsg={flashMsg} />} />
                     {/* if user not logged in, show login page */}
-                    <Route path='/login' element={<Login login={login} loggedIn={loggedIn} />} />
+                    <Route path='/login' element={<Login flashMsg={flashMsg} login={login} loggedIn={loggedIn} />} />
 
-                    <Route path='/portfolio' element={<Portfolio loggedIn={loggedIn} />} />
-                    <Route path='/search' element={<Search />} />
+                    <Route path='/portfolio' element={<Portfolio loggedIn={loggedIn} ticker={ticker} />} />
+                    <Route path='/search' element={<Search changeTicker={changeTicker} />} />
                     <Route path='/account' element={<Account logout={logout} />} />
                     <Route path='/edit' element={<Edit />} />
 
-                    <Route path='/stock' element={<Stock />} />
-                    <Route path='/trade' element={<Trade />} />
+                    <Route path='/stock' element={<Stock ticker={ticker} />} />
+                    <Route path='/trade' element={<Trade ticker={ticker} />} />
                 </Routes>
             </div>
         </>

@@ -17,7 +17,7 @@ export default function Edit(props) {
                 <input type="password" className='form-control' placeholder='Edit Password' name='password'/>
                 <br />
 
-                <input type="submit" value='Update' className='btn btn-primary w-100 mt-3' />
+                <input type="submit" value='Update' className='btn btn-dark w-100 mt-3' />
                 <br /><br /><br /><br />
             </div>
         </form>

@@ -15,9 +15,9 @@ export default function Home() {
         </div>
         <div className="row my-3 align-items-center text-center flex-column">
             {/* need to insert onClick to Links... */}
-            <Link className='col-4 btn btn-primary' to='/login' >Login</Link>
+            <Link className='col-4 btn btn-dark' to='/login' >Login</Link>
             <p className='my-3'>or </p>
-            <Link className='col-4 btn btn-primary' to='/signup' >Signup</Link>
+            <Link className='col-4 btn btn-dark' to='/signup' >Signup</Link>
         </div>
     </div>
   )

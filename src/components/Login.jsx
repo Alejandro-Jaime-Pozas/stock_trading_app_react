@@ -1,48 +1,38 @@
 // copy html from react social media
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import { urlMain } from './Keys';
 
 export default function Login(props) {
 
     let navigate = useNavigate();
-    console.log(props.loggedIn);
-
     // make async fn here
     const handleSubmit = async e => {
         e.preventDefault();
         console.log('Logging in');
         
-        let email = e.target.email.value;
+        let username = e.target.username.value;
         let password = e.target.password.value;
 
-        // // POSTMAN CODE SNIPPET to get the email and password
-        // let myHeaders = new Headers();
-        // myHeaders.append('Authorization', 'Basic ' + btoa(`${email}:${password}`)) // COME BACK TO UNDERSTAND THIS
+        // POSTMAN CODE SNIPPET to get the username and password
+        let myHeaders = new Headers();
+        myHeaders.append('Authorization', 'Basic ' + btoa(`${username}:${password}`)) // COME BACK TO UNDERSTAND THIS
 
-        // let response = await fetch('http://localhost:5000/api/token', {headers:myHeaders}); // COME BACK TO UNDERSTAND THIS
-        // if (response.ok){
-        //     let data = await response.json();
-        //     // console.log(data)
-        //     // END POSTMAN CODE SNIPPET - this snippet is shorter than the one shown on postman...
-    
-        //     // sotre the token and expiration in localStorage Application
-        //     localStorage.setItem('token', data.token);
-        //     // console.log(localStorage.getItem('token'))
-        //     localStorage.setItem('expiration', data.token_expiration)
-        //     // console.log(localStorage.getItem('expiration'))
+        let response = await fetch(`${urlMain}/auth/token`, {headers:myHeaders}); // instead of requestOptions, if everything is default except for myHeaders, just input headers:MyHeaders
+        if (response.ok){ // checks if response is valid, not error
+            let data = await response.json();
 
-        //     // set the logged in fn to true
-        //     props.login()
-    
-        //     // flash success msg and nagivate back to home page
-        //     props.flashMessage('You have logged in successfully', 'success');
-        //     navigate('/');
-        // } else {
-        //     props.flashMessage('Your email/password are incorrect', 'danger');
-        // }
-        props.login()
-        console.log(email, password, props.loggedIn)
-        navigate('/portfolio');
+            // store the token and expiration in localStorage Application
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('token_expiration', data.token_expiration)
+
+            // set the logged in state to true
+            props.login()
+            // flash success msg and nagivate back to portfolio
+            navigate('/portfolio');
+        } else {
+            props.flashMsg('Your username/password are incorrect, try again', 'warning');
+        }
     }
   
   return (
@@ -51,14 +41,14 @@ export default function Login(props) {
         <form onSubmit={handleSubmit}>
             <div className="form-group">
 
-                <label htmlFor="email">Email</label>
-                <input type="text" className='form-control' placeholder='Enter Email' name='email'/>
+                <label htmlFor="username">Username</label>
+                <input type="text" className='form-control' placeholder='Enter Username' name='username' required/>
                 <br />
                 <label htmlFor="password">Password</label>
-                <input type="password" className='form-control' placeholder='Enter Password' name='password'/>
+                <input type="password" className='form-control' placeholder='Enter Password' name='password' required/>
                 <br />
 
-                <input type="submit" value='Login' className='btn btn-primary w-100 mt-3' />
+                <input type="submit" value='Login' className='btn btn-dark w-100 mt-3' />
             </div>
         </form>
 

@@ -1,6 +1,8 @@
 // SHOWS A SEARCHBAR WHERE USER CAN LOOK FOR A COMPANY/STOCK SYMBOL, SEARCH RESULTS APPEAR, USER CLICKS ON A VALUE REDIRECTS TO STOCK PAGE
+    // missing link when clicking btn to that stock's page...
 import React, { useEffect, useState } from 'react'
-import { apiKey } from './APIKey'
+import { Link } from 'react-router-dom';
+import { apiKey } from './Keys'
 
 export default function Search(props) {
 
@@ -22,12 +24,14 @@ export default function Search(props) {
         }
     }, [search]) // INSERT TERM TO KEEP EFFECT IN LIST LATER []
     // create handle submit when user enters ticker input to change the state of the search keyword and update/fetch search results list
-    let handleSearch = e => {
+    const handleSearch = e => {
         let q = e.target.value;
-        if (q.length > 2) {
-            // console.log(q)
-            setSearch(q)
-        }
+        setSearch(q)
+    };
+
+    const handleClick = e => {
+        console.log(e.target.innerText)
+        props.changeTicker(e.target.innerText)
     }
     
     
@@ -42,13 +46,12 @@ export default function Search(props) {
             {/* map the results list items each to a simple card */}
             {results.map((stock, i) => {
                 return (
-                <a key={i} href='/stock' className="row border rounded my-1 btn btn-light w-100">
-                    <p className='col m-2'>{stock.symbol}</p>
-                    <p className='col m-2'>{stock.description}</p>
-                </a>
-                )
+                    <>
+                        <p className='m-2'>{stock.description}</p>
+                        <Link key={i} onClick={handleClick} to='/stock' className="row border rounded my-1 btn btn-light w-100 fs-1">{stock.symbol}</Link>
+                    </>
+                    )
             })}
-                {/* create table here where you can click on the correct stock ticker, and person is directed to the stock page for that ticker */}
         </>
     )
 }
