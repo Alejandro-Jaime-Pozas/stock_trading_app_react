@@ -1,11 +1,30 @@
 // copy html from react social media
 import React from 'react'
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { urlMain } from './Keys';
 
 export default function Login(props) {
 
     let navigate = useNavigate();
+
+    // flask: need to get/set the users id
+    useEffect(() => {
+        let token = localStorage.getItem('token');
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token);
+        var requestOptions = {
+            method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+    fetch(`${urlMain}/auth/me`, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            props.userId(result.id)
+        })
+        .catch(error => console.log('error', error));
+    }, [])
     // make async fn here
     const handleSubmit = async e => {
         e.preventDefault();
@@ -24,7 +43,8 @@ export default function Login(props) {
 
             // store the token and expiration in localStorage Application
             localStorage.setItem('token', data.token);
-            localStorage.setItem('token_expiration', data.token_expiration)
+            localStorage.setItem('token_expiration', data.token_expiration);
+
 
             // set the logged in state to true
             props.login()

@@ -18,26 +18,28 @@ import Trade from "./components/Trade";
 function App() {
     
     let navigate = useNavigate
+    const [loggedIn, setLoggedIn] = useState(false)
+    const [id, setId] = useState(null)
+    const [ticker, setTicker] = useState('')
     const [message, setMessage] = useState(null)
     const [category, setCategory] = useState(null)
-
-    const [loggedIn, setLoggedIn] = useState(false)
-
-    const [ticker, setTicker] = useState('')
 
     const flashMsg = (message, category) => {
         setMessage(message);
         setCategory(category);
     };
-
     const changeTicker = (newTicker) => {
         setTicker(newTicker)
     };
-    
+    const userId = (newId) => {
+        setId(newId)
+    };
     const login = () => {
         setLoggedIn(true)
     }
     const logout = () => {
+        localStorage.removeItem('token')
+        localStorage.removeItem('token_expiration')
         setLoggedIn(false)
         navigate('/login')
     }
@@ -57,13 +59,13 @@ function App() {
                     {/* if user not logged in, show login page */}
                     <Route path='/login' element={<Login flashMsg={flashMsg} login={login} loggedIn={loggedIn} />} />
 
-                    <Route path='/portfolio' element={<Portfolio loggedIn={loggedIn} ticker={ticker} />} />
+                    <Route path='/portfolio' element={<Portfolio loggedIn={loggedIn} ticker={ticker} changeTicker={changeTicker} />} />
                     <Route path='/search' element={<Search changeTicker={changeTicker} />} />
                     <Route path='/account' element={<Account logout={logout} />} />
                     <Route path='/edit' element={<Edit />} />
 
                     <Route path='/stock' element={<Stock ticker={ticker} />} />
-                    <Route path='/trade' element={<Trade ticker={ticker} />} />
+                    <Route path='/trade' element={<Trade ticker={ticker} userId={userId} id={id} />} />
                 </Routes>
             </div>
         </>
