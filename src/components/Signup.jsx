@@ -59,7 +59,7 @@ export default function Signup(props) {
             <form onSubmit={handleSubmit} >
                 <div className="form-group">
                     <label htmlFor="email">Email</label>
-                    <input type="text" className='form-control' placeholder='Enter Email' name='email' required/>
+                    <input type="email" className='form-control' placeholder='Enter Email' name='email' required/>
                     <br />
                     <label htmlFor="username">Username</label>
                     <input type="text" className='form-control' placeholder='Enter Username' name='username' required/>

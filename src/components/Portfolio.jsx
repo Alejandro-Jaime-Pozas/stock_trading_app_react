@@ -7,71 +7,94 @@
 // SHOWS USERS PORTFOLIO TOTAL VALUE, HISTORIC PRICE, STOCKS THEY OWN, STOCKS IN THEIR WATCHLIST
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { apiKey } from './Keys'
+import { apiKey, urlMain } from './Keys'
 
 export default function Portfolio(props) {
 
     // console.log(props.loggedIn)
     // for portfolio info, need to return the current price for each stock...
     let portfolio = ['AMZN', 'AAPL', 'ROKU']
-    let portfolioData = []
-    const [stockQuote, setStockQuote] = useState([])
+    const [quote, setQuote] = useState({})
+    const [userStocks, setUserStocks] = useState([])
+    const [shares, setShares] = useState(null)
+                
+    // flask: need to get all the user's stocks to see if they already have a stock, do a put vs post a new stock...
+    useEffect(() => {
+        let token = localStorage.getItem('token');
+        let user_id = localStorage.getItem('user_id');
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token);
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+            };
+            fetch(`${urlMain}/portfolio/${props.newId}`, requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                        setUserStocks(result)
+                        // console.log(result)
+                    })
+                    .catch(error => console.log('error', error));
+                // console.log('did data above print 3?')
+    }, [props.newId])
 
     // finnhub: need useEffect to store data for each ticker in new array, then display the desired data in return fn
-    useEffect(() => {
-        for (let ticker of portfolio){
+    // useEffect(() => {
+    //     for (let ticker of portfolio){
 
-            fetch(`https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${apiKey}`)
-                .then(res => res.json())
-                .then(data => {
-                    // console.log(data)
-                    setStockQuote(data)
-                    // console.log(data)
-                })
-                .catch(err => console.log(err))
-        }
-    }, [])
-    console.log(stockQuote)
+    //         fetch(`https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${apiKey}`)
+    //             .then(res => res.json())
+    //             .then(data => {
+    //                 // console.log(data)
+    //                 setquote(data)
+    //                 // console.log(data)
+    //             })
+    //             .catch(err => console.log(err))
+    //     }
+    // }, [])
+    // // console.log(quote)
 
     const handleClick = e => {
-        console.log(e.target.innerText)
+        // console.log(e.target.innerText)
         props.changeTicker(e.target.innerText)
+    }
+
+    const portfolioValue = () => {
+        let total = 0
+        for (let stock of userStocks){
+            total += stock.real_value
+        }
+        return Number(total.toFixed(0)).toLocaleString()
     }
 
     return (
         <div>
             <div className='row'>
                 <h1>My Portfolio</h1>
-                <p>insert total value $2,500,000.00</p>
+                <p className='lead'>${portfolioValue()}</p>
             </div>
-            <div className="row border rounded m-3 " style={{height: '40vh'}}></div>
+            <div className="row border rounded m-3 " style={{height: '15vh'}}></div>
             <div className='row '>
-                <p>stock info table with user's stocks showing ticker, current price, current day's % change, and users holdings value</p>
-                {/* find way to do this below but for every stock the user owns, need to know the ticker, and use ticker to fetch info */}
                 <div className="row">
                     <p className="col">Ticker</p>
-                    <p className="col">Price</p>
-                    <p className="col">(+/-) %</p>
-                    <p className="col">My Value</p>
+                    <p className="col">Current Price</p>
+                    <p className="col">My Shares</p>
+                    <p className="col">My Total Value</p>
                 </div>
-                <hr />
-                <div className="row">
-                    <Link to='/stock' onClick={handleClick} className="col">{portfolio[0]}</Link>
-                    <p className="col">${stockQuote.c}</p>
-                    <p className="col">{stockQuote.dp}%</p>
-                    <p className="col">insert value</p>
-                </div>
-                <div className="row">
-                    <Link to='/stock' onClick={handleClick} className="col">{portfolio[1]}</Link>
-                    <p className="col">${stockQuote.c}</p>
-                    <p className="col">{stockQuote.dp}%</p>
-                    <p className="col">insert value</p>
-                </div>
-                <div className="row">
-                    <Link to='/stock' onClick={handleClick} className="col">{portfolio[2]}</Link>
-                    <p className="col">${stockQuote.c}</p>
-                    <p className="col">{stockQuote.dp}%</p>
-                    <p className="col">insert value</p>
+
+                {/* this will be the data output for userStocks */}
+                <div className="">
+                    {userStocks.map((stock, i) => {
+                        return (
+                            <div key={i} className="row border-top align-items-center">
+                                <Link to='/stock' onClick={handleClick} className="col">{stock.ticker}</Link>
+                                <p className="col mt-3">${Number(stock.new_price?.toFixed(2)).toLocaleString()}</p>
+                                <p className="col mt-3">{stock.total_shares?.toLocaleString()}</p>
+                                <p className="col mt-3">${Number(stock.real_value?.toFixed(2)).toLocaleString()}</p>
+                            </div>
+                        )
+                    })}
                 </div>
             </div>
         </div>

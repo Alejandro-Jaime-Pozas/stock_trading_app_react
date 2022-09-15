@@ -4,6 +4,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import Account from "./components/Account";
 import AlertMsg from "./components/AlertMsg";
 import Edit from "./components/Edit";
+import Funds from "./components/Funds";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
@@ -19,7 +20,7 @@ function App() {
     
     let navigate = useNavigate
     const [loggedIn, setLoggedIn] = useState(false)
-    const [id, setId] = useState(null)
+    const [newId, setId] = useState(0)
     const [ticker, setTicker] = useState('')
     const [message, setMessage] = useState(null)
     const [category, setCategory] = useState(null)
@@ -40,6 +41,7 @@ function App() {
     const logout = () => {
         localStorage.removeItem('token')
         localStorage.removeItem('token_expiration')
+        localStorage.removeItem('user_id')
         setLoggedIn(false)
         navigate('/login')
     }
@@ -57,15 +59,16 @@ function App() {
                     {/* if user not signed up, show signup page */}
                     <Route path='/signup' element={<Signup flashMsg={flashMsg} />} />
                     {/* if user not logged in, show login page */}
-                    <Route path='/login' element={<Login flashMsg={flashMsg} login={login} loggedIn={loggedIn} />} />
+                    <Route path='/login' element={<Login flashMsg={flashMsg} login={login} loggedIn={loggedIn} userId={userId} />} />
 
-                    <Route path='/portfolio' element={<Portfolio loggedIn={loggedIn} ticker={ticker} changeTicker={changeTicker} />} />
+                    <Route path='/portfolio' element={<Portfolio loggedIn={loggedIn} ticker={ticker} changeTicker={changeTicker} newId={newId} />} />
                     <Route path='/search' element={<Search changeTicker={changeTicker} />} />
-                    <Route path='/account' element={<Account logout={logout} />} />
+                    <Route path='/account' element={<Account logout={logout} newId={newId} />} />
+                    <Route path='/account' element={<Funds flashMsg={flashMsg} logout={logout} newId={newId} />} />
                     <Route path='/edit' element={<Edit />} />
 
                     <Route path='/stock' element={<Stock ticker={ticker} />} />
-                    <Route path='/trade' element={<Trade ticker={ticker} userId={userId} id={id} />} />
+                    <Route path='/trade' element={<Trade flashMsg={flashMsg} ticker={ticker} newId={newId} />} />
                 </Routes>
             </div>
         </>

@@ -4,7 +4,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { apiKey } from './Keys'
+import { apiKey, urlMain } from './Keys'
 
 export default function Stock(props) {
 
@@ -12,6 +12,33 @@ export default function Stock(props) {
     const [financials, setFinancials] = useState({})
     const [quote, setQuote] = useState({})
     const [companyInfo, setCompanyInfo] = useState({})
+    const [userStock, setUserStock] = useState([])
+
+
+    useEffect(() => {
+        let token = localStorage.getItem('token');
+        let user_id = localStorage.getItem('user_id');
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token);
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+            };
+            fetch(`${urlMain}/portfolio/${user_id}`, requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    for (let stock of result){
+                        if (stock.ticker === props.ticker){
+                            setUserStock(stock)
+                        }
+                    }
+                        // setUserStock(result)
+                        // console.log(result)
+                    })
+                    .catch(error => console.log('error', error));
+                // console.log('did data above print 3?')
+    }, [props.ticker])
 
     // fetch financials
     useEffect(() => {
@@ -25,7 +52,7 @@ export default function Stock(props) {
                     setFinancials(metrics)
                 }
             })
-    }, []) // could include props.ticker adn apiKey, since they are used in hook but defined outside of it...
+    }, [props.ticker]) // could include props.ticker adn apiKey, since they are used in hook but defined outside of it...
 
     // fetch quote
     useEffect(() => {
@@ -53,20 +80,23 @@ export default function Stock(props) {
             })
     }, [])
 
+    console.log(financials, quote, companyInfo, userStock)
+
     return (
         <>
             {/* row1: ticker, > company name, trade btn, > price, % increase */}
             <div className='row lead'>
-                <p>{props.ticker}</p> 
+                <p className=''>{props.ticker}</p> 
+                {/* <img className='col img-thumbnail w-25 h-25 me-3' src="https://static.finnhub.io/logo/81a6d1a8-80db-11ea-8d2d-00000000092a.png" alt="" /> */}
                 <h1 className='col display-5 mb-3'>{companyInfo.name}</h1>
                 {/* fix this button to be link */}
-                <Link to="/trade" className='col-3 btn btn-dark align-self-center mb-3'>Trade</Link>
+                <Link to="/trade" className='col-3 btn btn-dark align-self-center mb-3 me-3'>Trade</Link>
             </div>
             {/* row2: price, % */}
             <div className="row gy-3">
                 {/* need fetch stock quote for this */}
-                <p className='col lead'>${quote.c}</p>
-                <p className='col-3 lead text-end'>{quote.dp}%</p>
+                <p className='col lead'>${quote.c?.toFixed(2)}</p>
+                <p className='col-3 lead text-center'>{quote.dp?.toFixed(2)}%</p>
             </div>
             {/* row3: chart */}
             <div className="row border rounded m-3" style={{height: '25vh'}}></div>
@@ -74,24 +104,24 @@ export default function Stock(props) {
             <div className="row gy-3">
                 {/* need user's num of shares for this */}
                 <div className="col mb-3"><b>Your shares:</b></div>
-                <div className="col mb-3">insert num shares</div>
+                <div className="col mb-3">{(userStock.total_shares)?.toLocaleString()}</div>
                 <div className="col mb-3"><b>Your market value:</b></div>
-                <div className="col mb-3">insert $ value</div>
+                <div className="col mb-3">${userStock.real_value?.toFixed(2).toLocaleString()}</div>
             </div>
             {/* row5: financials - 52w-high, 52low, pe-ratio, mktcap, dividendyield, trading volume */}
             <div className="row">
                 <div className="col-3 mb-3"><b>52-week high:</b></div>
-                <div className="col-3 mb-3">${financials['52WeekHigh']}</div>
+                <div className="col-3 mb-3">${Number(financials['52WeekHigh'])?.toFixed(2)}</div>
                 <div className="col-3 mb-3"><b>PE ratio:</b></div>
-                <div className="col-3 mb-3">{financials['peInclExtraTTM']}</div>
+                <div className="col-3 mb-3">{Number(financials['peInclExtraTTM'])?.toFixed(2)}</div>
                 <div className="col-3 mb-3"><b>52-week low:</b></div>
-                <div className="col-3 mb-3">${financials['52WeekLow']}</div>
+                <div className="col-3 mb-3">${Number(financials['52WeekLow'])?.toFixed(2)}</div>
                 <div className="col-3 mb-3"><b>Div yield:</b></div>
-                <div className="col-3 mb-3">{financials['dividendYieldIndicatedAnnual']}</div>
+                <div className="col-3 mb-3">{Number(financials['dividendYieldIndicatedAnnual'])?.toFixed(2)}</div>
                 <div className="col-3 mb-3"><b>Market cap:</b></div>
-                <div className="col-3 mb-3">${financials['marketCapitalization']}</div>
+                <div className="col-3 mb-3">${Number((financials['marketCapitalization'])?.toFixed(2)).toLocaleString()}</div>
                 <div className="col-3 mb-3"><b>Volume:</b></div>
-                <div className="col-3 mb-3">{financials['10DayAverageTradingVolume']}</div>
+                <div className="col-3 mb-3">{Number(financials['10DayAverageTradingVolume'])?.toFixed(2)}</div>
             </div>
         </>
     )

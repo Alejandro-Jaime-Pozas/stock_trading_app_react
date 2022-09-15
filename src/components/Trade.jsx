@@ -1,5 +1,3 @@
-    // {/* ADD CALCULATION OF SHARE * PRICE PER SHARE TO SHOW USER TOTAL AMOUNT THEY WOULD HAVE TO PAY */}
-
 // SHOWS THE STOCK TICKER, AND OPTIONS FOR USER TO BUY OR SELL (IF THEY OWN STOCK) A CERTAIN AMOUNT OF SHARES. SHOWS CALCULATION OF SHARES * PRICE WHEN BUYING/SELLING, AND USER'S PORTFOLIO VALUE IMPACT SO THEY CAN MEASURE THE TRADE'S IMPACT ON PORTFOLIO. WHEN SUBMITTED, SHOWS SUCCESS FLASH MSG
 import React from 'react'
 import { useState } from 'react'
@@ -10,60 +8,188 @@ import { apiKey, urlMain } from './Keys'
 export default function Trade(props) {
 
     let navigate = useNavigate()
-    const [quote, setQuote] = useState('')
-    const [shares, setShares] = useState(null)
+    const [quote, setQuote] = useState({})
     const [userStocks, setUserStocks] = useState([])
+    const [shares, setShares] = useState(null)
 
     // finnhub: get data for the current global ticker
     useEffect(() => {
             fetch(`https://finnhub.io/api/v1/quote?symbol=${props.ticker}&token=${apiKey}`)
                 .then(res => res.json())
                 .then(data => {
+                    // console.log(data)
                     setQuote(data)
                 })
                 .catch(err => console.log(err))
-    }, [props.ticker])
-
-// flask: need to get all the user's stocks to see if they already have a stock, do a put vs post a new stock...
+        }, [])
+                
+    // flask: need to get all the user's stocks to see if they already have a stock, do a put vs post a new stock...
     useEffect(() => {
         let token = localStorage.getItem('token');
+        let user_id = localStorage.getItem('user_id');
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token);
-
         var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow'
-        };
-
-        fetch(`${urlMain}/portfolio/${props.id}`, requestOptions)
-            .then(response => response.json())
-            .then(result => {
-                console.log(result)
-                
-            })
-            .catch(error => console.log('error', error));
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+            };
+            fetch(`${urlMain}/portfolio/${user_id}`, requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                        setUserStocks(result)
+                        // console.log(userStocks)
+                    })
+                    .catch(error => console.log('error', error));
+                // console.log('did data above print 3?')
     }, [])
 
-const handleBuy = e => {
-    e.preventDefault();
-        // get num shares to buy
-        let buy = e.target.buy.value;
-        // fetch to see if user has enough funds to buy shares, post the new share amount for that user's stock 
-    }
-    // IGNORE THIS UNTIL HANDLEBUY FN IS COMPLETE, copy paste
-    const handleSell = e =>{
+
+    const handleBuy = async e => {
         e.preventDefault();
         // get num shares to buy
-        let sell = e.target.sell.value;
-        console.log(sell)
+        // console.log(buy)
+        let token = localStorage.getItem('token');
+        let new_price = quote.c;
+        let new_shares = e.target.buy.value;
+        for (let stock of userStocks) {
+            // if user OWNS THE STOCK, DO PUT
+            if (props.ticker === stock.ticker) { 
+                let stock_id = stock.id;
+                // console.log(stock_id, token, new_price, new_shares)
+                let myHeaders = new Headers();
+                myHeaders.append("Authorization", "Bearer " + token);
+                myHeaders.append("Content-Type", "application/json");
+                
+                let raw = JSON.stringify({
+                "new_price": new_price,
+                "new_shares": Number(new_shares) // for some reason does not allow int/str transformation by aPI...
+                });
+                
+                let requestOptions = {
+                method: 'PUT',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+                };
+                
+                let response = await fetch(`${urlMain}/portfolio/stocks/${stock_id}`, requestOptions);
+                if (response.ok) {
+                    let result = await response.json()
+                    console.log(result)
+                    props.flashMsg(`You have succesfully bought ${(new_shares)} more share(s) of ${stock.ticker}`, 'success')
+                    navigate('/portfolio')
+                } else {
+                    props.flashMsg(`Sorry, you do not have enough funds to buy these shares`, 'warning')
+                }
+                return
+                // fetch(`${urlMain}/portfolio/stocks/${stock_id}`, requestOptions)
+                // .then(response => response.json())
+                // .then(result => {
+                //     console.log(result)
+                //     props.flashMsg(`You have succesfully bought ${(new_shares)} more share(s) of ${stock.ticker}`, 'success')
+                //     navigate('/portfolio')
+                // })
+                // .catch(error => console.log('error', error));
+
+            }
+        } 
+        // if user does not own stock, DO A POST CREATE NEW STOCK
+        let ticker = props.ticker;
+        let myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token);
+        myHeaders.append("Content-Type", "application/json");
+        
+        let raw = JSON.stringify({
+        "ticker": ticker,
+        "new_price": new_price,
+        "new_shares": Number(new_shares)
+        });
+        
+        let requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+        };
+        
+        let response = await fetch(`${urlMain}/portfolio/stocks`, requestOptions);
+            if (response.ok) {
+                let result = await response.json()
+                console.log(result)
+                props.flashMsg(`You have succesfully bought ${(new_shares)} new share(s) of ${props.ticker}`, 'success')
+                navigate('/portfolio')
+            } else {
+                props.flashMsg(`Sorry, you do not have enough funds to buy these shares`, 'warning')
+            }
+        // fetch(`${urlMain}/portfolio/stocks`, requestOptions)
+        // .then(response => response.json())
+        // .then(result => {
+        //     console.log(result)
+        //     props.flashMsg(`You have succesfully bought ${(new_shares)} new share(s) of ${props.ticker}`, 'success')
+        //     navigate('/portfolio')
+        // })
+        // .catch(error => console.log('error', error));
+    }
+
+    // IGNORE THIS UNTIL HANDLEBUY FN IS COMPLETE, copy paste
+    const handleSell = async e =>{
+        e.preventDefault();
         // fetch to see if user has those shares, post the new share amount for that user's stock 
+        let token = localStorage.getItem('token');
+        let new_price = quote.c;
+        let new_shares = -e.target.sell.value;
+        for (let stock of userStocks) {
+            // if user OWNS THE STOCK, DO PUT
+            if (props.ticker === stock.ticker) { 
+                let stock_id = stock.id;
+                // console.log(stock_id, token, new_price, new_shares)
+                let myHeaders = new Headers();
+                myHeaders.append("Authorization", "Bearer " + token);
+                myHeaders.append("Content-Type", "application/json");
+                
+                let raw = JSON.stringify({
+                  "new_price": new_price,
+                  "new_shares": Number(new_shares) // for some reason does not allow int/str transformation by aPI...
+                });
+                
+                let requestOptions = {
+                  method: 'PUT',
+                  headers: myHeaders,
+                  body: raw,
+                  redirect: 'follow'
+                };
+                let response = await fetch(`${urlMain}/portfolio/stocks/${stock_id}`, requestOptions);
+                // SOMETHING WRONG HERE FIIXX RESPONSE.OK GETTING MORE SHARES THAN USER HAS.
+                if (response.ok) {
+                    let result = await response.json()
+                    console.log(result)
+                    props.flashMsg(`You have sold ${(-new_shares)} share(s) of ${stock.ticker}`, 'info')
+                    navigate('/portfolio')
+                } else {
+                    props.flashMsg(`Sorry, you entered more shares than you have`, 'warning')
+                }
+                return
+                // fetch(`${urlMain}/portfolio/stocks/${stock_id}`, requestOptions)
+                //   .then(response => response.json())
+                //   .then(result => {
+                //       console.log(result)
+                //       props.flashMsg(`You have sold ${(-new_shares)} share(s) of ${stock.ticker}`, 'info')
+                //       navigate('/portfolio')
+                //   })
+                //   .catch(error => console.log('error', error));
+
+                } 
+            }
+        // if user does not own stock, flash msg
+        props.flashMsg(`Sorry, you can't sell more shares than you have`, 'warning')
     }
 
     const handleShares = e => {
         console.log(e.target.form[0].value)
         setShares(e.target.form[0].value)
     }
+
     
     return (
         <>
@@ -80,7 +206,7 @@ const handleBuy = e => {
             <form onSubmit={handleBuy} className='row my-4'>
                 {/* <div className="form-group"> */}
                     <label htmlFor="buy"></label>
-                    <input onChange={handleShares} type="text" className='col form-control' placeholder='Enter shares to buy' name='buy'/>
+                    <input onChange={handleShares} type="text" className='col form-control' placeholder='Enter shares to buy' name='buy' />
                     <input type="submit" value='Buy' className='col-4 btn btn-dark ' />
                 {/* </div> */}
             </form>
@@ -88,11 +214,11 @@ const handleBuy = e => {
             <form onSubmit={handleSell} className='row my-4'>
                 {/* <div className="form-group"> */}
                     <label htmlFor="sell"></label>
-                    <input onChange={handleShares} type="text" className='col form-control' placeholder='Enter shares to sell' name='sell'/>
+                    <input onChange={handleShares} type="text" className='col form-control' placeholder='Enter shares to sell' name='sell' />
                     <input type="submit" value='Sell' className='col-4 btn btn-dark ' />
                 {/* </div> */}
             </form>
-            {shares ? <div className="row lead text-center">Total: ${quote.c * shares}</div> : null }
+            {shares ? <div className="row lead text-center">Total: ${(quote.c * shares).toLocaleString()}</div> : null }
         </>
     )
 }
