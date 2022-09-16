@@ -61,6 +61,7 @@ export default function Funds(props) {
         fetch(`${urlMain}/auth/users/${props.info.id}`, requestOptions)
           .then(response => response.json())
           .then(result => {
+            navigate('/portfolio')
             props.flashMsg(`Your withdrawal for ${withdrawal} was successful`, 'info')
             console.log(result)
           })

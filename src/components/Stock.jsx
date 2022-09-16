@@ -106,7 +106,7 @@ export default function Stock(props) {
                 <div className="col mb-3"><b>Your shares:</b></div>
                 <div className="col mb-3">{(userStock.total_shares)?.toLocaleString()}</div>
                 <div className="col mb-3"><b>Your market value:</b></div>
-                <div className="col mb-3">${userStock.real_value?.toFixed(2).toLocaleString()}</div>
+                <div className="col mb-3">${(userStock.real_value)?.toFixed(2).toLocaleString()}</div>
             </div>
             {/* row5: financials - 52w-high, 52low, pe-ratio, mktcap, dividendyield, trading volume */}
             <div className="row">

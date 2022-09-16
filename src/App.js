@@ -53,17 +53,14 @@ function App() {
             <br />
             <div className="container ">
             {message ? <AlertMsg flashMsg={flashMsg} message={message} category={category} /> : null }
-                {/* <h1 className="col ">Hello </h1> */}
                 <Routes >
                     <Route path='/' element={<Home />} />
-                    {/* if user not signed up, show signup page */}
                     <Route path='/signup' element={<Signup flashMsg={flashMsg} />} />
-                    {/* if user not logged in, show login page */}
                     <Route path='/login' element={<Login flashMsg={flashMsg} login={login} loggedIn={loggedIn} userId={userId} />} />
 
                     <Route path='/portfolio' element={<Portfolio loggedIn={loggedIn} ticker={ticker} changeTicker={changeTicker} newId={newId} />} />
                     <Route path='/search' element={<Search changeTicker={changeTicker} />} />
-                    <Route path='/account' element={<Account logout={logout} newId={newId} />} />
+                    <Route path='/account' element={<Account flashMsg={flashMsg} logout={logout} newId={newId} />} />
                     <Route path='/account' element={<Funds flashMsg={flashMsg} logout={logout} newId={newId} />} />
                     <Route path='/edit' element={<Edit />} />
 

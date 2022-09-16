@@ -80,7 +80,7 @@ export default function Trade(props) {
                     props.flashMsg(`You have succesfully bought ${(new_shares)} more share(s) of ${stock.ticker}`, 'success')
                     navigate('/portfolio')
                 } else {
-                    props.flashMsg(`Sorry, you do not have enough funds to buy these shares`, 'warning')
+                    props.flashMsg(`Sorry, you do not have enough funds to buy these shares of stock you already own`, 'warning')
                 }
                 return
                 // fetch(`${urlMain}/portfolio/stocks/${stock_id}`, requestOptions)
@@ -120,7 +120,7 @@ export default function Trade(props) {
                 props.flashMsg(`You have succesfully bought ${(new_shares)} new share(s) of ${props.ticker}`, 'success')
                 navigate('/portfolio')
             } else {
-                props.flashMsg(`Sorry, you do not have enough funds to buy these shares`, 'warning')
+                props.flashMsg(`Sorry, you do not have enough funds to buy these shares of a new stock you don\'t own`, 'warning')
             }
         // fetch(`${urlMain}/portfolio/stocks`, requestOptions)
         // .then(response => response.json())
@@ -179,10 +179,10 @@ export default function Trade(props) {
                 //   })
                 //   .catch(error => console.log('error', error));
 
-                } 
             }
+        }
         // if user does not own stock, flash msg
-        props.flashMsg(`Sorry, you can't sell more shares than you have`, 'warning')
+        props.flashMsg(`Sorry, you can't sell a stock you don\'t own`, 'warning')
     }
 
     const handleShares = e => {
