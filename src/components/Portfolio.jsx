@@ -97,6 +97,9 @@ export default function Portfolio(props) {
                     })}
                 </div>
             </div>
+            {/* <div className="row my-5">
+                {userStocks[0] ? null : <Link to='/search' className='btn btn-dark w-50 align-self-center col' >Start Searching for some stocks</Link>}
+            </div> */}
         </div>
     )
 }

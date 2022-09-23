@@ -195,7 +195,7 @@ export default function Trade(props) {
         <>
             <Link to='/stock' className='btn btn-dark mb-3'>{`<`} Back</Link>
             <div className="row align-items-end">
-            <h1 className='col-5 display-3 m-0'>{props.ticker}</h1><p className='col m-1 display-6 '>${quote.c}</p>
+            <h1 className='col display-3 m-0'>{props.ticker}</h1><p className='col-4 m-1 display-6 '>${quote.c}</p>
             </div>
             <div className="row my-5">
                 <div className="col ">Number of Shares</div>

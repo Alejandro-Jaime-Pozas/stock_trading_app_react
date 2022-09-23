@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { apiKey, urlMain } from './Keys'
+import Trade from './Trade'
 
 export default function Stock(props) {
 
@@ -122,6 +123,9 @@ export default function Stock(props) {
                 <div className="col-3 mb-3">${Number((financials['marketCapitalization'])?.toFixed(2)).toLocaleString()}</div>
                 <div className="col-3 mb-3"><b>Volume:</b></div>
                 <div className="col-3 mb-3">{Number(financials['10DayAverageTradingVolume'])?.toFixed(2)}</div>
+            </div>
+            <div hidden>
+            <Trade userStock={userStock} hidden />
             </div>
         </>
     )
