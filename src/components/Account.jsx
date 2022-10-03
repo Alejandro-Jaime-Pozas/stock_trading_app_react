@@ -65,18 +65,18 @@ export default function Account(props) {
             <br /><br />
 
             <form onSubmit={handleEdit} className="row form-group">
-                <label className='col' htmlFor="username">New Username</label>
+                {/* <label className='col' htmlFor="username">New Username</label> */}
                 <div className="col">Username: {info.username}</div>
-                <input className='my-2 form-control' type="text"  placeholder={info.username} name='username'/>
+                {/* <input className='my-2 form-control' type="text"  placeholder={info.username} name='username'/> */}
             <br />
-                <label className='col' htmlFor="email">New Email</label>
+                {/* <label className='col' htmlFor="email">New Email</label> */}
                 <div className="col">Email: {info.email}</div>
-                <input className='my-2 form-control' type="text"  placeholder={info.email} name='email'/>
+                {/* <input className='my-2 form-control' type="text"  placeholder={info.email} name='email'/> */}
             <br />
-                <label className='col' htmlFor="password">New Password</label>
-                <input className='my-2 form-control' type="password"  placeholder='--' name='password'/>
+                {/* <label className='col' htmlFor="password">New Password</label> */}
+                {/* <input className='my-2 form-control' type="password"  placeholder='--' name='password'/> */}
 
-                <input type='submit' value='Edit' className="col-4 h-75 btn btn-dark" />
+                {/* <input type='submit' value='Edit' className="col-4 h-75 btn btn-dark" /> */}
             </form>
 
             <br /><br />

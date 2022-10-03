@@ -29,7 +29,7 @@ export default function Login(props) {
 
             // store the token and expiration in localStorage Application
             localStorage.setItem('token', data.token);
-            localStorage.setItem('token_expiration', data.token_expiration);
+            // localStorage.setItem('token_expiration', data.token_expiration);
 
             // also set the user_id to the user's id
             let token = localStorage.getItem('token');
