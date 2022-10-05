@@ -14,16 +14,16 @@ export default function Navbar(props) {
                     <ul className="navbar-nav p-0">
                         <li className="nav-item col">
                         {props.loggedIn ? 
-                        <Link className="nav-link" to="/portfolio">Portfolio</Link> 
+                        <Link className="nav-link " to="/portfolio"><i className="fa-solid fa-sack-dollar"></i></Link> 
                         : 
-                        <Link className="nav-link" to="/">Home</Link>
+                        <Link className="nav-link" to="/"><i className="fa-solid fa-house"></i></Link>
                         }
                         </li>
                         <li className="nav-item col">
-                        <Link className="nav-link" to="/search">Search</Link>
+                        <Link className="nav-link" to="/search"><i className="fa-solid fa-magnifying-glass-dollar"></i></Link>
                         </li>
                         <li className="nav-item col">
-                        <Link className="nav-link" to="/account">Account</Link>
+                        <Link className="nav-link" to="/account"><i className="fa-solid fa-user"></i></Link>
                         </li>
                     </ul>
                 </div>
