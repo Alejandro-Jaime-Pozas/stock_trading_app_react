@@ -66,7 +66,7 @@ export default function Stock(props) {
                     setQuote(data)
                 }
             })
-    }, []) // could include props.ticker and apiKey, since they are used in hook but defined outside of it...
+    }, [props.ticker]) // could include props.ticker and apiKey, since they are used in hook but defined outside of it...
 
     // fetch company info
     useEffect(() => {
@@ -79,7 +79,7 @@ export default function Stock(props) {
                     setCompanyInfo(data)
                 }
             })
-    }, [])
+    }, [props.ticker])
 
     console.log(financials, quote, companyInfo, userStock)
 
@@ -97,7 +97,12 @@ export default function Stock(props) {
             <div className="row gy-3">
                 {/* need fetch stock quote for this */}
                 <p className='col lead'>${quote.c?.toFixed(2)}</p>
-                <p className='col-3 lead text-center'>{quote.dp?.toFixed(2)}%</p>
+                {quote.dp > 0 
+                ? 
+                <p className='col-3 lead text-center fw-normal text-success'>{quote.dp?.toFixed(2)}%</p>
+                :
+                <p className='col-3 lead text-center fw-normal text-danger'>{quote.dp?.toFixed(2)}%</p>
+                }
             </div>
             {/* row3: chart */}
             <div className="row border rounded m-3" style={{height: '25vh'}}></div>

@@ -82,7 +82,7 @@ export default function Account(props) {
             <br /><br />
             <div className="row">
                 <div className="col">Your Cash Funds</div>
-                <p className="col-4 lead h-75 text-center text-success" name='cash' >${Number(info.cash?.toFixed(2)).toLocaleString()}</p>
+                <p className="col-4 lead h-75 text-center text-success fw-normal" name='cash' >${Number(info.cash?.toFixed(2)).toLocaleString()}</p>
             </div><br /><br />
             <div className="row gy-3 p-0 justify-content-center ">
                 <br />
