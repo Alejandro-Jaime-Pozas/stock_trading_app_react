@@ -65,7 +65,7 @@ export default function Portfolio(props) {
         for (let stock of userStocks){
             total += stock.real_value
         }
-        return Number(total.toFixed(0)).toLocaleString()
+        return Number(total?.toFixed(0)).toLocaleString()
     }
 
     return (

@@ -195,7 +195,7 @@ export default function Trade(props) {
         <>
             <Link to='/stock' className='btn btn-dark mb-3'>{`<`} Back</Link>
             <div className="row align-items-end">
-            <h1 className='col display-3 m-0'>{props.ticker}</h1><p className='col-4 m-1 display-6 '>${quote.c}</p>
+            <h1 className='col display-3 m-0'>{props.ticker}</h1><p className='col-4 m-1 display-6 '>${quote.c?.toFixed(2)}</p>
             </div>
             <div className="row my-5">
                 <div className="col ">Number of Shares</div>
@@ -218,7 +218,7 @@ export default function Trade(props) {
                     <input type="submit" value='Sell' className='col-4 btn btn-dark ' />
                 {/* </div> */}
             </form>
-            {shares ? <div className="row lead text-center">Total: ${(quote.c * shares).toLocaleString()}</div> : null }
+            {shares ? <div className="row lead text-center">Total: ${Number((quote.c * shares)?.toFixed(2)).toLocaleString()}</div> : null }
         </>
     )
 }

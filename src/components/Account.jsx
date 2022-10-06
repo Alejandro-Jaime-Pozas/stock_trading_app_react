@@ -82,14 +82,14 @@ export default function Account(props) {
             <br /><br />
             <div className="row">
                 <div className="col">Your Cash Funds</div>
-                <p className="col-4 lead h-75 text-center text-success fw-normal" name='cash' >${Number(info.cash?.toFixed(2)).toLocaleString()}</p>
+                <p className="col-4 lead h-75 text-center text-success fw-normal" name='cash' >${info.cash ? Number(info.cash?.toFixed(2)).toLocaleString() : null}</p>
             </div><br /><br />
             <div className="row gy-3 p-0 justify-content-center ">
                 <br />
                 <Funds info={info} /><br /><br />
                 {/* {clickToEdit ? <Edit info={info} /> : null } */}
                 {/* <Link to='/portfolio' className="col-12 h-25 btn btn-light" name='withdraw' >Withdraw Funds</Link><br /><br /><br /><br /> */}
-                <Link to='/login' onClick={props.logout} className="col-12 h-25 btn btn-secondary mt-5" name='logout' >Logout</Link><br /><br />
+                <Link to='/login' onClick={props.logout} className="col-11 h-25 btn btn-secondary mt-5" name='logout' >Logout</Link><br /><br />
             </div>
 
                 <br onSubmit={handleEdit} />
