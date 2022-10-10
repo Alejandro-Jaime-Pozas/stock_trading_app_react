@@ -1,9 +1,8 @@
-    // fix useEffect not working
     // display only 2 decimal points for price, and %
-    // be able to fetch multiple requests to display each stock's price info...
-    // add user's holdings of each stock to the stock view...# of shares * current price
-    // add user's portfolio value to top
-    // add link/naviagate to STOCK page when user clicks a stock
+    // be able to fetch multiple requests to display each stock's real price quote...
+// add user's holdings of each stock to the stock view...# of shares * current price
+// add user's portfolio value to top
+// add link/naviagate to STOCK page when user clicks a stock
 // SHOWS USERS PORTFOLIO TOTAL VALUE, HISTORIC PRICE, STOCKS THEY OWN, STOCKS IN THEIR WATCHLIST
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -29,7 +28,7 @@ export default function Portfolio(props) {
             headers: myHeaders,
             redirect: 'follow'
             };
-            fetch(`${urlMain}/portfolio/${props.newId}`, requestOptions)
+            fetch(`${urlMain}/portfolio/${user_id}`, requestOptions)
                 .then(response => response.json())
                 .then(result => {
                         setUserStocks(result)
@@ -37,7 +36,7 @@ export default function Portfolio(props) {
                     })
                     .catch(error => console.log('error', error));
                 // console.log('did data above print 3?')
-    }, [props.newId])
+    }, [])
 
     // finnhub: need useEffect to store data for each ticker in new array, then display the desired data in return fn
     // useEffect(() => {
@@ -62,6 +61,7 @@ export default function Portfolio(props) {
 
     const portfolioValue = () => {
         let total = 0
+        console.log(userStocks)
         for (let stock of userStocks){
             total += stock.real_value
         }
@@ -84,6 +84,7 @@ export default function Portfolio(props) {
                 </div>
 
                 {/* this will be the data output for userStocks */}
+                {/* the reason this doesn't update is it's not linked at all to the stock's real price. need to do multiple fetches one for each stock user owns to get real time quote */}
                 <div className="">
                     {userStocks.map((stock, i) => {
                         return (

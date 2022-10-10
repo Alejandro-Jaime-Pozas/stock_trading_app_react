@@ -8,9 +8,9 @@ export default function Funds(props) {
     const handleDeposit = async e => {
         e.preventDefault()
         // get the deposit sumbission amount from form and add the cash to user's cash acct by updating user's cash
-        let deposit = (e.target.deposit.value)
+        let deposit = e.target.deposit.value
         let token = localStorage.getItem('token')
-        let user_id = localStorage.getItem('user_id')
+        // let user_id = localStorage.getItem('user_id')
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token);
         myHeaders.append("Content-Type", "application/json");
@@ -29,12 +29,11 @@ export default function Funds(props) {
         let response = await fetch(`${urlMain}/auth/users/${props.info.id}`, requestOptions)
         if (response.ok){
             let result = response.json() 
-            // props.flashMsg(`You added funds to your account, now start investing!`, 'success')
+            props.flashMsg(`You added $${deposit} to your cash account, now start investing!`, 'success')
             navigate('/portfolio')
             console.log(result)
         } else {
             console.log('this response was not ok')
-            // props.flashMsg(`You added funds to your account, now start investing!`, 'warning')   
         }
     }
     const handleWithdraw = e => {
@@ -42,7 +41,11 @@ export default function Funds(props) {
         // get the deposit sumbission amount from form and add the cash to user's cash acct by updating user's cash
         let withdrawal = -e.target.withdrawal.value
         let token = localStorage.getItem('token')
-        let user_id = localStorage.getItem('user_id')
+        // let user_id = localStorage.getItem('user_id')
+        // if the amount to withdraw is > user's cash, throw warning msg and terminate event
+        if (props.info.cash + withdrawal < 0){
+            return props.flashMsg(`Sorry, you cannot withdraw more money than you have in cash ($${props.info.cash})`, 'warning')
+        }
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token);
         myHeaders.append("Content-Type", "application/json");
@@ -61,9 +64,9 @@ export default function Funds(props) {
         fetch(`${urlMain}/auth/users/${props.info.id}`, requestOptions)
           .then(response => response.json())
           .then(result => {
-            navigate('/portfolio')
-            props.flashMsg(`Your withdrawal for ${withdrawal} was successful`, 'info')
+            props.flashMsg(`Your withdrawal for -$${-withdrawal} was successful, you now have $${result.cash} left in your cash account.`, 'info')
             console.log(result)
+            navigate('/portfolio')
           })
           .catch(error => console.log('error', error));
         

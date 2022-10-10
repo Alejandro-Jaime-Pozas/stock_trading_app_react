@@ -12,6 +12,7 @@ export default function Account(props) {
     let navigate = useNavigate()
     const [info, setinfo] = useState({})
 
+    // this to handle the user changing their account info username, email, pswd
     const handleEdit = e => {
         e.preventDefault()
         let username = e.target.username.value 
@@ -86,7 +87,7 @@ export default function Account(props) {
             </div><br /><br />
             <div className="row gy-3 p-0 justify-content-center ">
                 <br />
-                <Funds info={info} /><br /><br />
+                <Funds info={info} flashMsg={props.flashMsg} /><br /><br />
                 {/* {clickToEdit ? <Edit info={info} /> : null } */}
                 {/* <Link to='/portfolio' className="col-12 h-25 btn btn-light" name='withdraw' >Withdraw Funds</Link><br /><br /><br /><br /> */}
                 <Link to='/login' onClick={props.logout} className="col-11 h-25 btn btn-secondary mt-5" name='logout' >Logout</Link><br /><br />

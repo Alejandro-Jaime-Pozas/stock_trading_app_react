@@ -37,7 +37,7 @@ export default function Stock(props) {
                         // setUserStock(result)
                         // console.log(result)
                     })
-                    .catch(error => console.log('error', error));
+                .catch(error => console.log('error', error));
                 // console.log('did data above print 3?')
     }, [props.ticker])
 
