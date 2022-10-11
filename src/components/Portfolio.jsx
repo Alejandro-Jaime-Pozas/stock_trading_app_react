@@ -65,7 +65,7 @@ export default function Portfolio(props) {
         for (let stock of userStocks){
             total += stock.real_value
         }
-        return Number(total?.toFixed(0)).toLocaleString()
+        return Number(total?.toFixed(2)).toLocaleString()
     }
 
     return (
@@ -90,9 +90,9 @@ export default function Portfolio(props) {
                         return (
                             <div key={i} className="row border-top align-items-center">
                                 <Link to='/stock' onClick={handleClick} className="col">{stock.ticker}</Link>
-                                <p className="col mt-3">${Number(stock.new_price?.toFixed(2)).toLocaleString()}</p>
+                                <p className="col mt-3">${stock.new_price?.toFixed(2).toLocaleString()}</p>
                                 <p className="col mt-3">{stock.total_shares?.toLocaleString()}</p>
-                                <p className="col mt-3">${Number(stock.real_value?.toFixed(2)).toLocaleString()}</p>
+                                <p className="col mt-3">${(stock.real_value?.toFixed(2)).toLocaleString()}</p>
                             </div>
                         )
                     })}

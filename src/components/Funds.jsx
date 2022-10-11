@@ -30,8 +30,8 @@ export default function Funds(props) {
         if (response.ok){
             let result = response.json() 
             props.flashMsg(`You added $${deposit} to your cash account, now start investing!`, 'success')
-            navigate('/portfolio')
             console.log(result)
+            navigate('/portfolio')
         } else {
             console.log('this response was not ok')
         }

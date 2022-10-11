@@ -218,7 +218,8 @@ export default function Trade(props) {
                     <input type="submit" value='Sell' className='col-4 btn btn-dark ' />
                 {/* </div> */}
             </form>
-            {shares ? <div className="row lead text-center">Total: ${Number((quote.c * shares)?.toFixed(2)).toLocaleString()}</div> : null }
+            {shares ? <div className="row lead text-center">Total: ${(quote.c * shares)?.toFixed(2).toLocaleString()}</div> : null }
+            {/* {shares ? <div className="row lead text-center">Total: ${Number((quote.c.toFixed(2) * shares)?.toFixed(2)).toLocaleString()}</div> : null } */}
         </>
     )
 }
