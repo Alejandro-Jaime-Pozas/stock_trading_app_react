@@ -11,11 +11,10 @@ import { apiKey, urlMain } from './Keys'
 export default function Portfolio(props) {
 
     // console.log(props.loggedIn)
-    // for portfolio info, need to return the current price for each stock...
-    let portfolio = ['AMZN', 'AAPL', 'ROKU']
-    const [quote, setQuote] = useState({})
+    let portfolio = ['AAPL', 'AMZN', 'ROKU']
+    const [quotes, setQuotes] = useState({})
     const [userStocks, setUserStocks] = useState([])
-    const [shares, setShares] = useState(null)
+    // const [shares, setShares] = useState(null)
                 
     // flask: need to get all the user's stocks to see if they already have a stock, do a put vs post a new stock...
     useEffect(() => {
@@ -38,22 +37,30 @@ export default function Portfolio(props) {
                 // console.log('did data above print 3?')
     }, [])
 
-    // finnhub: need useEffect to store data for each ticker in new array, then display the desired data in return fn
-    // useEffect(() => {
-    //     for (let ticker of portfolio){
+    // finnhub: need useEffect to fetch and store each stock price for each ticker in a new array, then display the desired data in return fn
+    // okay, esta muy random lo que hace el useeffect con el fetch. osea agarra las stocks random sin orden y las imprime tres veces cada una.
+    // let prices = []
 
+    // useEffect(() => {
+    //     // try creating a list here, add info to list, then set the state to that list after for loop...
+    //     for (let ticker of portfolio){
     //         fetch(`https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${apiKey}`)
     //             .then(res => res.json())
     //             .then(data => {
     //                 // console.log(data)
-    //                 setquote(data)
+    //                 setQuotes(data)
+    //                 // prices.push(data)
     //                 // console.log(data)
     //             })
     //             .catch(err => console.log(err))
-    //     }
-    // }, [])
-    // // console.log(quote)
+    //         }
+    //     }, [])
+    // console.log(quotes) // this is printing before the console in for loop...
 
+    // let xlist = []
+    // xlist.push('something here')
+    // console.log(xlist[0])
+        
     const handleClick = e => {
         // console.log(e.target.innerText)
         props.changeTicker(e.target.innerText)
@@ -61,7 +68,7 @@ export default function Portfolio(props) {
 
     const portfolioValue = () => {
         let total = 0
-        console.log(userStocks)
+        // console.log(userStocks)
         for (let stock of userStocks){
             total += stock.real_value
         }
@@ -71,6 +78,7 @@ export default function Portfolio(props) {
     return (
         <div>
             <div className='row'>
+                <h1>{quotes.c}</h1>
                 <h1>My Portfolio</h1>
                 <p className='lead'>${portfolioValue()}</p>
             </div>

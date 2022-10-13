@@ -11,6 +11,7 @@ export default function Trade(props) {
     const [quote, setQuote] = useState({})
     const [userStocks, setUserStocks] = useState([])
     const [shares, setShares] = useState(null)
+    const [totalShares, setTotalShares] = useState(null)
 
     // finnhub: get data for the current global ticker
     useEffect(() => {
@@ -38,6 +39,13 @@ export default function Trade(props) {
                 .then(response => response.json())
                 .then(result => {
                         setUserStocks(result)
+                        // also get the user's number of shares for that stock
+                        for (let stock of result){
+                            if (stock.ticker === props.ticker){
+                                setTotalShares(stock.total_shares)
+                                console.log('stock equals props.ticker')
+                            }
+                        }
                         // console.log(userStocks)
                     })
                     .catch(error => console.log('error', error));
@@ -196,6 +204,9 @@ export default function Trade(props) {
             <Link to='/stock' className='btn btn-dark mb-3'>{`<`} Back</Link>
             <div className="row align-items-end">
             <h1 className='col display-3 m-0'>{props.ticker}</h1><p className='col-4 m-1 display-6 '>${quote.c?.toFixed(2)}</p>
+            </div>
+            <div className="row my-5">
+                <div className="col ">Your Shares: {totalShares}</div>
             </div>
             <div className="row my-5">
                 <div className="col ">Number of Shares</div>
