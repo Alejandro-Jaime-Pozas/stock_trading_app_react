@@ -47,8 +47,8 @@ export default function Search(props) {
             {results.map((stock, i) => {
                 return (
                     <>
-                        <p className='m-2'>{stock.description}</p>
-                        <Link key={i} onClick={handleClick} to='/stock' className="row border rounded my-1 btn btn-light w-100 fs-1">{stock.symbol}</Link>
+                        <p key={i} className='m-2'>{stock.description}</p>
+                        <Link onClick={handleClick} to='/stock' className="row border rounded my-1 btn btn-light w-100 fs-1">{stock.symbol}</Link>
                     </>
                     )
             })}

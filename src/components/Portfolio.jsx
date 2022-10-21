@@ -12,11 +12,13 @@ export default function Portfolio(props) {
 
 
     // console.log(props.loggedIn)
-    let portfolio = ['AAPL', 'AMZN', 'AMC']
+    let portfolio = ['AAPL', 'AMZN', 'ROKU']
     const [userStocks, setUserStocks] = useState([])
-    const [userQuotes, setUserQuotes] = useState([])
+    const [userQuotes, setUserQuotes] = useState(123)
                 
     // flask: need to get all the user's stocks to see if they already have a stock, do a put vs post a new stock...
+    // create fn to fetch all the user stocks from api and return an array of those stocks
+    
     useEffect(() => {
         let token = localStorage.getItem('token');
         let user_id = localStorage.getItem('user_id');
@@ -32,39 +34,32 @@ export default function Portfolio(props) {
                 .then(result => {
                         setUserStocks(result)
                         // console.log(result)
+                        setUserQuotes(currentStockPrices)
                     })
                     .catch(error => console.log('error', error));
                 // console.log('did data above print 3?')
     }, [])
+    console.log(userStocks);
+    console.log(userQuotes);
 
     // finnhub: need useEffect to fetch and store each stock price for each ticker in a new array, then display the desired data in return fn
     // okay, esta muy random lo que hace el useeffect con el fetch. osea agarra las stocks random sin orden y las imprime tres veces cada una.
     // WHAT I NEED TO DO IS, DO THE FETCH AND ALL THE FUNCTIONALITY WITHIN A FN, THEN CALL A USEEFFECT ON THE FN...
 
-    // console.log(userStocks);
-    
-    // create fn to fetch all the user stocks from api and return an array of those stocks
     const currentStockPrices = () => {
         let prices = []
-        for (let ticker of portfolio){
-            fetch(`https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${apiKey}`)
+        for (let i in portfolio){
+            fetch(`https://finnhub.io/api/v1/quote?symbol=${portfolio[i]}&token=${apiKey}`)
             .then(res => res.json())
             .then(data => {
-                // console.log(data)
                 prices.push(data)
-                // console.log(ticker);
             })
             .catch(err => console.log(err))
         }
+        console.log(prices)
         return prices
     }
-
-    useEffect(() => {
-        // call the currentStockPrices fn to get the current stock prices, then set the state of those stocks prices
-        // i think i need to add the stock prices array and push into each stock
-        setUserQuotes(currentStockPrices())
-    }, [])
-    console.log(userQuotes);
+    
 
     const handleClick = e => {
         // console.log(e.target.innerText)
@@ -80,16 +75,18 @@ export default function Portfolio(props) {
         return Number(total?.toFixed(2)).toLocaleString()
     }
 
+
+
     return (
         <div>
-            <div className="row">
+            {/* <div className="row">
                 {userQuotes.map((stock, i) => {
                     return (
                         <div key={i} className="row">{stock.c}</div>
                     )
                 })
                 }
-            </div>
+            </div> */}
             <div className='row'>
                 <h1>My Portfolio</h1>
                 <p className='lead'>${portfolioValue()}</p>
