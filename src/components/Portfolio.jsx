@@ -34,7 +34,7 @@ export default function Portfolio(props) {
                 .then(result => {
                         setUserStocks(result)
                         // console.log(result)
-                        setUserQuotes(currentStockPrices)
+                        setUserQuotes(currentStockPrices())
                     })
                     .catch(error => console.log('error', error));
                 // console.log('did data above print 3?')
@@ -46,15 +46,13 @@ export default function Portfolio(props) {
     // okay, esta muy random lo que hace el useeffect con el fetch. osea agarra las stocks random sin orden y las imprime tres veces cada una.
     // WHAT I NEED TO DO IS, DO THE FETCH AND ALL THE FUNCTIONALITY WITHIN A FN, THEN CALL A USEEFFECT ON THE FN...
 
-    const currentStockPrices = () => {
+    const currentStockPrices = async () => {
         let prices = []
         for (let i in portfolio){
-            fetch(`https://finnhub.io/api/v1/quote?symbol=${portfolio[i]}&token=${apiKey}`)
-            .then(res => res.json())
-            .then(data => {
-                prices.push(data)
-            })
-            .catch(err => console.log(err))
+            let res = await fetch(`https://finnhub.io/api/v1/quote?symbol=${portfolio[i]}&token=${apiKey}`)
+            let data = await res.json()
+            prices.push(data)
+            // .catch(err => console.log(err))
         }
         console.log(prices)
         return prices
