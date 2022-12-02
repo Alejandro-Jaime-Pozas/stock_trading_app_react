@@ -1,3 +1,7 @@
+# TODO
+- change the alert message to display only for 3-5 seconds each time it does, then disappear
+- insert line chart for historical stock data
+
 # Project info
 
 to change from local to web server >>> Keys.js file

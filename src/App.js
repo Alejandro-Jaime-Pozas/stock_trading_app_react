@@ -19,7 +19,7 @@ import Trade from "./components/Trade";
 function App() {
     
     let navigate = useNavigate
-    const [loggedIn, setLoggedIn] = useState(localStorage.getItem('token') ? true : false) // here i should check if user has a valid token, then keep them logged in, dont reset the state to false after  refresh
+    const [loggedIn, setLoggedIn] = useState(localStorage.getItem('token') ? true : false) // here i should check if user has a valid token, then keep them logged in, dont reset the state to false after refresh
     const [newId, setId] = useState(0)
     const [ticker, setTicker] = useState('')
     const [message, setMessage] = useState(null)
