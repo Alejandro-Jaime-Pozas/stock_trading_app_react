@@ -44,7 +44,7 @@ export default function Funds(props) {
         // let user_id = localStorage.getItem('user_id')
         // if the amount to withdraw is > user's cash, throw warning msg and terminate event
         if (props.info.cash + withdrawal < 0){
-            return props.flashMsg(`Sorry, you cannot withdraw more money than you have in cash ($${props.info.cash})`, 'warning')
+            return props.flashMsg(`Sorry, you cannot withdraw more money than you have in cash ($${props.info.cash?.toFixed(2)})`, 'warning')
         }
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token);

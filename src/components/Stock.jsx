@@ -3,6 +3,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import { Line } from 'react-chartjs-2'
 import { Link } from 'react-router-dom'
 import { apiKey, urlMain } from './Keys'
 import Trade from './Trade'
@@ -82,6 +83,7 @@ export default function Stock(props) {
     }, [props.ticker])
 
     console.log(financials, quote, companyInfo, userStock)
+    
 
     return (
         <>
