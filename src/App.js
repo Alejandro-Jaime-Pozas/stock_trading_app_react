@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Account from "./components/Account";
 import AlertMsg from "./components/AlertMsg";
+import BarChart from "./components/BarChart";
 import Edit from "./components/Edit";
 import Funds from "./components/Funds";
 import Home from "./components/Home";
@@ -54,6 +55,7 @@ function App() {
             <div className="container ">
             {message ? <AlertMsg flashMsg={flashMsg} message={message} category={category} /> : null }
                 <Routes >
+                    <Route path='/bar' element={<BarChart />} />
                     <Route path='/' element={<Home />} />
                     <Route path='/signup' element={<Signup flashMsg={flashMsg} />} />
                     <Route path='/login' element={<Login flashMsg={flashMsg} login={login} loggedIn={loggedIn} userId={userId} />} />

@@ -1,2 +1,7 @@
 import React from "react";
-import BarChart
+
+export default function BarChart() {
+  return (
+    <div>HELLO WORLD</div>
+  )
+}
