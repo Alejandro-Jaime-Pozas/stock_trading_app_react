@@ -108,7 +108,7 @@ export default function Stock(props) {
         return dates
     };
 
-    console.log(stockDates([]));
+    console.log('here is the ticker: ', typeof props.ticker, props.ticker);
     // console.log(financials, quote, companyInfo, userStock)
     
 
