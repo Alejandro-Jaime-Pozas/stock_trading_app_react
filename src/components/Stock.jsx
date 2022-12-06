@@ -86,17 +86,17 @@ export default function Stock(props) {
     }, [props.ticker])
     
     // fetch stock price history
-    // useEffect(() => {
-    //     fetch(`https://finnhub.io/api/v1/stock/candle?symbol=${props.ticker}&resolution=W&from=1638750635&to=1670286635&token=${apiKey}`)
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             if (data.error) {
-    //                 console.error(data.error)
-    //             } else {
-    //                 setCompanyInfo(data)
-    //             }
-    //         })
-    // }, [props.ticker])
+    useEffect(() => {
+        fetch(`https://finnhub.io/api/v1/stock/candle?symbol=${props.ticker}&resolution=W&from=1638750635&to=1670286635&token=${apiKey}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    console.error(data.error)
+                } else {
+                    setStockHistory(data)
+                }
+            })
+    }, [props.ticker])
 
 
     console.log(financials, quote, companyInfo, userStock)
@@ -131,63 +131,11 @@ export default function Stock(props) {
                     <Line 
                         data={{
                             // how to remove labels w/o data being removed?
-                            labels: [
-        115.81,
-        108.86,
-        119.05,
-        132.69,
-        131.96,
-        121.26,
-        122.15,
-        131.46,
-        124.61,
-        136.96,
-        145.86,
-        151.83,
-        141.5,
-        149.8,
-        165.3,
-        177.57,
-        174.78,
-        165.12,
-        174.61,
-        157.65,
-        148.84,
-        136.72,
-        162.51,
-        157.22,
-        154.46
-    ],
+                            labels: stockHistory.c,
                             datasets: [
                                 {
                                     label: '30-day',
-                                    data: [
-        115.81,
-        108.86,
-        119.05,
-        132.69,
-        131.96,
-        121.26,
-        122.15,
-        131.46,
-        124.61,
-        136.96,
-        145.86,
-        151.83,
-        141.5,
-        149.8,
-        165.3,
-        177.57,
-        174.78,
-        165.12,
-        174.61,
-        157.65,
-        148.84,
-        136.72,
-        162.51,
-        157.22,
-        154.46
-    ],
+                                    data: stockHistory.c,
                                     backgroundColor: 'black',
                                     borderColor: 'black',
                                 }
