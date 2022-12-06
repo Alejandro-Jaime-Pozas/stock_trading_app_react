@@ -3,10 +3,12 @@
 import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
-import { Line } from 'react-chartjs-2'
 import { Link } from 'react-router-dom'
 import { apiKey, urlMain } from './Keys'
 import Trade from './Trade'
+import { Line } from 'react-chartjs-2';
+// need this code below to import all of the chartjs funcionality and to view charts on web app
+import Chart from 'chart.js/auto';
 
 export default function Stock(props) {
 
@@ -87,16 +89,15 @@ export default function Stock(props) {
 
     return (
         <>
-            {/* row1: ticker, > company name, trade btn, > price, % increase */}
+            {/* row1: ticker, > company name, trade btn */}
             <div className='row lead'>
                 <p className=''>{props.ticker}</p> 
                 {/* <img className='col img-thumbnail w-25 h-25 me-3' src="https://static.finnhub.io/logo/81a6d1a8-80db-11ea-8d2d-00000000092a.png" alt="" /> */}
                 <h1 className='col display-5 mb-3'>{companyInfo.name}</h1>
-                {/* fix this button to be link */}
                 <Link to="/trade" className='col-3 btn btn-dark align-self-center mb-3 me-3'>Trade</Link>
             </div>
             {/* row2: price, % */}
-            <div className="row gy-3">
+            <div className="row">
                 {/* need fetch stock quote for this */}
                 <p className='col lead'>${quote.c?.toFixed(2)}</p>
                 {quote.dp > 0 
@@ -107,7 +108,31 @@ export default function Stock(props) {
                 }
             </div>
             {/* row3: chart */}
-            <div className="row border rounded m-3" style={{height: '25vh'}}></div>
+            {/* placeholder chart */}
+            {/* <div className="row border rounded m-3" style={{height: '25vh'}}> */}
+            {/* need to import Chart from 'chart.js/auto' as above to be able to view charts... */}
+            {/* new chart */}
+                <div className='row justify-content-center mb-5 '>
+                    <Line 
+                        data={{
+                            // how to change labels?
+                            labels: [12, 19, 3, 5, 2, 3],
+                            datasets: [
+                                {
+                                    label: '30-day',
+                                    data: [12, 19, 3, 5, 2, 3],
+                                    backgroundColor: 'black',
+                                    borderColor: 'black',
+                                }
+                            ]
+                        }}
+                        height={100}
+                        width={100}
+                        options={{
+                            maintainAspectRatio: true,
+                        }}
+                    />
+                </div>
             {/* row4:  */}
             <div className="row gy-3">
                 {/* need user's num of shares for this */}
