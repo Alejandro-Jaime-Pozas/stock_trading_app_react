@@ -153,8 +153,8 @@ export default function Stock(props) {
                                 }
                             ]
                         }}
-                        height={200}
-                        width={300}
+                        // height={200}
+                        // width={300}
                         options={{
                             // display option within scales removes x axis labels...
                             scales: {
@@ -164,7 +164,8 @@ export default function Stock(props) {
                                     }
                                 }
                             },
-                            maintainAspectRatio: false,
+                            // maintainAspectRatio: false,
+                            responsive: true,
                             legend: {
                                 display: false
                             },
