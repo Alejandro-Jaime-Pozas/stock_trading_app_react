@@ -86,8 +86,9 @@ export default function Stock(props) {
     }, [props.ticker])
     
     // fetch stock price history
+    // need to fetch 1 year of historical data, weekly: Math.floor((Date.now()-(365*24*60*60*1000))/1000)
     useEffect(() => {
-        fetch(`https://finnhub.io/api/v1/stock/candle?symbol=${props.ticker}&resolution=W&from=1638750635&to=1670286635&token=${apiKey}`)
+        fetch(`https://finnhub.io/api/v1/stock/candle?symbol=${props.ticker}&resolution=W&from=${Math.floor((Date.now()-(365*24*60*60*1000))/1000)}&to=${Math.floor(Date.now()/1000)}&token=${apiKey}`)
             .then(res => res.json())
             .then(data => {
                 if (data.error) {
@@ -96,15 +97,25 @@ export default function Stock(props) {
                     setStockHistory(data)
                 }
             })
-    }, [props.ticker])
+    }, [props.ticker]);
 
+    // takes a stock's timestamps array and converts to dates array
+    const stockDates = unix_timestamps => {
+        const dates = unix_timestamps.map(unix => {
+            const d = new Date(unix * 1000)
+            return d.getMonth() + '/' + d.getDate() + '/' + d.getFullYear()
+        })
+        return dates
+    };
 
-    console.log(financials, quote, companyInfo, userStock)
+    console.log(stockDates([]));
+    // console.log(financials, quote, companyInfo, userStock)
     
 
     return (
         <>
             {/* row1: ticker, > company name, trade btn */}
+            {/* <div className="">{new Date(1638750635000)}</div> */}
             <div className='row lead'>
                 <p className=''>{props.ticker}</p> 
                 {/* <img className='col img-thumbnail w-25 h-25 me-3' src="https://static.finnhub.io/logo/81a6d1a8-80db-11ea-8d2d-00000000092a.png" alt="" /> */}
@@ -130,11 +141,12 @@ export default function Stock(props) {
                 <div className='row justify-content-center mb-4 '>
                     <Line 
                         data={{
-                            // how to remove labels w/o data being removed?
-                            labels: stockHistory.c,
+                            // change labels to dates of included timestamps >>> stockHistory.t
+                            labels: stockHistory.t ? stockDates(stockHistory.t) : null,
                             datasets: [
                                 {
-                                    label: '30-day',
+                                    // need to create a new array w timestamps mapped to dd/mm/yyyy
+                                    label: 'last 12 months',
                                     data: stockHistory.c,
                                     backgroundColor: 'black',
                                     borderColor: 'black',
@@ -144,7 +156,25 @@ export default function Stock(props) {
                         height={200}
                         width={300}
                         options={{
-                            maintainAspectRatio: true,
+                            // display option within scales removes x axis labels...
+                            scales: {
+                                x: {
+                                    ticks: {
+                                        display: false
+                                    }
+                                }
+                            },
+                            maintainAspectRatio: false,
+                            legend: {
+                                display: false
+                            },
+                            tooltips: {
+                                callbacks: {
+                                   label: function(tooltipItem) {
+                                          return tooltipItem.yLabel;
+                                   }
+                                }
+                            }
                         }}
                     />
                 </div>
