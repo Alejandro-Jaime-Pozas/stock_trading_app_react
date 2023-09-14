@@ -3,12 +3,7 @@
 - insert line chart for historical stock data
 
 # Project info
-
 to change from local to web server >>> Keys.js file
-
-
-
-
 
 
 

@@ -1,4 +1,5 @@
 // FINNHUB CAN ONLY DO MAX OF 30 REQUESTS PER MINUTE OF API...
+// maybe worth splitting functions below 
 import { useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Account from "./components/Account";
