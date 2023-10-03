@@ -11,7 +11,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // React.StrictMode gives you the warnings/lint msgs in node terminal
     <React.StrictMode>
-      {/* not sure what BrowserRouter does exactly.. */}
+      {/* not sure what BrowserRouter does exactly..think it permits the Link functionality for easier user experience when navigating site */}
       <BrowserRouter >
         <App />
       </BrowserRouter>

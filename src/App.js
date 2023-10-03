@@ -48,7 +48,7 @@ function App() {
         navigate('/login')
     }
     
-    // LATER: if user loggedin, then hide homepage, signup, login, etc. if logged out, hide account page, stock, trade, etc
+    // if user loggedin, then hide homepage, signup, login, etc. if logged out, hide account page, stock, trade, etc
     return (
         <>
             <Navbar loggedIn={loggedIn} />

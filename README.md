@@ -1,9 +1,16 @@
 # TODO
 - change the alert message to display only for 3-5 seconds each time it does, then disappear
 - insert line chart for historical stock data
+- change the code in keys so that it returns the local server if local server is active, or remote glitch server if not
+- 
 
 # Project info
-to change from local to web server >>> Keys.js file
+to change from local to web server: Keys.js file
+
+# Description
+This react project utilizes a flask framework for the backend to handle user authorization and CRUD capabilities for a user and the user's own objects, specifically stocks and other investments. This is a stock application much like robinhood, or any other brokerage account, but there is as of yet no functionality when trying to invest real cash into the application; it's a mock stock investment application. The objective is to get users excited about investing in stocks and other exchange traded assets, so that they can get a taste of what it means to invest in real stocks. 
+
+Future improvements include implementing Plaid integration so that a user can bring money into the account. Also, adding an actual chart in the user's portfolio which monitors their historical changing portfolio value. Also, adding real-time stock price movements wherever a stock is displayed so that it updates either every second or few seconds for the user's convenience. 
 
 
 
