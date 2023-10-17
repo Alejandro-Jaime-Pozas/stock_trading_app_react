@@ -205,16 +205,16 @@ export default function Trade(props) {
             <div className="row align-items-end">
             <h1 className='col display-3 m-0'>{props.ticker}</h1><p className='col-4 m-1 display-6 '>${quote.c?.toFixed(2)}</p>
             </div>
-            <div className="row my-5">
+            <div className="row mt-5 ">
                 <div className="col ">Your Shares: {totalShares}</div>
             </div>
-            <div className="row my-5">
+            <hr />
+            {/* <div className="row my-5">
                 <div className="col ">Number of Shares</div>
                 <div className="col-4 mb-2">Choose Option</div>
-                <hr />
-            </div>
+            </div> */}
             {/* onsubmit the form you should handle the submit to get the input, check if user has that portfolio money, and buy the shares for that ticker */}
-            <form onSubmit={handleBuy} className='row my-4'>
+            <form onSubmit={handleBuy} className='row my-5'>
                 {/* <div className="form-group"> */}
                     <label htmlFor="buy"></label>
                     <input onChange={handleShares} type="text" className='col form-control' placeholder='Enter shares to buy' name='buy' />
