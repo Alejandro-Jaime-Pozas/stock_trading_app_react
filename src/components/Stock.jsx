@@ -47,7 +47,7 @@ export default function Stock(props) {
 
     // fetch financials
     useEffect(() => {
-        fetch(`https://finnhub.io/api/v1/stock/metric?symbol=${props.ticker}&metric=all&token=${apiKey}`) // change AAPL later to props.ticker
+        fetch(`https://finnhub.io/api/v1/stock/metric?symbol=${props.ticker}&metric=all&token=${apiKey}`)
             .then(res => res.json())
             .then(data => {
                 if (data.error) {
@@ -61,7 +61,7 @@ export default function Stock(props) {
 
     // fetch quote
     useEffect(() => {
-        fetch(`https://finnhub.io/api/v1/quote?symbol=${props.ticker}&token=${apiKey}`) // change AAPL later to props.ticker
+        fetch(`https://finnhub.io/api/v1/quote?symbol=${props.ticker}&token=${apiKey}`)
             .then(res => res.json())
             .then(data => {
                 if (data.error) {
@@ -118,6 +118,7 @@ export default function Stock(props) {
             {/* <div className="">{new Date(1638750635000)}</div> */}
             <div className='row lead'>
                 <p className=''>{props.ticker}</p> 
+                {/* FIX IMAGE HERE, EITHER GET FROM GITHUB OR FOR BETTER DESIGN/FORMATTING IN BLACK&WHITE USE ANOTHER API OR SOMETHING */}
                 {/* <img className='col img-thumbnail w-25 h-25 me-3' src="https://static.finnhub.io/logo/81a6d1a8-80db-11ea-8d2d-00000000092a.png" alt="" /> */}
                 <h1 className='col display-5 mb-3'>{companyInfo.name}</h1>
                 <Link to="/trade" className='col-3 btn btn-dark align-self-center mb-3 me-3'>Trade</Link>
@@ -148,8 +149,8 @@ export default function Stock(props) {
                                     // need to create a new array w timestamps mapped to dd/mm/yyyy
                                     label: 'last 12 months',
                                     data: stockHistory.c,
-                                    backgroundColor: 'black',
-                                    borderColor: 'black',
+                                    backgroundColor: stockDates(stockHistory.t)[-1] >= stockDates(stockHistory.t)[0] ? 'blue' : 'darkgreen',
+                                    borderColor: 'green',
                                 }
                             ]
                         }}
@@ -203,7 +204,7 @@ export default function Stock(props) {
                 <div className="col-3 mb-3">{Number(financials['10DayAverageTradingVolume'])?.toFixed(2)}</div>
             </div>
             <div hidden>
-            <Trade userStock={userStock} hidden />
+                <Trade userStock={userStock} hidden />
             </div>
         </>
     )
