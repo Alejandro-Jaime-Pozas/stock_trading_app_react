@@ -56,6 +56,7 @@ function App() {
             <div className="container ">
             {message ? <AlertMsg flashMsg={flashMsg} message={message} category={category} /> : null }
                 <Routes >
+                    {/* testing how barcharts work here */}
                     <Route path='/bar' element={<BarChart />} />
                     <Route path='/' element={<Home />} />
                     <Route path='/signup' element={<Signup flashMsg={flashMsg} />} />
@@ -66,7 +67,6 @@ function App() {
                     <Route path='/account' element={<Account flashMsg={flashMsg} logout={logout} newId={newId} />} />
                     <Route path='/account' element={<Funds flashMsg={flashMsg} logout={logout} newId={newId} />} />
                     <Route path='/edit' element={<Edit />} />
-
                     <Route path='/stock' element={<Stock ticker={ticker} />} />
                     <Route path='/trade' element={<Trade flashMsg={flashMsg} ticker={ticker} newId={newId} />} />
                 </Routes>

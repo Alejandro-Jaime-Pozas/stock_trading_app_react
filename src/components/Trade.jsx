@@ -71,7 +71,7 @@ export default function Trade(props) {
                 
                 let raw = JSON.stringify({
                 "new_price": new_price,
-                "new_shares": Number(new_shares) // for some reason does not allow int/str transformation by aPI...
+                "new_shares": Number(new_shares) // for some reason does not allow int-str transformation by aPI...
                 });
                 
                 let requestOptions = {
