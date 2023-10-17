@@ -18,6 +18,7 @@ export default function Stock(props) {
     const [companyInfo, setCompanyInfo] = useState({})
     const [userStock, setUserStock] = useState([])
     const [stockHistory, setStockHistory] = useState([])
+    const [stockDatesState, setStockDatesState] = useState([])
 
 
     useEffect(() => {
@@ -108,7 +109,7 @@ export default function Stock(props) {
         return dates
     };
 
-    console.log('here is the ticker: ', typeof props.ticker, props.ticker);
+    // console.log('here is the ticker: ', typeof props.ticker, props.ticker);
     // console.log(financials, quote, companyInfo, userStock)
     
 
@@ -140,17 +141,17 @@ export default function Stock(props) {
             {/* need to import Chart from 'chart.js/auto' as above to be able to view charts... */}
             {/* new chart */}
                 <div className='row justify-content-center mb-4 '>
-                    <Line 
+                    <Line
                         data={{
                             // change labels to dates of included timestamps >>> stockHistory.t
                             labels: stockHistory.t ? stockDates(stockHistory.t) : null,
                             datasets: [
                                 {
                                     // need to create a new array w timestamps mapped to dd/mm/yyyy
-                                    label: 'last 12 months',
+                                    label: props.ticker,
                                     data: stockHistory.c,
-                                    backgroundColor: stockDates(stockHistory.t)[-1] >= stockDates(stockHistory.t)[0] ? 'blue' : 'darkgreen',
-                                    borderColor: 'green',
+                                    backgroundColor: quote.dp >= 0 ? 'green' : 'red',
+                                    borderColor: quote.dp >= 0 ? 'green' : 'red',
                                 }
                             ]
                         }}
