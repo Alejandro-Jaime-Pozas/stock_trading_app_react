@@ -104,7 +104,7 @@ export default function Stock(props) {
     const stockDates = unix_timestamps => {
         const dates = unix_timestamps.map(unix => {
             const d = new Date(unix * 1000)
-            return d.getMonth() + '/' + d.getDate() + '/' + d.getFullYear()
+            return d.getMonth()+1 + '/' + d.getDate() + '/' + d.getFullYear()
         })
         return dates
     };
