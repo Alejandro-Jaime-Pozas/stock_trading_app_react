@@ -185,20 +185,20 @@ export default function Stock(props) {
             <div className="row gy-3">
                 {/* need user's num of shares for this */}
                 <div className="col mb-3"><b>Your shares:</b></div>
-                <div className="col mb-3">{(userStock.total_shares)?.toLocaleString()}</div>
+                <div className="col mb-3">{Number((userStock.total_shares))?.toLocaleString()}</div>
                 <div className="col mb-3"><b>Your market value:</b></div>
-                <div className="col mb-3">${(userStock.real_value)?.toFixed(2).toLocaleString()}</div>
+                <div className="col mb-3">${Number((userStock.real_value)?.toFixed(2)).toLocaleString()}</div>
             </div>
             {/* row5: financials - 52w-high, 52low, pe-ratio, mktcap, dividendyield, trading volume */}
             <div className="row">
                 <div className="col-3 mb-3"><b>52-week high:</b></div>
                 <div className="col-3 mb-3">${Number(financials['52WeekHigh'])?.toFixed(2)}</div>
                 <div className="col-3 mb-3"><b>PE ratio:</b></div>
-                <div className="col-3 mb-3">{Number(financials['peInclExtraTTM'])?.toFixed(2)}</div>
+                <div className="col-3 mb-3">{Number(financials['peInclExtraTTM'])?.toFixed(2) > 0 ? Number(financials['peInclExtraTTM'])?.toFixed(2) : 'NA' }</div>
                 <div className="col-3 mb-3"><b>52-week low:</b></div>
                 <div className="col-3 mb-3">${Number(financials['52WeekLow'])?.toFixed(2)}</div>
                 <div className="col-3 mb-3"><b>Div yield:</b></div>
-                <div className="col-3 mb-3">{Number(financials['dividendYieldIndicatedAnnual'])?.toFixed(2)}</div>
+                <div className="col-3 mb-3">{Number(financials['dividendYieldIndicatedAnnual'])?.toFixed(2) > 0 ? Number(financials['dividendYieldIndicatedAnnual'])?.toFixed(2) : 'NA'}</div>
                 <div className="col-3 mb-3"><b>Market cap:</b></div>
                 <div className="col-3 mb-3">${Number((financials['marketCapitalization'])?.toFixed(2)).toLocaleString()}</div>
                 <div className="col-3 mb-3"><b>Volume:</b></div>
