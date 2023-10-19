@@ -36,6 +36,7 @@ export default function Funds(props) {
             console.log('this response was not ok')
         }
     }
+
     const handleWithdraw = e => {
         e.preventDefault()
         // get the deposit sumbission amount from form and add the cash to user's cash acct by updating user's cash
@@ -106,7 +107,7 @@ export default function Funds(props) {
                 </form>
 
                 </div>
-            </div>
+                </div>
             </div>
 
             {/* WITHDRAW MODAL */}

@@ -20,6 +20,7 @@ export default function Portfolio(props) {
     // create fn to fetch all the user stocks from api and return an array of those stocks
     
     useEffect(() => {
+        document.title = 'My Portfolio'
         let token = localStorage.getItem('token');
         let user_id = localStorage.getItem('user_id');
         var myHeaders = new Headers();
@@ -105,9 +106,9 @@ export default function Portfolio(props) {
                         return (
                             <div key={i} className="row border-top align-items-center">
                                 <Link to='/stock' onClick={handleClick} className="col-3 btn btn-dark ">{stock.ticker}</Link>
-                                <p className="col-3 mt-3 ">${stock.new_price?.toFixed(2).toLocaleString()}</p>
+                                <p className="col-3 mt-3 ">${Number(stock.new_price?.toFixed(2)).toLocaleString()}</p>
                                 <p className="col-3 mt-3 ">{stock.total_shares?.toLocaleString()}</p>
-                                <p className="col-3 mt-3 ">${(stock.real_value?.toFixed(2)).toLocaleString()}</p>
+                                <p className="col-3 mt-3 ">${Number(stock.real_value?.toFixed(2)).toLocaleString()}</p>
                             </div>
                         )
                     })}

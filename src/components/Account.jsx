@@ -43,6 +43,7 @@ export default function Account(props) {
         }
 
     useEffect(() => {
+        document.title = Account.name
         let token = localStorage.getItem('token')
         // fetch the data for info in user's acct
         var myHeaders = new Headers();

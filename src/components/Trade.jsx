@@ -15,6 +15,7 @@ export default function Trade(props) {
 
     // finnhub: get data for the current global ticker
     useEffect(() => {
+        document.title = props.ticker 
             fetch(`https://finnhub.io/api/v1/quote?symbol=${props.ticker}&token=${apiKey}`)
                 .then(res => res.json())
                 .then(data => {
@@ -190,7 +191,7 @@ export default function Trade(props) {
             }
         }
         // if user does not own stock, flash msg
-        props.flashMsg(`Sorry, you can't sell a stock you don\'t own`, 'warning')
+        props.flashMsg(`Sorry, you can't sell a stock you don't own`, 'warning')
     }
 
     const handleShares = e => {
@@ -206,7 +207,7 @@ export default function Trade(props) {
                 <h1 className='col display-3 m-0'>{props.ticker}</h1><p className='col-4 m-1 display-6 '>${quote.c?.toFixed(2)}</p>
             </div>
             <div className="row mt-5 ">
-                <div className="col ">Your Shares: {totalShares}</div>
+                <div className="col ">Your Shares: {totalShares ? totalShares.toLocaleString() : 0}</div>
             </div>
             <hr />
             {/* <div className="row my-5">

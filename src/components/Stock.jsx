@@ -18,10 +18,11 @@ export default function Stock(props) {
     const [companyInfo, setCompanyInfo] = useState({})
     const [userStock, setUserStock] = useState([])
     const [stockHistory, setStockHistory] = useState([])
-    const [stockDatesState, setStockDatesState] = useState([])
+    // const [stockDatesState, setStockDatesState] = useState([])
 
 
     useEffect(() => {
+        document.title = props.ticker 
         let token = localStorage.getItem('token');
         let user_id = localStorage.getItem('user_id');
         var myHeaders = new Headers();
@@ -185,9 +186,9 @@ export default function Stock(props) {
             <div className="row gy-3">
                 {/* need user's num of shares for this */}
                 <div className="col mb-3"><b>Your shares:</b></div>
-                <div className="col mb-3">{Number((userStock.total_shares))?.toLocaleString()}</div>
+                <div className="col mb-3">{Number((userStock.total_shares))?.toLocaleString() > 0 ? Number((userStock.total_shares))?.toLocaleString() : 0}</div>
                 <div className="col mb-3"><b>Your market value:</b></div>
-                <div className="col mb-3">${Number((userStock.real_value)?.toFixed(2)).toLocaleString()}</div>
+                <div className="col mb-3">${Number((userStock.real_value)?.toFixed(2)).toLocaleString() > 0 ? Number((userStock.real_value)?.toFixed(2)).toLocaleString() : 0}</div>
             </div>
             {/* row5: financials - 52w-high, 52low, pe-ratio, mktcap, dividendyield, trading volume */}
             <div className="row">

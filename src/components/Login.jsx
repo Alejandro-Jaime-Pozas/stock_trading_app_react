@@ -1,16 +1,19 @@
 // copy html from react social media
-import React from 'react'
+import React, { useEffect } from 'react'
 // import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { urlMain } from './Keys';
 
 export default function Login(props) {
 
-    let navigate = useNavigate();
+    let navigate = useNavigate()
 
-    // flask: need to get/set the users id
-
+    useEffect(() => {
+        document.title = Login.name 
     
+    }, [])
+    
+
     // make async fn here
     const handleSubmit = async e => {
         e.preventDefault();

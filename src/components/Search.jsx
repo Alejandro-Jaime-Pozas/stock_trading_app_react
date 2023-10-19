@@ -13,6 +13,7 @@ export default function Search(props) {
     const [search, setSearch] = useState(null);
     // create useEffect to display on every search render, include url w dynamic search keyword option, fetch list data (console.log)
     useEffect(() => {
+        document.title = Search.name
         if (search) {
             fetch(`https://finnhub.io/api/v1/search?q=${search}&token=${apiKey}`) // IF THIS WORKS, TRY SETTING THE API KEY TO A FN VS VARIABLE
             .then(res => res.json())

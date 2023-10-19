@@ -1,9 +1,13 @@
     // create fetch to create a new user, if no user already exists with email/username
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { urlMain } from './Keys';
 
 export default function Signup(props) {
+
+    useEffect(() => {
+        document.title = 'Sign Up'
+    }, [])
 
     let navigate = useNavigate()
     // handlesubmit fn to get form info and if valid, fetch post a new user, redirect to portfolio page
