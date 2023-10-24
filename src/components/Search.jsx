@@ -18,15 +18,17 @@ export default function Search(props) {
             fetch(`https://finnhub.io/api/v1/search?q=${search}&token=${apiKey}`) // IF THIS WORKS, TRY SETTING THE API KEY TO A FN VS VARIABLE
             .then(res => res.json())
             .then(data => {
-                let searchResults = data.result;
+                let searchResults = data.result
+                console.log(searchResults);
                 setResults(searchResults)
             })
 
         }
-    }, [search]) // INSERT TERM TO KEEP EFFECT IN LIST LATER []
+    }, [search])
     // create handle submit when user enters ticker input to change the state of the search keyword and update/fetch search results list
     const handleSearch = e => {
         let q = e.target.value;
+        console.log(q);
         setSearch(q)
     };
 
