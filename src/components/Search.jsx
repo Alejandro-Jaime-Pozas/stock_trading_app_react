@@ -11,6 +11,9 @@ export default function Search(props) {
     const [results, setResults] = useState([]);
     // create useState as null for ticker symbol (will collect from user) is a str
     const [search, setSearch] = useState(null);
+    // create a timer to trigger when the search should populate
+    const [timer, setTimer] = useState(null)
+
     // create useEffect to display on every search render, include url w dynamic search keyword option, fetch list data (console.log)
     useEffect(() => {
         document.title = Search.name
@@ -26,10 +29,24 @@ export default function Search(props) {
         }
     }, [search])
     // create handle submit when user enters ticker input to change the state of the search keyword and update/fetch search results list
+    // create a timing mechanism to prevent every single possible search query from triggering
     const handleSearch = e => {
+        // get current time at time of change in input
         let q = e.target.value;
         console.log(q);
-        setSearch(q)
+
+        // Clear the previous timer if it exists
+        if (timer) {
+            clearTimeout(timer);
+          }
+      
+          // Set a new timer that calls setSearch after 1000ms (1 second)
+          const newTimer = setTimeout(() => {
+            setSearch(q);
+          }, 300);
+      
+          // Save the timer to the state
+          setTimer(newTimer);
     };
 
     const handleClick = e => {
