@@ -1,7 +1,6 @@
 // SHOWS THE STOCK TICKER, AND OPTIONS FOR USER TO BUY OR SELL (IF THEY OWN STOCK) A CERTAIN AMOUNT OF SHARES. SHOWS CALCULATION OF SHARES * PRICE WHEN BUYING/SELLING, AND USER'S PORTFOLIO VALUE IMPACT SO THEY CAN MEASURE THE TRADE'S IMPACT ON PORTFOLIO. WHEN SUBMITTED, SHOWS SUCCESS FLASH MSG
 import React from 'react'
-import { useState } from 'react'
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { apiKey, urlMain } from './Keys'
 
@@ -61,6 +60,10 @@ export default function Trade(props) {
         let token = localStorage.getItem('token');
         let new_price = quote.c;
         let new_shares = e.target.buy.value;
+        if (new_shares < 1){
+            props.flashMsg(`You must buy at least 1 share of stock`, 'warning')
+            return 
+        }
         for (let stock of userStocks) {
             // if user OWNS THE STOCK, DO PUT
             if (props.ticker === stock.ticker) { 
@@ -92,15 +95,6 @@ export default function Trade(props) {
                     props.flashMsg(`Sorry, you do not have enough funds to buy these shares of stock you already own`, 'warning')
                 }
                 return
-                // fetch(`${urlMain}/portfolio/stocks/${stock_id}`, requestOptions)
-                // .then(response => response.json())
-                // .then(result => {
-                //     console.log(result)
-                //     props.flashMsg(`You have succesfully bought ${(new_shares)} more share(s) of ${stock.ticker}`, 'success')
-                //     navigate('/portfolio')
-                // })
-                // .catch(error => console.log('error', error));
-
             }
         } 
         // if user does not own stock, DO A POST CREATE NEW STOCK
@@ -131,17 +125,9 @@ export default function Trade(props) {
             } else {
                 props.flashMsg(`Sorry, you do not have enough funds to buy these shares of a new stock you don\'t own`, 'warning')
             }
-        // fetch(`${urlMain}/portfolio/stocks`, requestOptions)
-        // .then(response => response.json())
-        // .then(result => {
-        //     console.log(result)
-        //     props.flashMsg(`You have succesfully bought ${(new_shares)} new share(s) of ${props.ticker}`, 'success')
-        //     navigate('/portfolio')
-        // })
-        // .catch(error => console.log('error', error));
     }
 
-    // IGNORE THIS UNTIL HANDLEBUY FN IS COMPLETE, copy paste
+    // handle user clicks sell button
     const handleSell = async e =>{
         e.preventDefault();
         // fetch to see if user has those shares, post the new share amount for that user's stock 
@@ -179,21 +165,13 @@ export default function Trade(props) {
                     props.flashMsg(`Sorry, you entered more shares than you have`, 'warning')
                 }
                 return
-                // fetch(`${urlMain}/portfolio/stocks/${stock_id}`, requestOptions)
-                //   .then(response => response.json())
-                //   .then(result => {
-                //       console.log(result)
-                //       props.flashMsg(`You have sold ${(-new_shares)} share(s) of ${stock.ticker}`, 'info')
-                //       navigate('/portfolio')
-                //   })
-                //   .catch(error => console.log('error', error));
-
             }
         }
         // if user does not own stock, flash msg
         props.flashMsg(`Sorry, you can't sell a stock you don't own`, 'warning')
     }
 
+    // 
     const handleShares = e => {
         console.log(e.target.form[0].value)
         setShares(e.target.form[0].value)
@@ -210,10 +188,6 @@ export default function Trade(props) {
                 <div className="col ">Your Shares: {totalShares ? totalShares.toLocaleString() : 0}</div>
             </div>
             <hr />
-            {/* <div className="row my-5">
-                <div className="col ">Number of Shares</div>
-                <div className="col-4 mb-2">Choose Option</div>
-            </div> */}
             {/* onsubmit the form you should handle the submit to get the input, check if user has that portfolio money, and buy the shares for that ticker */}
             <form onSubmit={handleBuy} className='row my-5'>
                 {/* <div className="form-group"> */}
@@ -222,7 +196,7 @@ export default function Trade(props) {
                     <input type="submit" value='Buy' className='col-4 btn btn-dark ' />
                 {/* </div> */}
             </form>
-            {/* onsubmit the form you should handle the submit to get the input, check if user has that portfolio money, and buy the shares for that ticker */}
+            {/* onsubmit the form you should handle the submit to get the input, check if user has enough portfolio money, and buy the shares for that ticker */}
             <form onSubmit={handleSell} className='row my-5'>
                 {/* <div className="form-group"> */}
                     <label htmlFor="sell"></label>
@@ -230,8 +204,8 @@ export default function Trade(props) {
                     <input type="submit" value='Sell' className='col-4 btn btn-dark ' />
                 {/* </div> */}
             </form>
+            {/* show user the purchase or sell amount based on input shares */}
             {shares ? <div className="row lead text-center">Total: ${(quote.c * shares)?.toFixed(2).toLocaleString()}</div> : null }
-            {/* {shares ? <div className="row lead text-center">Total: ${Number((quote.c.toFixed(2) * shares)?.toFixed(2)).toLocaleString()}</div> : null } */}
         </>
     )
 }

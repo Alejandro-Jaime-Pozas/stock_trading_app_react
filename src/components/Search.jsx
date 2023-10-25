@@ -1,6 +1,6 @@
 // SHOWS A SEARCHBAR WHERE USER CAN LOOK FOR A COMPANY/STOCK SYMBOL, SEARCH RESULTS APPEAR, USER CLICKS ON A VALUE REDIRECTS TO STOCK PAGE
     // missing link when clicking btn to that stock's page...
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom';
 import { apiKey } from './Keys'
 
@@ -13,6 +13,14 @@ export default function Search(props) {
     const [search, setSearch] = useState(null);
     // create a timer to trigger when the search should populate
     const [timer, setTimer] = useState(null)
+    // create a ref for the input element
+    const searchInputRef = useRef(null)
+
+    // use useEffect to place the user's cursor in the search bar on first page render
+    useEffect(() => {
+      searchInputRef.current.focus()
+    }, [])
+    
 
     // create useEffect to display on every search render, include url w dynamic search keyword option, fetch list data (console.log)
     useEffect(() => {
@@ -58,7 +66,7 @@ export default function Search(props) {
     return (
         <>
             <div className="input-group rounded mb-4">
-                <input onChange={handleSearch} type="search" className="form-control rounded" placeholder="Search a ticker/company name" aria-label="Search" aria-describedby="search-addon" />
+                <input onChange={handleSearch} type="search" className="form-control rounded" ref={searchInputRef} placeholder="Search a ticker/company name" aria-label="Search" aria-describedby="search-addon" />
                 <span className="input-group-text border-0" id="search-addon">
                     <i className="fas fa-search"></i>
                 </span>
