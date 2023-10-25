@@ -195,13 +195,13 @@ export default function Stock(props) {
                 <div className="col-3 mb-3"><b>52-week high:</b></div>
                 <div className="col-3 mb-3">${Number(financials['52WeekHigh'])?.toFixed(2)}</div>
                 <div className="col-3 mb-3"><b>PE ratio:</b></div>
-                <div className="col-3 mb-3">{Number(financials['peInclExtraTTM'])?.toFixed(2) > 0 ? Number(financials['peInclExtraTTM'])?.toFixed(2) : 'NA' }</div>
+                <div className="col-3 mb-3">{Number(financials['peInclExtraTTM']) ? Number(financials['peInclExtraTTM'])?.toFixed(2) : 'NA' }</div>
                 <div className="col-3 mb-3"><b>52-week low:</b></div>
                 <div className="col-3 mb-3">${Number(financials['52WeekLow'])?.toFixed(2)}</div>
                 <div className="col-3 mb-3"><b>Div yield:</b></div>
-                <div className="col-3 mb-3">{Number(financials['dividendYieldIndicatedAnnual'])?.toFixed(2) > 0 ? Number(financials['dividendYieldIndicatedAnnual'])?.toFixed(2) : 'NA'}</div>
+                <div className="col-3 mb-3">{Number(financials['dividendYieldIndicatedAnnual']) ? Number(financials['dividendYieldIndicatedAnnual'])?.toFixed(2) : 'NA'}</div>
                 <div className="col-3 mb-3"><b>Market cap:</b></div>
-                <div className="col-3 mb-3">${Number((financials['marketCapitalization'])?.toFixed(2)).toLocaleString()}</div>
+                <div className="col-3 mb-3">${Number(financials['marketCapitalization']) ? Number((financials['marketCapitalization'])?.toFixed(2)).toLocaleString() : 0}</div>
                 <div className="col-3 mb-3"><b>Volume:</b></div>
                 <div className="col-3 mb-3">{Number(financials['10DayAverageTradingVolume'])?.toFixed(2)}</div>
             </div>
