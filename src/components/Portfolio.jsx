@@ -1,8 +1,6 @@
-    // display only 2 decimal points for price, and %
+// TODO
     // be able to fetch multiple requests to display each stock's real price quote...
-// add user's holdings of each stock to the stock view...# of shares * current price
-// add user's portfolio value to top
-// add link/naviagate to STOCK page when user clicks a stock
+    // add cash funds uninvested to portfolio view on top of page
 // SHOWS USERS PORTFOLIO TOTAL VALUE, HISTORIC PRICE, STOCKS THEY OWN, STOCKS IN THEIR WATCHLIST
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -113,9 +111,9 @@ export default function Portfolio(props) {
                         )
                     })}
             </div>
-            {/* <div className="row my-5">
-                {userStocks[0] ? null : <Link to='/search' className='btn btn-dark w-50 align-self-center col' >Start Searching for some stocks</Link>}
-            </div> */}
+            <div className="my-5 text-center container">
+                {userStocks[0] ? null : <Link to='/search' className='btn btn-dark col p-2' >Search for some stocks</Link>}
+            </div>
         </div>
     )
 }

@@ -3,9 +3,9 @@ import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import Edit from './Edit'
 import Funds from './Funds'
 import { urlMain } from './Keys'
+import Edit from './Edit'
 
 export default function Account(props) {
 

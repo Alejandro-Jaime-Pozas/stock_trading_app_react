@@ -10,7 +10,6 @@ export default function Login(props) {
 
     useEffect(() => {
         document.title = Login.name 
-    
     }, [])
     
 
