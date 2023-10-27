@@ -63,9 +63,9 @@ function App() {
                     <Route path='/login' element={<Login flashMsg={flashMsg} login={login} loggedIn={loggedIn} userId={userId} />} />
 
                     <Route path='/portfolio' element={<Portfolio loggedIn={loggedIn} ticker={ticker} changeTicker={changeTicker} newId={newId} />} />
-                    <Route path='/search' element={<Search changeTicker={changeTicker} />} />
                     <Route path='/account' element={<Account flashMsg={flashMsg} logout={logout} newId={newId} />} />
                     <Route path='/account' element={<Funds flashMsg={flashMsg} logout={logout} newId={newId} />} />
+                    <Route path='/search' element={<Search changeTicker={changeTicker} />} />
                     <Route path='/edit' element={<Edit />} />
                     <Route path='/stock' element={<Stock ticker={ticker} />} />
                     <Route path='/trade' element={<Trade flashMsg={flashMsg} ticker={ticker} newId={newId} />} />
