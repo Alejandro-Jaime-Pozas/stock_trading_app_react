@@ -2,6 +2,7 @@
 // maybe worth splitting functions below 
 import { useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import Account from "./components/Account";
 import AlertMsg from "./components/AlertMsg";
 import BarChart from "./components/BarChart";
@@ -15,10 +16,33 @@ import Search from "./components/Search";
 import Signup from "./components/Signup";
 import Stock from "./components/Stock";
 import Trade from "./components/Trade";
+import { urlMain } from "./components/Keys";
 
 // NEED TO HAVE FROM BACKEND THE USER'S STOCK DATA...SO WHAT STOCKS THEY OWN, WHAT PRICE THEY BOUGHT THEM, AND HOW MANY SHARES...IN ORDER TO USE THAT DATA HERE IN THE FRONT END AND DISPLAY TO THE USER
 
 function App() {
+
+    // SET USER INFO AND PASS INTO CHILDREN COMPONENTS
+    const [info, setinfo] = useState({})
+    useEffect(() => {
+        let token = localStorage.getItem('token')
+        // fetch the data for info in user's acct
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token);
+        
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+        
+        fetch(`${urlMain}/auth/me`, requestOptions)
+            .then(response => response.json())
+            .then(result => setinfo(result))
+            .catch(error => console.log('error', error));
+
+        // console.log(info);
+    }, [])
     
     const navigate = useNavigate()
     const [loggedIn, setLoggedIn] = useState(localStorage.getItem('token') ? true : false) // here i should check if user has a valid token, then keep them logged in, dont reset the state to false after refresh
@@ -63,7 +87,8 @@ function App() {
                     <Route path='/login' element={<Login flashMsg={flashMsg} login={login} loggedIn={loggedIn} userId={userId} />} />
 
                     <Route path='/portfolio' element={<Portfolio loggedIn={loggedIn} ticker={ticker} changeTicker={changeTicker} newId={newId} />} />
-                    <Route path='/account' element={<Account flashMsg={flashMsg} logout={logout} newId={newId} />} />
+                    <Route path='/account' element={<Account flashMsg={flashMsg} logout={logout} newId={newId} info={info} />} />
+                    {/* CHECK FUNDS LATER, SEE IF REMOVING CODE BELOW CHANGES ANYTHING SINCE FUNDS IS ALREADY PASSED INTO THE ACCOUNT COMPONENT */}
                     <Route path='/account' element={<Funds flashMsg={flashMsg} logout={logout} newId={newId} />} />
                     <Route path='/search' element={<Search changeTicker={changeTicker} />} />
                     <Route path='/edit' element={<Edit />} />

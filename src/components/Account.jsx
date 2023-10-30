@@ -10,7 +10,31 @@ import Edit from './Edit'
 export default function Account(props) {
 
     let navigate = useNavigate()
-    const [info, setinfo] = useState({})
+    
+    // // NEED TO TAKE THIS USEEFFECT OUT OF HERE AND INTO PARENT COMPONENT, THEN JUST PASS IN AS PROPS
+    // const [info, setinfo] = useState({})
+    // useEffect(() => {
+    //     let token = localStorage.getItem('token')
+    //     // fetch the data for info in user's acct
+    //     var myHeaders = new Headers();
+    //     myHeaders.append("Authorization", "Bearer " + token);
+        
+    //     var requestOptions = {
+    //         method: 'GET',
+    //         headers: myHeaders,
+    //         redirect: 'follow'
+    //     };
+        
+    //     fetch(`${urlMain}/auth/me`, requestOptions)
+    //         .then(response => response.json())
+    //         .then(result => setinfo(result))
+    //         .catch(error => console.log('error', error));
+    // }, [])
+
+    useEffect(() => {
+        document.title = Account.name 
+        console.log(props.info) // FIX PROPS.INFO NOT RENDERING HERE
+    }, [])
 
     // this to handle the user changing their account info username, email, pswd
     const handleEdit = e => {
@@ -42,25 +66,6 @@ export default function Account(props) {
           .catch(error => console.log('error', error));       
         }
 
-    useEffect(() => {
-        document.title = Account.name
-        let token = localStorage.getItem('token')
-        // fetch the data for info in user's acct
-        var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer " + token);
-        
-        var requestOptions = {
-          method: 'GET',
-          headers: myHeaders,
-          redirect: 'follow'
-        };
-        
-        fetch(`${urlMain}/auth/me`, requestOptions)
-          .then(response => response.json())
-          .then(result => setinfo(result))
-          .catch(error => console.log('error', error));
-    }, [])
-
     return (
         <>
             <h4 className="text-center">Account</h4>
@@ -68,11 +73,11 @@ export default function Account(props) {
 
             <form onSubmit={handleEdit} className="row form-group">
                 {/* <label className='col' htmlFor="username">New Username</label> */}
-                <div className="col">Username: {info.username}</div>
+                <div className="col">Username: {props.info.username}</div>
                 {/* <input className='my-2 form-control' type="text"  placeholder={info.username} name='username'/> */}
             <br />
                 {/* <label className='col' htmlFor="email">New Email</label> */}
-                <div className="col">Email: {info.email}</div>
+                <div className="col">Email: {props.info.email}</div>
                 {/* <input className='my-2 form-control' type="text"  placeholder={info.email} name='email'/> */}
             <br />
                 {/* <label className='col' htmlFor="password">New Password</label> */}
@@ -84,11 +89,11 @@ export default function Account(props) {
             <br /><br />
             <div className="row">
                 <div className="col">Your Cash Funds</div>
-                <p className="col-4 lead h-75 text-center text-success fw-normal" name='cash' >${info.cash ? Number(info.cash?.toFixed(2)).toLocaleString() : null}</p>
+                <p className="col-4 lead h-75 text-center text-success fw-normal" name='cash' >${props.info.cash ? Number(props.info.cash?.toFixed(2)).toLocaleString() : null}</p>
             </div><br /><br />
             <div className="row gy-3 p-0 justify-content-center ">
                 <br />
-                <Funds info={info} flashMsg={props.flashMsg} /><br /><br />
+                <Funds info={props.info} flashMsg={props.flashMsg} /><br /><br />
                 {/* {clickToEdit ? <Edit info={info} /> : null } */}
                 {/* <Link to='/portfolio' className="col-12 h-25 btn btn-light" name='withdraw' >Withdraw Funds</Link><br /><br /><br /><br /> */}
                 <Link to='/login' onClick={props.logout} className="col-11 h-25 btn btn-secondary mt-5" name='logout' >Logout</Link><br /><br />
