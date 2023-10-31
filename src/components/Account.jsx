@@ -2,10 +2,10 @@
 import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
 import Funds from './Funds'
 import { urlMain } from './Keys'
 import Edit from './Edit'
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function Account(props) {
 
@@ -31,9 +31,12 @@ export default function Account(props) {
     //         .catch(error => console.log('error', error));
     // }, [])
 
-    useEffect(() => {
-        document.title = Account.name 
-        console.log(props.info) // FIX PROPS.INFO NOT RENDERING HERE
+    // looks like working now
+    // fetch user's info to display
+    useEffect(() => { 
+        document.title = Account.name
+        props.getUserInfo()
+        console.log(props.info)
     }, [])
 
     // this to handle the user changing their account info username, email, pswd

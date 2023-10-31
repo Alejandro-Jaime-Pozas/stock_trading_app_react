@@ -22,27 +22,32 @@ import { urlMain } from "./components/Keys";
 
 function App() {
 
+    // LOOK INTO State Management: It can manage global application state if you're using a state management library like Redux or React Context API. It often initializes the state and provides it to child components.
     // SET USER INFO AND PASS INTO CHILDREN COMPONENTS
+    // THIS NOT WORKING, STILL TAKES AN ADDITIONAL RENDER TO UPDATE USER'S INFO...useEffect only triggers once, and not when any component renders....
     const [info, setinfo] = useState({})
-    useEffect(() => {
+
+    // DOES THIS NEED TO BE ASYNC FN?
+    // get user info and change the state if applicable
+    const getUserInfo = () => {
         let token = localStorage.getItem('token')
         // fetch the data for info in user's acct
-        var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer " + token);
-        
-        var requestOptions = {
-            method: 'GET',
-            headers: myHeaders,
-            redirect: 'follow'
-        };
-        
-        fetch(`${urlMain}/auth/me`, requestOptions)
+        if (token) {
+            var myHeaders = new Headers();
+            myHeaders.append("Authorization", "Bearer " + token);
+            
+            var requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+                redirect: 'follow'
+            };
+            
+            fetch(`${urlMain}/auth/me`, requestOptions)
             .then(response => response.json())
             .then(result => setinfo(result))
-            .catch(error => console.log('error', error));
-
-        // console.log(info);
-    }, [])
+            .catch(error => console.log('error', error));   
+        }
+    }
     
     const navigate = useNavigate()
     const [loggedIn, setLoggedIn] = useState(localStorage.getItem('token') ? true : false) // here i should check if user has a valid token, then keep them logged in, dont reset the state to false after refresh
@@ -65,6 +70,7 @@ function App() {
         setLoggedIn(true)
     }
     const logout = () => {
+        setinfo({})
         localStorage.removeItem('token')
         localStorage.removeItem('token_expiration')
         localStorage.removeItem('user_id')
@@ -87,7 +93,7 @@ function App() {
                     <Route path='/login' element={<Login flashMsg={flashMsg} login={login} loggedIn={loggedIn} userId={userId} />} />
 
                     <Route path='/portfolio' element={<Portfolio loggedIn={loggedIn} ticker={ticker} changeTicker={changeTicker} newId={newId} />} />
-                    <Route path='/account' element={<Account flashMsg={flashMsg} logout={logout} newId={newId} info={info} />} />
+                    <Route path='/account' element={<Account flashMsg={flashMsg} logout={logout} newId={newId} info={info} getUserInfo={getUserInfo} />} />
                     {/* CHECK FUNDS LATER, SEE IF REMOVING CODE BELOW CHANGES ANYTHING SINCE FUNDS IS ALREADY PASSED INTO THE ACCOUNT COMPONENT */}
                     <Route path='/account' element={<Funds flashMsg={flashMsg} logout={logout} newId={newId} />} />
                     <Route path='/search' element={<Search changeTicker={changeTicker} />} />
