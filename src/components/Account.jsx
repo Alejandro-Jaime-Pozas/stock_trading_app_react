@@ -1,15 +1,15 @@
 // SHOWS USERNAME, EMAIL, PSWD, ADD FUNDS, WITHDRAW FUNDS, USER CAN EDIT EACH ONE INSIDE THE PAGE, OR FOR ADD FUNDS/REMOVE FUNDS, CREATE A NEW PAGE TO RECEIVE INPUT...
 import React from 'react'
-import { useState } from 'react'
+// import { useState } from 'react'
 import { useEffect } from 'react'
 import Funds from './Funds'
 import { urlMain } from './Keys'
-import Edit from './Edit'
-import { Link, useNavigate } from 'react-router-dom'
+// import Edit from './Edit'
+import { Link } from 'react-router-dom'
 
 export default function Account(props) {
 
-    let navigate = useNavigate()
+    // let navigate = useNavigate()
     
     // // NEED TO TAKE THIS USEEFFECT OUT OF HERE AND INTO PARENT COMPONENT, THEN JUST PASS IN AS PROPS
     // const [info, setinfo] = useState({})
@@ -31,13 +31,12 @@ export default function Account(props) {
     //         .catch(error => console.log('error', error));
     // }, [])
 
-    // looks like working now
     // fetch user's info to display
     useEffect(() => { 
         document.title = Account.name
         props.getUserInfo()
-        console.log(props.info)
     }, [])
+    console.log(props.info)
 
     // this to handle the user changing their account info username, email, pswd
     const handleEdit = e => {
@@ -92,7 +91,7 @@ export default function Account(props) {
             <br /><br />
             <div className="row">
                 <div className="col">Your Cash Funds</div>
-                <p className="col-4 lead h-75 text-center text-success fw-normal" name='cash' >${props.info.cash ? Number(props.info.cash?.toFixed(2)).toLocaleString() : null}</p>
+                <p className="col-4 lead h-75 text-center text-success fw-normal" name='cash' >${props.info.cash ? Number(props.info.cash?.toFixed(2)).toLocaleString() : 0}</p>
             </div><br /><br />
             <div className="row gy-3 p-0 justify-content-center ">
                 <br />

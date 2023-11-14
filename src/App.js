@@ -27,7 +27,7 @@ function App() {
     // THIS NOT WORKING, STILL TAKES AN ADDITIONAL RENDER TO UPDATE USER'S INFO...useEffect only triggers once, and not when any component renders....
     const [info, setinfo] = useState({})
 
-    // DOES THIS NEED TO BE ASYNC FN?
+    // CREATE FN TO GET USER INFO AND CALL FN IN OTHER COMPONENTS. THIS VS USEEFFECT WHICH DOESN'T WORK.
     // get user info and change the state if applicable
     const getUserInfo = () => {
         let token = localStorage.getItem('token')
@@ -52,7 +52,7 @@ function App() {
     const navigate = useNavigate()
     const [loggedIn, setLoggedIn] = useState(localStorage.getItem('token') ? true : false) // here i should check if user has a valid token, then keep them logged in, dont reset the state to false after refresh
     const [newId, setId] = useState(0)
-    const [ticker, setTicker] = useState('') // NEED TO SET THIS TO LOCAL STORAGE ITEM to prevent refresh
+    const [ticker, setTicker] = useState('') // NEED TO SET THIS TO LOCAL STORAGE ITEM to prevent refresh?
     const [message, setMessage] = useState(null)
     const [category, setCategory] = useState(null)
 
