@@ -37,6 +37,7 @@ export default function Portfolio(props) {
                     })
                     .catch(error => console.log('error', error));
                 // console.log('did data above print 3?')
+        props.getUserInfo()
     }, [])
     console.log(userStocks);
     console.log(userQuotes);
@@ -69,7 +70,7 @@ export default function Portfolio(props) {
         for (let stock of userStocks){
             total += stock.real_value
         }
-        return Number(total?.toFixed(2)).toLocaleString()
+        return Number(total?.toFixed(0))
     }
 
 
@@ -86,7 +87,13 @@ export default function Portfolio(props) {
             </div> */}
             <div className='row'>
                 <h1>My Portfolio</h1>
-                <p className='lead'>${portfolioValue()}</p>
+                <h6 className='lead my-3'>Total Funds: 
+                    <span> ${(portfolioValue() + props.info.cash).toLocaleString()}</span>
+                </h6>
+                <div className="row my-2">
+                    <h6>Invested Funds: <span class="text-success">${portfolioValue().toLocaleString()}</span></h6>
+                    <h6>Cash Funds: ${Number(props.info.cash?.toFixed(0)).toLocaleString()}</h6>
+                </div>
             </div>
             {/* graph goes here */}
             <div className="row border rounded m-3 " style={{height: '15vh'}}></div>

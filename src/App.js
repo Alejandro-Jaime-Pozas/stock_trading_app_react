@@ -92,7 +92,7 @@ function App() {
                     <Route path='/signup' element={<Signup flashMsg={flashMsg} />} />
                     <Route path='/login' element={<Login flashMsg={flashMsg} login={login} loggedIn={loggedIn} userId={userId} />} />
 
-                    <Route path='/portfolio' element={<Portfolio loggedIn={loggedIn} ticker={ticker} changeTicker={changeTicker} newId={newId} />} />
+                    <Route path='/portfolio' element={<Portfolio loggedIn={loggedIn} ticker={ticker} changeTicker={changeTicker} newId={newId} getUserInfo={getUserInfo} info={info} />} />
                     <Route path='/account' element={<Account flashMsg={flashMsg} logout={logout} newId={newId} info={info} getUserInfo={getUserInfo} />} />
                     {/* CHECK FUNDS LATER, SEE IF REMOVING CODE BELOW CHANGES ANYTHING SINCE FUNDS IS ALREADY PASSED INTO THE ACCOUNT COMPONENT */}
                     <Route path='/account' element={<Funds flashMsg={flashMsg} logout={logout} newId={newId} />} />
