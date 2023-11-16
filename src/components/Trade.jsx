@@ -189,23 +189,25 @@ export default function Trade(props) {
             </div>
             <hr />
             {/* onsubmit the form you should handle the submit to get the input, check if user has that portfolio money, and buy the shares for that ticker */}
-            <form onSubmit={handleBuy} className='row my-5'>
-                {/* <div className="form-group"> */}
-                    <label htmlFor="buy"></label>
-                    <input onChange={handleShares} type="text" className='col form-control' placeholder='Enter shares to buy' name='buy' />
-                    <input type="submit" value='Buy' className='col-4 btn btn-dark ' />
-                {/* </div> */}
-            </form>
-            {/* onsubmit the form you should handle the submit to get the input, check if user has enough portfolio money, and buy the shares for that ticker */}
-            <form onSubmit={handleSell} className='row my-5'>
-                {/* <div className="form-group"> */}
-                    <label htmlFor="sell"></label>
-                    <input onChange={handleShares} type="text" className='col form-control' placeholder='Enter shares to sell' name='sell' />
-                    <input type="submit" value='Sell' className='col-4 btn btn-dark ' />
-                {/* </div> */}
-            </form>
-            {/* show user the purchase or sell amount based on input shares */}
-            {shares ? <div className="row lead text-center">Total: ${(quote.c * shares)?.toFixed(2).toLocaleString()}</div> : null }
+            <div className="row mx-2">
+                <form onSubmit={handleBuy} className='row my-5'>
+                    {/* <div className="form-group"> */}
+                        <label htmlFor="buy"></label>
+                        <input onChange={handleShares} type="text" className='col form-control' placeholder='Enter shares to buy' name='buy' />
+                        <input type="submit" value='Buy' className='col-4 btn btn-dark ' />
+                    {/* </div> */}
+                </form>
+                {/* onsubmit the form you should handle the submit to get the input, check if user has enough portfolio money, and buy the shares for that ticker */}
+                <form onSubmit={handleSell} className='row my-5'>
+                    {/* <div className="form-group"> */}
+                        <label htmlFor="sell"></label>
+                        <input onChange={handleShares} type="text" className='col form-control' placeholder='Enter shares to sell' name='sell' />
+                        <input type="submit" value='Sell' className='col-4 btn btn-dark ' />
+                    {/* </div> */}
+                </form>
+                {/* show user the purchase or sell amount based on input shares */}
+                {shares ? <div className="row lead text-center">Total: ${(quote.c * shares)?.toFixed(2).toLocaleString()}</div> : null }
+            </div>
         </>
     )
 }

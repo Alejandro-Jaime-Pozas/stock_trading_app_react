@@ -77,14 +77,6 @@ export default function Portfolio(props) {
 
     return (
         <div>
-            {/* <div className="row">
-                {userQuotes.map((stock, i) => {
-                    return (
-                        <div key={i} className="row">{stock.c}</div>
-                    )
-                })
-                }
-            </div> */}
             <div className='row'>
                 <h1>My Portfolio</h1>
                 <h6 className='lead my-3'>Total Funds: 
@@ -97,27 +89,27 @@ export default function Portfolio(props) {
             </div>
             {/* graph goes here */}
             <div className="row border rounded m-3 " style={{height: '15vh'}}></div>
-            <div className='row '>
-                <div className="row table_headers">
-                    <p className="col-3">Ticker</p>
-                    <p className="col-3">Current Price</p>
-                    <p className="col-3">My Shares</p>
-                    <p className="col-3">My Total Value</p>
-                </div>
+                <div className="row table_ mx-2 ">
+                    <div className="row table_headers">
+                        <p className="col-3">Ticker</p>
+                        <p className="col-3">Current Price</p>
+                        <p className="col-3">My Shares</p>
+                        <p className="col-3">My Total Value</p>
+                    </div>
 
-                {/* this will be the data output for userStocks */}
-                {/* the reason this doesn't update is it's not linked at all to the stock's real price. need to do multiple fetches one for each stock user owns to get real time quote */}
-                    {userStocks.map((stock, i) => {
-                        return (
-                            <div key={i} className="row border-top align-items-center">
-                                <Link to='/stock' onClick={handleClick} className="col-3 btn btn-dark ">{stock.ticker}</Link>
-                                <p className="col-3 mt-3 ">${Number(stock.new_price?.toFixed(2)).toLocaleString()}</p>
-                                <p className="col-3 mt-3 ">{stock.total_shares?.toLocaleString()}</p>
-                                <p className="col-3 mt-3 ">${Number(stock.real_value?.toFixed(2)).toLocaleString()}</p>
-                            </div>
-                        )
-                    })}
-            </div>
+                    {/* this will be the data output for userStocks */}
+                    {/* the reason this doesn't update is it's not linked at all to the stock's real price. need to do multiple fetches one for each stock user owns to get real time quote */}
+                        {userStocks.map((stock, i) => {
+                            return (
+                                <div key={i} className="row border-top align-items-center ">
+                                    <Link className="col-3 btn btn-dark " to='/stock' onClick={handleClick} >{stock.ticker}</Link>
+                                    <p className="col-3 mt-3 ">${Number(stock.new_price?.toFixed(2)).toLocaleString()}</p>
+                                    <p className="col-3 mt-3 ">{stock.total_shares?.toLocaleString()}</p>
+                                    <p className="col-3 mt-3 ">${Number(stock.real_value?.toFixed(2)).toLocaleString()}</p>
+                                </div>
+                            )
+                        })}    
+                </div>
             <div className="my-5 text-center container">
                 {userStocks[0] ? null : <Link to='/search' className='btn btn-dark col p-2' >Search for some stocks</Link>}
             </div>
