@@ -73,13 +73,13 @@ export default function Account(props) {
             <h4 className="text-center">Account</h4>
             <br /><br />
 
-            <form onSubmit={handleEdit} className="row form-group">
+            <form onSubmit={handleEdit} className="row form-group text-center">
                 {/* <label className='col' htmlFor="username">New Username</label> */}
                 <div className="col">Username: {props.info.username}</div>
                 {/* <input className='my-2 form-control' type="text"  placeholder={info.username} name='username'/> */}
             <br />
                 {/* <label className='col' htmlFor="email">New Email</label> */}
-                <div className="col">Email: {props.info.email}</div>
+                <div className="col ">Email: {props.info.email}</div>
                 {/* <input className='my-2 form-control' type="text"  placeholder={info.email} name='email'/> */}
             <br />
                 {/* <label className='col' htmlFor="password">New Password</label> */}
@@ -89,9 +89,9 @@ export default function Account(props) {
             </form>
 
             <br /><br />
-            <div className="row">
+            <div className="row text-center">
                 <div className="col">Your Cash Funds</div>
-                <p className="col-4 lead h-75 text-center text-success fw-normal" name='cash' >${props.info.cash ? Number(props.info.cash?.toFixed(2)).toLocaleString() : 0}</p>
+                <p className="col lead h-75 text-center text-success fw-normal" name='cash' >${props.info.cash ? Number(props.info.cash?.toFixed(2)).toLocaleString() : 0}</p>
             </div><br /><br />
             <div className="row gy-3 p-0 justify-content-center ">
                 <br />
