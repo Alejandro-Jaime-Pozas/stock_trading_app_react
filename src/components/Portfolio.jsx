@@ -83,7 +83,7 @@ export default function Portfolio(props) {
                     <span> ${(portfolioValue() + props.info.cash).toLocaleString()}</span>
                 </h6>
                 <div className="row my-2">
-                    <h6>Invested Funds: <span class="text-success">${portfolioValue().toLocaleString()}</span></h6>
+                    <h6>Invested Funds: <span className="text-success">${portfolioValue().toLocaleString()}</span></h6>
                     <h6>Cash Funds: ${Number(props.info.cash?.toFixed(0)).toLocaleString()}</h6>
                 </div>
             </div>

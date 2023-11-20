@@ -118,12 +118,15 @@ export default function Stock(props) {
         <>
             {/* row1: ticker, > company name, trade btn */}
             {/* <div className="">{new Date(1638750635000)}</div> */}
-            <div className='row lead'>
-                <p className=''>{props.ticker}</p> 
-                {/* FIX IMAGE HERE, EITHER GET FROM GITHUB OR FOR BETTER DESIGN/FORMATTING IN BLACK&WHITE USE ANOTHER API OR SOMETHING */}
-                {/* <img className='col img-thumbnail w-25 h-25 me-3' src="https://static.finnhub.io/logo/81a6d1a8-80db-11ea-8d2d-00000000092a.png" alt="" /> */}
-                <h1 className='col display-5 mb-3'>{companyInfo.name}</h1>
-                <Link to="/trade" className='col-3 btn btn-dark align-self-center mb-3 me-3'>Trade</Link>
+            <div className='row lead '>
+                <div className="row mb-3 d-flex align-items-end">
+                    <img className='stock_image_logo img-fluid col-2 rounded ' src={companyInfo.logo} alt="" style={{ filter: 'grayscale(100%)' }} />
+                    <p className='col mb-0 me-2 text-end'>{props.ticker}</p> 
+                </div>
+                <div className="row ">
+                    <h1 className='col display-5 mb-3'>{companyInfo.name}</h1>
+                    <Link to="/trade" className='col-3 btn btn-dark align-self-center mb-3 me-3'>Trade</Link>
+                </div>
             </div>
             {/* row2: price, % */}
             <div className="row">
