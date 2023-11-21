@@ -2,7 +2,7 @@
 // maybe worth splitting functions below 
 import { useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import Account from "./components/Account";
 import AlertMsg from "./components/AlertMsg";
 import BarChart from "./components/BarChart";
