@@ -25,6 +25,7 @@ function App() {
     // LOOK INTO State Management: It can manage global application state if you're using a state management library like Redux or React Context API. It often initializes the state and provides it to child components.
     // SET USER INFO AND PASS INTO CHILDREN COMPONENTS
     // THIS NOT WORKING, STILL TAKES AN ADDITIONAL RENDER TO UPDATE USER'S INFO...useEffect only triggers once, and not when any component renders....
+    // 1
     const [info, setinfo] = useState({})
 
     // CREATE FN TO GET USER INFO AND CALL FN IN OTHER COMPONENTS. THIS VS USEEFFECT WHICH DOESN'T WORK.
@@ -49,12 +50,18 @@ function App() {
         }
     }
     
-    const navigate = useNavigate()
+    // 2
     const [loggedIn, setLoggedIn] = useState(localStorage.getItem('token') ? true : false) // here i should check if user has a valid token, then keep them logged in, dont reset the state to false after refresh
+    // 3
     const [newId, setId] = useState(0)
+    // 4
     const [ticker, setTicker] = useState('') // NEED TO SET THIS TO LOCAL STORAGE ITEM to prevent refresh?
+    // 5
     const [message, setMessage] = useState(null)
+    // 6
     const [category, setCategory] = useState(null)
+
+    const navigate = useNavigate()
 
     const flashMsg = (message, category) => {
         setMessage(message);
