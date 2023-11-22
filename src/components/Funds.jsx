@@ -74,13 +74,13 @@ export default function Funds(props) {
     }
 
     return (
-        <div className="row">
+        <div className="row d-flex justify-content-around">
 
             {/* BUTTONS */}
-            <button type="button" className="col-4 btn btn-success w-50 " data-bs-toggle="modal" data-bs-target="#deleteModal1">
+            <button type="button" className="col-4 btn btn-success " data-bs-toggle="modal" data-bs-target="#deleteModal1">
                 Deposit Funds
             </button>
-            <button type="button" className="col-4 btn btn-light w-50" data-bs-toggle="modal" data-bs-target="#deleteModal2">
+            <button type="button" className="col-4 btn btn-light " data-bs-toggle="modal" data-bs-target="#deleteModal2">
                 Withdraw Funds
             </button>
 
@@ -131,10 +131,9 @@ export default function Funds(props) {
                         <input type="submit" value='Withdraw' data-bs-dismiss="modal" className='btn btn-secondary' />
                     </div>
                 </form>
-
+                </div>
                 </div>
             </div>
         </div>
-    </div>
     )
 }

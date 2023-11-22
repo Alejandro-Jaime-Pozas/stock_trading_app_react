@@ -27,7 +27,19 @@ function App() {
     // THIS NOT WORKING, STILL TAKES AN ADDITIONAL RENDER TO UPDATE USER'S INFO...useEffect only triggers once, and not when any component renders....
     // 1
     const [info, setinfo] = useState({})
+    // 2
+    const [loggedIn, setLoggedIn] = useState(localStorage.getItem('token') ? true : false) // here i should check if user has a valid token, then keep them logged in, dont reset the state to false after refresh
+    // 3
+    const [newId, setId] = useState(0)
+    // 4
+    const [ticker, setTicker] = useState('') // NEED TO SET THIS TO LOCAL STORAGE ITEM to prevent refresh?
+    // 5
+    const [message, setMessage] = useState(null)
+    // 6
+    const [category, setCategory] = useState(null)
 
+    const navigate = useNavigate()
+    
     // CREATE FN TO GET USER INFO AND CALL FN IN OTHER COMPONENTS. THIS VS USEEFFECT WHICH DOESN'T WORK.
     // get user info and change the state if applicable
     const getUserInfo = () => {
@@ -50,19 +62,6 @@ function App() {
         }
     }
     
-    // 2
-    const [loggedIn, setLoggedIn] = useState(localStorage.getItem('token') ? true : false) // here i should check if user has a valid token, then keep them logged in, dont reset the state to false after refresh
-    // 3
-    const [newId, setId] = useState(0)
-    // 4
-    const [ticker, setTicker] = useState('') // NEED TO SET THIS TO LOCAL STORAGE ITEM to prevent refresh?
-    // 5
-    const [message, setMessage] = useState(null)
-    // 6
-    const [category, setCategory] = useState(null)
-
-    const navigate = useNavigate()
-
     const flashMsg = (message, category) => {
         setMessage(message);
         setCategory(category);

@@ -98,7 +98,7 @@ export default function Account(props) {
                 <Funds info={props.info} flashMsg={props.flashMsg} /><br /><br />
                 {/* {clickToEdit ? <Edit info={info} /> : null } */}
                 {/* <Link to='/portfolio' className="col-12 h-25 btn btn-light" name='withdraw' >Withdraw Funds</Link><br /><br /><br /><br /> */}
-                <Link to='/login' onClick={props.logout} className="col-11 h-25 btn btn-secondary mt-5" name='logout' >Logout</Link><br /><br />
+                <Link to='/login' onClick={props.logout} className="col-8 h-25 btn btn-secondary mt-5" name='logout' >Logout</Link><br /><br />
             </div>
 
                 <br onSubmit={handleEdit} />
@@ -115,9 +115,9 @@ export default function Account(props) {
             {/* <form>
                 <label htmlFor="email">New Email</label>
                 <input type="text" className='form-control' placeholder={info.email} name='email'/>
-            </form>
+                </form>
                 <br />
-            <form>
+                <form>
                 <label htmlFor="password">New Password</label>
                 <input type="password" className='form-control' placeholder='--' name='password'/>
                 <br />
