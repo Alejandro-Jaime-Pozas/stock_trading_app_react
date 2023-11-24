@@ -2,7 +2,7 @@
     // missing link when clicking btn to that stock's page...
 import React, { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom';
-import { apiKey } from './Keys'
+import { apiKey } from '../Keys'
 
 export default function Search(props) {
 

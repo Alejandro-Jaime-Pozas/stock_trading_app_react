@@ -1,35 +1,14 @@
 // SHOWS USERNAME, EMAIL, PSWD, ADD FUNDS, WITHDRAW FUNDS, USER CAN EDIT EACH ONE INSIDE THE PAGE, OR FOR ADD FUNDS/REMOVE FUNDS, CREATE A NEW PAGE TO RECEIVE INPUT...
 import React from 'react'
-// import { useState } from 'react'
 import { useEffect } from 'react'
 import Funds from './Funds'
-import { urlMain } from './Keys'
+import { urlMain } from '../Keys'
 // import Edit from './Edit'
 import { Link } from 'react-router-dom'
 
 export default function Account(props) {
 
     // let navigate = useNavigate()
-    
-    // // NEED TO TAKE THIS USEEFFECT OUT OF HERE AND INTO PARENT COMPONENT, THEN JUST PASS IN AS PROPS
-    // const [info, setinfo] = useState({})
-    // useEffect(() => {
-    //     let token = localStorage.getItem('token')
-    //     // fetch the data for info in user's acct
-    //     var myHeaders = new Headers();
-    //     myHeaders.append("Authorization", "Bearer " + token);
-        
-    //     var requestOptions = {
-    //         method: 'GET',
-    //         headers: myHeaders,
-    //         redirect: 'follow'
-    //     };
-        
-    //     fetch(`${urlMain}/auth/me`, requestOptions)
-    //         .then(response => response.json())
-    //         .then(result => setinfo(result))
-    //         .catch(error => console.log('error', error));
-    // }, [])
 
     // fetch user's info to display
     useEffect(() => { 

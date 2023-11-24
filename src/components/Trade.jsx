@@ -2,7 +2,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { apiKey, urlMain } from './Keys'
+import { apiKey, urlMain } from '../Keys'
 
 export default function Trade(props) {
 

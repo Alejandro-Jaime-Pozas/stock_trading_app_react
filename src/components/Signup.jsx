@@ -1,7 +1,7 @@
     // create fetch to create a new user, if no user already exists with email/username
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { urlMain } from './Keys';
+import { urlMain } from '../Keys';
 
 export default function Signup(props) {
 

@@ -16,7 +16,7 @@ import Search from "./components/Search";
 import Signup from "./components/Signup";
 import Stock from "./components/Stock";
 import Trade from "./components/Trade";
-import { urlMain } from "./components/Keys";
+import { urlMain } from "./Keys";
 
 // NEED TO HAVE FROM BACKEND THE USER'S STOCK DATA...SO WHAT STOCKS THEY OWN, WHAT PRICE THEY BOUGHT THEM, AND HOW MANY SHARES...IN ORDER TO USE THAT DATA HERE IN THE FRONT END AND DISPLAY TO THE USER
 

@@ -4,7 +4,7 @@
 // SHOWS USERS PORTFOLIO TOTAL VALUE, HISTORIC PRICE, STOCKS THEY OWN, STOCKS IN THEIR WATCHLIST
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { apiKey, urlMain } from './Keys'
+import { apiKey, urlMain } from '../Keys'
 
 export default function Portfolio(props) {
 

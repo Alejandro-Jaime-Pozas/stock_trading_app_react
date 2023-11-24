@@ -4,7 +4,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { apiKey, urlMain } from './Keys'
+import { apiKey, urlMain } from '../Keys'
 import Trade from './Trade'
 import { Line } from 'react-chartjs-2';
 // need this code below to import all of the chartjs funcionality and to view charts on web app
