@@ -24,6 +24,7 @@ export default function AlertMsg(props) {
     setVisible(false);
   };
 
+// DOING THE CODE BELOW INLINE
 //   const handleTransitionEnd = () => {
 //     if (!visible) {
 //       props.flashMsg(null, null);

@@ -12,10 +12,10 @@ export default function Account(props) {
     useEffect(() => { 
         document.title = Account.name
         props.getUserInfo()
-    }, []) // WILL NEED TO CHANGE THIS ONCE UPDATING TO ALLOW FOR USEFFECT TO RE-RENDER WHEN USER EDITS INFO
+    }, []) // WILL NEED TO CHANGE THIS ONCE UPDATING TO ALLOW FOR USEFFECT TO RE-RENDER AFTER USER EDITS INFO
     console.log(props.info)
 
-    // this to handle the user changing their account info username, email, pswd
+    // this to handle the user changing their account info username, email, pwd
     const handleEdit = e => {
         e.preventDefault() // MAY REMOVE THIS SO THAT PAGE REFRESHES AND RE TRIGGERS USEEFFECT
         let username =  e.target.username.value 
@@ -49,6 +49,7 @@ export default function Account(props) {
     return (
         <>
             <h4 className="text-center">Account</h4>
+
             <br /><br />
 
             <form onSubmit={handleEdit} className="row form-group text-center">
@@ -79,27 +80,42 @@ export default function Account(props) {
                 <Link to='/login' onClick={props.logout} className="col-8 h-25 btn btn-secondary mt-5" name='logout' >Logout</Link><br /><br />
             </div>
 
-                <br onSubmit={handleEdit} />
+            <br /><br />
 
-
-            {/* <div className="row">
-                <div className="col">Email: {info onSubmit={handleEdit}.email}</div>
+            {/* TESTING EDIT USER INFO */}
+            {/* best here is for user to click EDIT, and when they do so, the current edit field should turn into an input field right then and there. so 'Username: ajp' becomes 'Enter new username' input field */}
+            <div className="row w-50 align-items-center ">
+            <div className="row ">
+                <div className="col">Username: {props.info.username} 
+                {/* if edit button is in status 'clicked' then show input form to let user input new info */}
+                    {props.info.username ? 
+                        <span> something</span> 
+                        :
+                        null
+                    }
+                </div>
+                <button className="col-4 h-75 btn btn-dark" name='username' >Edit</button>
+            </div><br /><br />
+            <div className="row">
+                <div className="col">Email: {props.info.email}</div>
                 <button className="col-4 h-75 btn btn-dark" name='email' >Edit</button>
-            </div><br /><br /> */}
-            {/* <div className="row">
-                <div className="col">Password: ------</div>
+            </div><br /><br />
+            <div className="row">
+                <div className="col">Password: --------</div>
                 <button className="col-4 h-75 btn btn-dark" name='password' >Edit</button>
-            </div><br /><br /> */}
+            </div><br /><br />
             {/* <form>
                 <label htmlFor="email">New Email</label>
-                <input type="text" className='form-control' placeholder={info.email} name='email'/>
-                </form>
-                <br />
-                <form>
+                <input type="text" className='form-control w-50' placeholder={props.info.email} name='email'/>
+            </form>
+            <br />
+            <form>
                 <label htmlFor="password">New Password</label>
-                <input type="password" className='form-control' placeholder='--' name='password'/>
+                <input type="password" className='form-control w-50' placeholder='--' name='password'/>
                 <br />
             </form> */}
+            </div>
+
             <br /><br /><br /><br />
         </>
     )
