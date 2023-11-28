@@ -1,4 +1,4 @@
-    // create fetch to create a new user, if no user already exists with email/username
+// create fetch to create a new user, if no user already exists with email/username
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { urlMain } from '../Keys';

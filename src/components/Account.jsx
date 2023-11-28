@@ -8,21 +8,20 @@ import { Link } from 'react-router-dom'
 
 export default function Account(props) {
 
-    // let navigate = useNavigate()
-
     // fetch user's info to display
     useEffect(() => { 
         document.title = Account.name
         props.getUserInfo()
-    }, [])
+    }, []) // WILL NEED TO CHANGE THIS ONCE UPDATING TO ALLOW FOR USEFFECT TO RE-RENDER WHEN USER EDITS INFO
     console.log(props.info)
 
     // this to handle the user changing their account info username, email, pswd
     const handleEdit = e => {
-        e.preventDefault()
-        let username = e.target.username.value 
-        let email = e.target.email.value
-        let password = e.target.password.value 
+        e.preventDefault() // MAY REMOVE THIS SO THAT PAGE REFRESHES AND RE TRIGGERS USEEFFECT
+        let username =  e.target.username.value 
+        let email =  e.target.email.value 
+        let password =  e.target.password.value 
+        console.log(username);
 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + localStorage.getItem('token'));
