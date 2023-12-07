@@ -18,6 +18,7 @@ export default function Stock(props) {
     const [companyInfo, setCompanyInfo] = useState({})
     const [userStock, setUserStock] = useState([])
     const [stockHistory, setStockHistory] = useState([])
+    const [needPremium, setNeedPremium] = useState(false)
     // const [stockDatesState, setStockDatesState] = useState([])
 
 
@@ -85,18 +86,20 @@ export default function Stock(props) {
                     setCompanyInfo(data)
                 }
             })
-    }, [props.ticker])
-    
-    // fetch stock price history
-    // need to fetch 1 year of historical data, weekly: Math.floor((Date.now()-(365*24*60*60*1000))/1000)
+        }, [props.ticker])
+        
+        // fetch stock price history
+        // need to fetch 1 year of historical data, weekly: Math.floor((Date.now()-(365*24*60*60*1000))/1000)
+        // AS OF 12/2023 THIS IS A PREMIUM API ENDPOINT!!!
     useEffect(() => {
         fetch(`https://finnhub.io/api/v1/stock/candle?symbol=${props.ticker}&resolution=W&from=${Math.floor((Date.now()-(365*24*60*60*1000))/1000)}&to=${Math.floor(Date.now()/1000)}&token=${apiKey}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.error) {
-                    console.error(data.error)
-                } else {
-                    setStockHistory(data)
+        .then(res => res.json())
+        .then(data => {
+            if (data.error) {
+                console.error(data.error)
+                setNeedPremium(true)
+            } else {
+                setStockHistory(data)
                 }
             })
     }, [props.ticker]);
@@ -140,8 +143,12 @@ export default function Stock(props) {
                 }
             </div>
             {/* row3: chart */}
-            {/* placeholder chart */}
-            {/* <div className="row border rounded m-3" style={{height: '25vh'}}> */}
+            {/* HISTORICAL STOCK PRICES/CANDLES NO LONGER FREE FEATURE 12/2023 */}
+            {needPremium ? 
+            <p className="col text-center lead fst-italic text-warning">Sorry, charts are a PREMIUM feature</p>
+            :
+            null 
+            }
             {/* need to import Chart from 'chart.js/auto' as above to be able to view charts... */}
             {/* new chart */}
                 <div className='row justify-content-center mb-4 '>
