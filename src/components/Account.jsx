@@ -93,8 +93,8 @@ export default function Account(props) {
 
             {/* TESTING EDIT USER INFO */}
             {/* best here is for user to click EDIT, and when they do so, the current edit field should turn into an input field right then and there. so 'Username: ajp' becomes 'Enter new username' input field */}
-            <div className="row w-50 align-items-center  ">
-                <div className="row">
+            {/* <div className="row w-50 align-items-center  "> */}
+                {/* <div className="row">
                     <div className="col d-flex align-items-center justify-content-evenly">
                         Username:
                         {editing ? 
@@ -117,7 +117,8 @@ export default function Account(props) {
                 <div className="row">
                     <div className="col">Password: --------</div>
                     <button className="col-4 h-75 btn btn-dark" name='password' >Edit</button>
-                </div><br /><br />
+                </div>
+                <br /><br /> */}
                 {/* <form>
                     <label htmlFor="email">New Email</label>
                     <input type="text" className='form-control w-50' placeholder={props.info.email} name='email'/>
@@ -128,7 +129,7 @@ export default function Account(props) {
                     <input type="password" className='form-control w-50' placeholder='--' name='password'/>
                     <br />
                 </form> */}
-            </div>
+            {/* </div> */}
 
             <br /><br /><br /><br />
         </>
