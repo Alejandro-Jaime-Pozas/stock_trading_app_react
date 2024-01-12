@@ -1,5 +1,5 @@
 // copy html from react social media
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 // import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { urlMain } from '../Keys';
@@ -11,12 +11,15 @@ export default function Login(props) {
     useEffect(() => {
         document.title = Login.name 
     }, [])
+
+    const [clicked, setClicked] = useState(false)
     
 
     // make async fn here
     const handleSubmit = async e => {
         e.preventDefault();
         console.log('Logging in');
+        setClicked(true)
         
         let username = e.target.username.value;
         let password = e.target.password.value;
@@ -57,6 +60,7 @@ export default function Login(props) {
             navigate('/portfolio');
         } else {
             props.flashMsg('Your username/password are incorrect, try again', 'warning');
+            setClicked(false)
         }
     }
     
@@ -65,7 +69,7 @@ export default function Login(props) {
         <h4 className="text-center">Login</h4>
         <form onSubmit={handleSubmit}>
             <div className="form-group">
-
+                
                 <label htmlFor="username">Username</label>
                 <input type="text" className='form-control' placeholder='Enter Username' name='username' required/>
                 <br />
@@ -76,6 +80,20 @@ export default function Login(props) {
                 <input type="submit" value='Login' className='btn btn-dark w-100 mt-3' />
             </div>
         </form>
+        <hr />
+        { 
+            clicked 
+            ? 
+            (
+            <div className="d-flex justify-content-center">
+                <div className="spinner-border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            )
+            :
+            null
+        }
 
         </>
   )
