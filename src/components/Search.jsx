@@ -16,15 +16,12 @@ export default function Search(props) {
     // create a ref for the input element
     const searchInputRef = useRef(null)
 
-    // use useEffect to place the user's cursor in the search bar on first page render
-    useEffect(() => {
-      searchInputRef.current.focus()
-    }, [])
     
-
     // create useEffect to display on every search render, include url w dynamic search keyword option, fetch list data (console.log)
     useEffect(() => {
         document.title = Search.name
+        // use useEffect to place the user's cursor in the search bar on first page render
+        searchInputRef.current.focus()
         if (search) {
             fetch(`https://finnhub.io/api/v1/search?q=${search}&token=${apiKey}`) // IF THIS WORKS, TRY SETTING THE API KEY TO A FN VS VARIABLE
             .then(res => res.json())
@@ -33,7 +30,6 @@ export default function Search(props) {
                 console.log(searchResults);
                 setResults(searchResults)
             })
-
         }
     }, [search])
     // create handle submit when user enters ticker input to change the state of the search keyword and update/fetch search results list
