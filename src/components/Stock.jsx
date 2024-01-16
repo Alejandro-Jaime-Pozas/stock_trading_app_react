@@ -18,6 +18,29 @@ export default function Stock(props) {
     const [companyInfo, setCompanyInfo] = useState({})
     const [userStock, setUserStock] = useState([])
     const [stockHistory, setStockHistory] = useState([])
+    const [stockHistoryAV, setStockHistoryAV] = useState({
+        "Meta Data": {
+            "1. Information": "Monthly Prices (open, high, low, close) and Volumes",
+            "2. Symbol": "AAPL",
+            "3. Last Refreshed": "2024-01-12",
+            "4. Time Zone": "US/Eastern"
+        },
+        "Monthly Time Series": {
+            "2024-01-12": {
+                "1. open": "187.1500",
+                "2. high": "188.4400",
+                "3. low": "180.1700",
+                "4. close": "185.9200",
+                "5. volume": "513469005"
+            },
+            "2023-12-29": {
+                "1. open": "190.3300",
+                "2. high": "199.6200",
+                "3. low": "187.4511",
+                "4. close": "192.5300",
+                "5. volume": "1062317718"
+            },}}
+            )
     const [needPremium, setNeedPremium] = useState(false)
     // const [stockDatesState, setStockDatesState] = useState([])
 
