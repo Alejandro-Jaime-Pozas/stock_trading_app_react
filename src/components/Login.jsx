@@ -68,7 +68,7 @@ export default function Login(props) {
         <>
         <h4 className="text-center">Login</h4>
         <form onSubmit={handleSubmit}>
-            <div className="form-group">
+            <div className="form-group col-8 col-md-6 col-lg-4 mx-auto my-5">
                 
                 <label htmlFor="username">Username</label>
                 <input type="text" className='form-control' placeholder='Enter Username' name='username' required/>

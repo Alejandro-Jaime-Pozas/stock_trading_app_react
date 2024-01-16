@@ -4,7 +4,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { apiKey, urlMain } from '../Keys'
+import { apiKey, apiKeyAlpha, urlMain } from '../Keys'
 import Trade from './Trade'
 import { Line } from 'react-chartjs-2';
 // need this code below to import all of the chartjs funcionality and to view charts on web app
@@ -104,7 +104,15 @@ export default function Stock(props) {
             })
     }, [props.ticker]);
 
-    // takes a stock's timestamps array and converts to dates array
+    // fetch stock price history by month
+    useEffect(() => {
+        fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=${props.ticker}&apikey=${apiKeyAlpha}`)
+        .then(res => res.json())
+        .then(data => console.log(data))
+    }, [props.ticker])
+
+
+    // FINNHUB: takes a stock's timestamps array and converts to dates array
     const stockDates = unix_timestamps => {
         const dates = unix_timestamps.map(unix => {
             const d = new Date(unix * 1000)
@@ -112,6 +120,8 @@ export default function Stock(props) {
         })
         return dates
     };
+
+    // ALLPHAVANTAGE: takes a stock's date string and converts to mm-dd format
 
     // console.log('here is the ticker: ', typeof props.ticker, props.ticker);
     // console.log(financials, quote, companyInfo, userStock)
