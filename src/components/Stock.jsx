@@ -183,12 +183,6 @@ export default function Stock(props) {
                 }
             </div>
             {/* row3: chart */}
-            {/* HISTORICAL STOCK PRICES/CANDLES NO LONGER FREE FEATURE 12/2023 */}
-            {needPremium ? 
-            <p className="col text-center lead fst-italic text-warning">Sorry, charts are a PREMIUM feature</p>
-            :
-            null 
-            }
             {/* need to import Chart from 'chart.js/auto' as above to be able to view charts... */}
             {/* new chart */}
                 <div className='row justify-content-center mb-4 '>
