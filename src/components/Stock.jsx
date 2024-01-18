@@ -127,15 +127,22 @@ export default function Stock(props) {
             })
     }, [props.ticker]);
 
-    // fetch stock price history by month
+    // alphaVantage fetch stock price history by month
     useEffect(() => {
         fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=${props.ticker}&apikey=${apiKeyAlpha}`)
         .then(res => res.json())
-        .then(data => console.log(data))
+        .then(data => {
+            // Extract date and values from "4. close" key and create an object
+            const datePrice = Object.entries(data["Monthly Time Series"]).slice(0, 12).reverse().reduce((obj, [date, entry]) => {
+                obj[date] = entry["4. close"];
+                return obj;
+              }, {});
+            setStockHistoryAV(datePrice)
+        })
     }, [props.ticker])
 
 
-    // FINNHUB: takes a stock's timestamps array and converts to dates array
+    // FINNHUB takes a stock's timestamps array and converts to dates array
     const stockDates = unix_timestamps => {
         const dates = unix_timestamps.map(unix => {
             const d = new Date(unix * 1000)
@@ -187,13 +194,16 @@ export default function Stock(props) {
                 <div className='row justify-content-center mb-4 '>
                     <Line
                         data={{
-                            // change labels to dates of included timestamps >>> stockHistory.t
-                            labels: stockHistory.t ? stockDates(stockHistory.t) : null,
+                            // change labels to dates of included timestamps >> stockHistory.t
+                            // LABELS FOR FINNHUB
+                            // labels: stockHistory.t ? stockDates(stockHistory.t) : null,
+                            labels: Object.keys(stockHistoryAV) ? Object.keys(stockHistoryAV) : null,
                             datasets: [
                                 {
                                     // need to create a new array w timestamps mapped to dd/mm/yyyy
                                     label: props.ticker,
-                                    data: stockHistory.c,
+                                    // data: stockHistory.c,
+                                    data: Object.values(stockHistoryAV),
                                     backgroundColor: quote.dp >= 0 ? 'green' : 'red',
                                     borderColor: quote.dp >= 0 ? 'green' : 'red',
                                 }
