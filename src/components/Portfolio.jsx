@@ -39,8 +39,8 @@ export default function Portfolio(props) {
                 // console.log('did data above print 3?')
         props.getUserInfo()
     }, [])
-    console.log(userStocks);
-    console.log(userQuotes);
+    // console.log(userStocks);
+    // console.log(userQuotes);
 
     // finnhub: need useEffect to fetch and store each stock price for each ticker in a new array, then display the desired data in return fn
     // okay, esta muy random lo que hace el useeffect con el fetch. osea agarra las stocks random sin orden y las imprime tres veces cada una.
@@ -54,7 +54,7 @@ export default function Portfolio(props) {
             prices.push(data)
             // .catch(err => console.log(err))
         }
-        console.log(prices)
+        // console.log(prices)
         return prices
     }
     
