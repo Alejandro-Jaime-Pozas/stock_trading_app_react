@@ -1,14 +1,12 @@
 // SHOWS STOCK TICKER, STOCK PRICE, STOCK HISTORICAL GRAPH PERFORMANCE, AS WELL AS FINANCIAL INFO LIKE PE RATIO, MARKET CAP, 52W HIGH/LOW. SHOWS TRADE BUTTON TO REDIRECT USER TO TRADE PAGE
-    // display info from finnhub for a particular stock
 import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { apiKey, apiKeyAlpha, urlMain } from '../Keys'
 import Trade from './Trade'
-import { Line } from 'react-chartjs-2';
-// need this code below to import all of the chartjs funcionality and to view charts on web app
-import Chart from 'chart.js/auto';
+import StockChart from './StockChart'
+
 
 export default function Stock(props) {
 
@@ -19,29 +17,7 @@ export default function Stock(props) {
     const [companyNews, setCompanyNews] = useState([])
     const [userStock, setUserStock] = useState([])
     const [stockHistory, setStockHistory] = useState([])
-    const [stockHistoryAV, setStockHistoryAV] = useState({
-        "Meta Data": {
-            "1. Information": "Monthly Prices (open, high, low, close) and Volumes",
-            "2. Symbol": "AAPL",
-            "3. Last Refreshed": "2024-01-12",
-            "4. Time Zone": "US/Eastern"
-        },
-        "Monthly Time Series": {
-            "2024-01-12": {
-                "1. open": "187.1500",
-                "2. high": "188.4400",
-                "3. low": "180.1700",
-                "4. close": "185.9200",
-                "5. volume": "513469005"
-            },
-            "2023-12-29": {
-                "1. open": "190.3300",
-                "2. high": "199.6200",
-                "3. low": "187.4511",
-                "4. close": "192.5300",
-                "5. volume": "1062317718"
-            },}}
-            )
+    const [stockHistoryAV, setStockHistoryAV] = useState({})
     const [needPremium, setNeedPremium] = useState(false)
     // const [stockDatesState, setStockDatesState] = useState([])
 
@@ -115,11 +91,11 @@ export default function Stock(props) {
     // fetch stock price history
     // AS OF 12/2023 THIS IS A PREMIUM API ENDPOINT!!!
     useEffect(() => {
-        fetch(`https://finnhub.io/api/v1/company-news?symbol=${props.ticker}&from=${Math.floor((Date.now()-(365*24*60*60*1000))/1000)}&to=${Math.floor(Date.now()/1000)}&token=${apiKey}`)
+        fetch(`https://finnhub.io/api/v1/stock/candle?symbol=${props.ticker}&from=${Math.floor((Date.now()-(365*24*60*60*1000))/1000)}&to=${Math.floor(Date.now()/1000)}&token=${apiKey}`)
         .then(res => res.json())
         .then(data => {
             if (data.error) {
-                console.error(data.error)
+                // console.error(data.error)
                 setNeedPremium(true)
             } else {
                 setStockHistory(data)
@@ -140,16 +116,18 @@ export default function Stock(props) {
     // handle dates for fetching company news
     function newsDates () {
         let today = new Date()
-        let todayMinus5 = today - (5*24*60*60*1000) // this in milliseconds.
+        let todayMinus5 = new Date(today - (5*24*60*60*1000)) // this in milliseconds.
+        today = formatDate(today)
+        todayMinus5 = formatDate(todayMinus5)
         return {
-            "today": formatDate(today),
-            "minus5": formatDate(todayMinus5)
+            "today": today,
+            "minus5": todayMinus5
         }
     }
     // fetch stock company news
     useEffect(() => {
         let dates = newsDates()
-        fetch(`https://finnhub.io/api/v1/company-news?symbol=${props.ticker}&from=${dates.today}&to=${dates.minus5}&token=${apiKey}`)
+        fetch(`https://finnhub.io/api/v1/company-news?symbol=${props.ticker}&from=${dates.minus5}&to=${dates.today}&token=${apiKey}`)
         .then(res => res.json())
         .then(data => {
             if (data.error) {
@@ -160,6 +138,7 @@ export default function Stock(props) {
             }
         })
     }, [props.ticker])
+    console.log(companyNews)
 
     // alphaVantage fetch stock price history by month
     useEffect(() => {
@@ -167,11 +146,15 @@ export default function Stock(props) {
         .then(res => res.json())
         .then(data => {
             // Extract date and values from "4. close" key and create an object
-            const datePrice = Object.entries(data["Monthly Time Series"]).slice(0, 12).reverse().reduce((obj, [date, entry]) => {
+            if (data.error) {
+                // console.log(data.error)
+                console()
+            } else {const datePrice = Object.entries(data["Monthly Time Series"]).slice(0, 12).reverse().reduce((obj, [date, entry]) => {
                 obj[date] = entry["4. close"];
                 return obj;
               }, {});
             setStockHistoryAV(datePrice)
+            }
         })
     }, [props.ticker])
 
@@ -219,50 +202,7 @@ export default function Stock(props) {
             {/* row3: chart */}
             {/* need to import Chart from 'chart.js/auto' as above to be able to view charts... */}
             {/* new chart */}
-                <div className='row justify-content-center mb-4 '>
-                    <Line
-                        data={{
-                            // change labels to dates of included timestamps >> stockHistory.t
-                            // LABELS FOR FINNHUB
-                            // labels: stockHistory.t ? stockDates(stockHistory.t) : null,
-                            labels: Object.keys(stockHistoryAV) ? Object.keys(stockHistoryAV) : null,
-                            datasets: [
-                                {
-                                    // need to create a new array w timestamps mapped to dd/mm/yyyy
-                                    label: props.ticker,
-                                    // data: stockHistory.c,
-                                    data: Object.values(stockHistoryAV),
-                                    backgroundColor: quote.dp >= 0 ? 'green' : 'red',
-                                    borderColor: quote.dp >= 0 ? 'green' : 'red',
-                                }
-                            ]
-                        }}
-                        // height={200}
-                        // width={300}
-                        options={{
-                            // display option within scales removes x axis labels...
-                            scales: {
-                                x: {
-                                    ticks: {
-                                        display: false
-                                    }
-                                }
-                            },
-                            // maintainAspectRatio: false,
-                            responsive: true,
-                            legend: {
-                                display: false
-                            },
-                            tooltips: {
-                                callbacks: {
-                                   label: function(tooltipItem) {
-                                          return tooltipItem.yLabel;
-                                   }
-                                }
-                            }
-                        }}
-                    />
-                </div>
+            <StockChart ticker={props.ticker} stockHistoryAV={stockHistoryAV} quote={quote} stockHistory={stockHistory} ></StockChart>
             {/* row4:  */}
             <div className="row gy-3">
                 {/* need user's num of shares for this */}
