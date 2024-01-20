@@ -16,6 +16,7 @@ export default function Stock(props) {
     const [financials, setFinancials] = useState({})
     const [quote, setQuote] = useState({})
     const [companyInfo, setCompanyInfo] = useState({})
+    const [companyNews, setCompanyNews] = useState([])
     const [userStock, setUserStock] = useState([])
     const [stockHistory, setStockHistory] = useState([])
     const [stockHistoryAV, setStockHistoryAV] = useState({
@@ -44,7 +45,7 @@ export default function Stock(props) {
     const [needPremium, setNeedPremium] = useState(false)
     // const [stockDatesState, setStockDatesState] = useState([])
 
-
+    // get user and user stock if user owns stock
     useEffect(() => {
         document.title = props.ticker 
         let token = localStorage.getItem('token');
@@ -111,11 +112,10 @@ export default function Stock(props) {
             })
         }, [props.ticker])
         
-        // fetch stock price history
-        // need to fetch 1 year of historical data, weekly: Math.floor((Date.now()-(365*24*60*60*1000))/1000)
-        // AS OF 12/2023 THIS IS A PREMIUM API ENDPOINT!!!
+    // fetch stock price history
+    // AS OF 12/2023 THIS IS A PREMIUM API ENDPOINT!!!
     useEffect(() => {
-        fetch(`https://finnhub.io/api/v1/stock/candle?symbol=${props.ticker}&resolution=W&from=${Math.floor((Date.now()-(365*24*60*60*1000))/1000)}&to=${Math.floor(Date.now()/1000)}&token=${apiKey}`)
+        fetch(`https://finnhub.io/api/v1/company-news?symbol=${props.ticker}&from=${Math.floor((Date.now()-(365*24*60*60*1000))/1000)}&to=${Math.floor(Date.now()/1000)}&token=${apiKey}`)
         .then(res => res.json())
         .then(data => {
             if (data.error) {
@@ -126,6 +126,40 @@ export default function Stock(props) {
                 }
             })
     }, [props.ticker]);
+
+    // convert to yyyy-mm-dd
+    function formatDate (date) {
+        // Get year, month, and day
+        var year = date.getFullYear();
+        var month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+        var day = date.getDate().toString().padStart(2, '0');
+        // Format the date as yyyy-mm-dd
+        var formattedDate = year + '-' + month + '-' + day;
+        return formattedDate
+    }
+    // handle dates for fetching company news
+    function newsDates () {
+        let today = new Date()
+        let todayMinus5 = today - (5*24*60*60*1000) // this in milliseconds.
+        return {
+            "today": formatDate(today),
+            "minus5": formatDate(todayMinus5)
+        }
+    }
+    // fetch stock company news
+    useEffect(() => {
+        let dates = newsDates()
+        fetch(`https://finnhub.io/api/v1/company-news?symbol=${props.ticker}&from=${dates.today}&to=${dates.minus5}&token=${apiKey}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.error) {
+                console.error(data.error)
+            } else {
+                setCompanyNews(data)
+                console.log(data)
+            }
+        })
+    }, [props.ticker])
 
     // alphaVantage fetch stock price history by month
     useEffect(() => {
