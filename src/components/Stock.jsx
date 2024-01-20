@@ -88,21 +88,6 @@ export default function Stock(props) {
             })
         }, [props.ticker])
         
-    // fetch stock price history
-    // AS OF 12/2023 THIS IS A PREMIUM API ENDPOINT!!!
-    useEffect(() => {
-        fetch(`https://finnhub.io/api/v1/stock/candle?symbol=${props.ticker}&from=${Math.floor((Date.now()-(365*24*60*60*1000))/1000)}&to=${Math.floor(Date.now()/1000)}&token=${apiKey}`)
-        .then(res => res.json())
-        .then(data => {
-            if (data.error) {
-                // console.error(data.error)
-                setNeedPremium(true)
-            } else {
-                setStockHistory(data)
-                }
-            })
-    }, [props.ticker]);
-
     // convert to yyyy-mm-dd
     function formatDate (date) {
         // Get year, month, and day
@@ -133,12 +118,11 @@ export default function Stock(props) {
             if (data.error) {
                 console.error(data.error)
             } else {
-                setCompanyNews(data)
-                console.log(data)
+                setCompanyNews(data.slice(0,15))
             }
         })
     }, [props.ticker])
-    console.log(companyNews)
+    // console.log(companyNews)
 
     // alphaVantage fetch stock price history by month
     useEffect(() => {
@@ -158,15 +142,29 @@ export default function Stock(props) {
         })
     }, [props.ticker])
 
+    // // OLD FINNHUB STOCK CANDLE HISTORY DATA: fetch stock price history
+    // // AS OF 12/2023 THIS IS A PREMIUM API ENDPOINT!!!
+    // useEffect(() => {
+    //     fetch(`https://finnhub.io/api/v1/stock/candle?symbol=${props.ticker}&from=${Math.floor((Date.now()-(365*24*60*60*1000))/1000)}&to=${Math.floor(Date.now()/1000)}&token=${apiKey}`)
+    //     .then(res => res.json())
+    //     .then(data => {
+    //         if (data.error) {
+    //             // console.error(data.error)
+    //             setNeedPremium(true)
+    //         } else {
+    //             setStockHistory(data)
+    //             }
+    //         })
+    // }, [props.ticker]);
 
-    // FINNHUB takes a stock's timestamps array and converts to dates array
-    const stockDates = unix_timestamps => {
-        const dates = unix_timestamps.map(unix => {
-            const d = new Date(unix * 1000)
-            return d.getMonth()+1 + '/' + d.getDate() + '/' + d.getFullYear()
-        })
-        return dates
-    };
+    // // FINNHUB takes a stock's timestamps array and converts to dates array
+    // const stockDates = unix_timestamps => {
+    //     const dates = unix_timestamps.map(unix => {
+    //         const d = new Date(unix * 1000)
+    //         return d.getMonth()+1 + '/' + d.getDate() + '/' + d.getFullYear()
+    //     })
+    //     return dates
+    // };
 
     // ALLPHAVANTAGE: takes a stock's date string and converts to mm-dd format
 
@@ -212,7 +210,7 @@ export default function Stock(props) {
                 <div className="col mb-3">${Number((userStock.real_value)) ? Number((userStock.real_value)?.toFixed(2)).toLocaleString() : 0}</div>
             </div>
             {/* row5: financials - 52w-high, 52low, pe-ratio, mktcap, dividendyield, trading volume */}
-            <div className="row">
+            <div className="row mb-5">
                 <div className="col-3 mb-3"><b>52-week high:</b></div>
                 <div className="col-3 mb-3">${Number(financials['52WeekHigh'])?.toFixed(2)}</div>
                 <div className="col-3 mb-3"><b>PE ratio:</b></div>
@@ -226,6 +224,25 @@ export default function Stock(props) {
                 <div className="col-3 mb-3"><b>Volume:</b></div>
                 <div className="col-3 mb-3">{Number(financials['10DayAverageTradingVolume'])?.toFixed(2)}</div>
             </div>
+            {/* add cards with latest company news */}
+            {companyNews.map((article, i) => {
+                return (
+                    <>
+                        <div className="card m-2 mb-3 text-center col-12 col-md-8 col-xl-6 mx-auto" key={i} >
+                            <img 
+                                src={article.image ? article.image : 'https://image.cnbcfm.com/api/v1/image/107163364-1670512755561-gettyimages-1352401307-img_9237_1636530357.jpeg?v=1677537162&w=929&h=523&vtcrop=y'} className="card-img-top mx-auto col-6" 
+                                alt="..." 
+                            />
+                            <div className="card-body">
+                                <h5 className="card-title">{article.headline}</h5>
+                                <p className="card-text">{article.summary}</p>
+                                <a href={article.url} className="btn btn-success" target='blank'>Full {article.source} Article</a>
+                            </div>
+                        </div>
+                    </>
+                )
+            })
+            }
             <div hidden>
                 <Trade userStock={userStock} hidden />
             </div>
