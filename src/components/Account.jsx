@@ -9,7 +9,13 @@ import { Link } from 'react-router-dom'
 export default function Account(props) {
 
     const [editing, setEditing] = useState(false)
+    const credentials = [
+        {'Username': props.info.username}, 
+        {'Email': props.info.email}, 
+        {'Password': props.info.password},
+    ]
 
+    console.log(credentials)
     // fetch user's info to display
     useEffect(() => { 
         document.title = Account.name
@@ -61,21 +67,29 @@ export default function Account(props) {
 
             <br /><br />
 
-            <form onSubmit={handleEdit} className="row form-group text-center">
-                {/* <label className='col' htmlFor="username">New Username</label> */}
-                <div className="col">Username: {props.info.username}</div>
-                {/* <input className='my-2 form-control' type="text"  placeholder={info.username} name='username'/> */}
-            <br />
-                {/* <label className='col' htmlFor="email">New Email</label> */}
-                <div className="col ">Email: {props.info.email}</div>
-                {/* <input className='my-2 form-control' type="text"  placeholder={info.email} name='email'/> */}
-            <br />
-                {/* <label className='col' htmlFor="password">New Password</label> */}
-                {/* <input className='my-2 form-control' type="password"  placeholder='--' name='password'/> */}
-
-                {/* <input type='submit' value='Edit' className="col-4 h-75 btn btn-dark" /> */}
-            </form>
-
+            <div className="row align-items-center text-center mb-5 " >
+            {credentials.map((cred, i) => {
+                return (
+                <div className="row d-flex justify-content-around my-2" key={i}>
+                    <div className="col-4 ">
+                        {Object.keys(cred)}:
+                        {
+                            editing 
+                            ? 
+                            <form className="">
+                                <input type="text" className='form-control' placeholder={`New ${Object.keys(cred)}`} name={Object.keys(cred)}/>
+                            </form>
+                            :
+                            ' ' + Object.values(cred)
+                        }
+                    </div>
+                    <button className={`col-4 h-75 btn btn-${!editing ? 'dark' : 'success'}`} name={Object.keys(cred)} onClick={handleClick} >
+                        {!editing ? 'Edit' : 'Confirm'}
+                    </button>
+                </div>
+                )
+            })}
+            </div>
             <br /><br />
             <div className="row text-center">
                 <div className="col">Your Cash Funds</div>
@@ -93,45 +107,17 @@ export default function Account(props) {
 
             {/* TESTING EDIT USER INFO */}
             {/* best here is for user to click EDIT, and when they do so, the current edit field should turn into an input field right then and there. so 'Username: ajp' becomes 'Enter new username' input field */}
-            {/* <div className="row w-50 align-items-center  "> */}
-                {/* <div className="row">
-                    <div className="col d-flex align-items-center justify-content-evenly">
-                        Username:
-                        {editing ? 
-                            <form className="d-flex">
-                                <input type="text" className='form-control' placeholder='New Username' name='username'/>
-                            </form>
-                            :
-                            ' ' + props.info.username
-                        }
-                    </div>
-                    <button className={`col-4 h-75 btn btn-${!editing ? 'dark' : 'success'}`} name='username' onClick={handleClick} >
-                        {!editing ? 'Edit' : 'Confirm'}
-                    </button>
-                </div>
-<br /><br />
-                <div className="row">
-                    <div className="col">Email: {props.info.email}</div>
-                    <button className="col-4 h-75 btn btn-dark" name='email' >Edit</button>
-                </div><br /><br />
-                <div className="row">
-                    <div className="col">Password: --------</div>
-                    <button className="col-4 h-75 btn btn-dark" name='password' >Edit</button>
-                </div>
-                <br /><br /> */}
-                {/* <form>
-                    <label htmlFor="email">New Email</label>
-                    <input type="text" className='form-control w-50' placeholder={props.info.email} name='email'/>
-                </form>
-                <br />
-                <form>
-                    <label htmlFor="password">New Password</label>
-                    <input type="password" className='form-control w-50' placeholder='--' name='password'/>
-                    <br />
-                </form> */}
-            {/* </div> */}
-
-            <br /><br /><br /><br />
         </>
     )
 }
+
+{/* <form>
+<label htmlFor="email">New Email</label>
+<input type="text" className='form-control w-50' placeholder={props.info.email} name='email'/>
+</form>
+<br />
+<form>
+<label htmlFor="password">New Password</label>
+<input type="password" className='form-control w-50' placeholder='--' name='password'/>
+<br />
+</form> */}
