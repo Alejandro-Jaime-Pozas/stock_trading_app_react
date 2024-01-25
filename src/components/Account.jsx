@@ -10,9 +10,9 @@ export default function Account(props) {
 
     const [editing, setEditing] = useState(false)
     const credentials = [
-        {'Username': props.info.username}, 
-        {'Email': props.info.email}, 
-        {'Password': props.info.password},
+        {'username': props.info.username}, 
+        {'email': props.info.email}, 
+        {'password': props.info.password},
     ]
 
     console.log(credentials)
