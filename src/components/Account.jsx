@@ -8,14 +8,13 @@ import { Link } from 'react-router-dom'
 
 export default function Account(props) {
 
-    const [editing, setEditing] = useState(false)
+    const [editing, setEditing] = useState(null)
     const credentials = [
         {'username': props.info.username}, 
         {'email': props.info.email}, 
         {'password': props.info.password},
     ]
 
-    console.log(credentials)
     // fetch user's info to display
     useEffect(() => { 
         document.title = Account.name
@@ -26,7 +25,8 @@ export default function Account(props) {
     // handle when user clicks one of the edit buttons, so that the button that's clicked changes its value from user info to input for editing. should only edit one field at a given time, flash msg otherwise, and also if they try to change page/refresh open a modal to ensure they don't want to edit.
     const handleClick = e => {
         e.preventDefault()
-        !editing ? setEditing(true) : setEditing(false)
+        let editing_field = e.target.name
+        !editing ? setEditing(editing_field) : setEditing(null)
     }
     console.log(editing);
 
@@ -64,27 +64,27 @@ export default function Account(props) {
     return (
         <>
             <h4 className="text-center">Account</h4>
-
             <br /><br />
-
             <div className="row align-items-center text-center mb-5 " >
             {credentials.map((cred, i) => {
+                let keys = Object.keys(cred)[0];
+                let values = Object.values(cred)[0] === undefined ? '*******' : Object.values(cred)[0]
                 return (
                 <div className="row d-flex justify-content-around my-2" key={i}>
                     <div className="col-4 ">
-                        {Object.keys(cred)}:
+                        {keys}:
                         {
                             editing 
                             ? 
                             <form className="">
-                                <input type="text" className='form-control' placeholder={`New ${Object.keys(cred)}`} name={Object.keys(cred)}/>
+                                <input type="text" className='form-control' placeholder={`New ${keys}`} name={keys}/>
                             </form>
                             :
-                            ' ' + Object.values(cred)
+                            ' ' + values
                         }
                     </div>
-                    <button className={`col-4 h-75 btn btn-${!editing ? 'dark' : 'success'}`} name={Object.keys(cred)} onClick={handleClick} >
-                        {!editing ? 'Edit' : 'Confirm'}
+                    <button className={`col-4 h-75 btn btn-${!editing ? 'dark' : editing === keys ? 'success' : 'dark'}`} name={keys} onClick={handleClick} >
+                        {!editing ? 'Edit' : editing === keys ? 'Confirm' : 'Edit'}
                     </button>
                 </div>
                 )
@@ -104,9 +104,6 @@ export default function Account(props) {
             </div>
 
             <br /><br />
-
-            {/* TESTING EDIT USER INFO */}
-            {/* best here is for user to click EDIT, and when they do so, the current edit field should turn into an input field right then and there. so 'Username: ajp' becomes 'Enter new username' input field */}
         </>
     )
 }
