@@ -23,44 +23,44 @@ export default function Account(props) {
     // console.log(props.info)
 
     // handle when user clicks one of the edit buttons, so that the button that's clicked changes its value from user info to input for editing. should only edit one field at a given time, flash msg otherwise, and also if they try to change page/refresh open a modal to ensure they don't want to edit.
-    const handleClick = e => {
+    const handleClick = (e, keys) => {
         e.preventDefault()
-        let editing_field = e.target.name
+        let editing_field = e.target.elements[keys].name
         !editing ? setEditing(editing_field) : setEditing(null)
     }
     console.log(editing);
 
     // this to handle the user changing their account info username, email, pwd
-    const handleEdit = e => {
+    const handleEdit = (e, keys) => {
         e.preventDefault() // MAY REMOVE THIS SO THAT PAGE REFRESHES AND RE TRIGGERS USEEFFECT
-        let username =  e.target.username.value 
-        let email =  e.target.email.value 
-        let password =  e.target.password.value 
-        console.log(username);
+        handleClick(e, keys)
+        console.log(e);
+        // let email =  e.target.email.value === undefined ? 'nothing' : 'something'
+        // let password =  e.target.password.value === undefined ? 'nothing' : 'something'
 
-        var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer " + localStorage.getItem('token'));
-        myHeaders.append("Content-Type", "application/json");
+        // var myHeaders = new Headers();
+        // myHeaders.append("Authorization", "Bearer " + localStorage.getItem('token'));
+        // myHeaders.append("Content-Type", "application/json");
         
-        var raw = JSON.stringify({
-          "username": username,
-          "email": email,
-          "password": password
-        });
-        
-        var requestOptions = {
-          method: 'PUT',
-          headers: myHeaders,
-          body: raw,
-          redirect: 'follow'
-        };
-        
-        fetch(`${urlMain}/auth/users/${props.newId}`, requestOptions)
-          .then(response => response.text())
-          .then(result => console.log(result))
-          .catch(error => console.log('error', error));       
-        }
-
+        // var raw = JSON.stringify({
+            //   "username": username,
+            //   "email": email,
+            //   "password": password
+            // });
+            
+            // var requestOptions = {
+                //   method: 'PUT',
+                //   headers: myHeaders,
+                //   body: raw,
+                //   redirect: 'follow'
+                // };
+                
+                // fetch(`${urlMain}/auth/users/${props.newId}`, requestOptions)
+                //   .then(response => response.text())
+                //   .then(result => console.log(result))
+                //   .catch(error => console.log('error', error));       
+            }
+            
     return (
         <>
             <h4 className="text-center">Account</h4>
@@ -70,23 +70,24 @@ export default function Account(props) {
                 let keys = Object.keys(cred)[0];
                 let values = Object.values(cred)[0] === undefined ? '*******' : Object.values(cred)[0]
                 return (
-                <div className="row d-flex justify-content-around my-2" key={i}>
+                <form className="form-group row d-flex justify-content-around my-2" onSubmit={(e) => handleEdit(e, keys)} key={i}>
                     <div className="col-4 ">
                         {keys}:
                         {
                             editing === keys
                             ? 
-                            <form className="" onSubmit={handleEdit}>
                                 <input type="text" className='form-control' placeholder={`New ${keys}`} name={keys}/>
-                            </form>
                             :
                             ' ' + values
                         }
                     </div>
-                    <button className={`col-4 h-75 btn btn-${!editing ? 'dark' : editing === keys ? 'success' : 'dark'}`} name={keys} onClick={handleClick} >
-                        {!editing ? 'Edit' : editing === keys ? 'Confirm' : 'Edit'}
-                    </button>
-                </div>
+                    <input 
+                        type='submit' 
+                        value={!editing ? 'Edit' : editing === keys ? 'Confirm' : 'Edit'} 
+                        className={`col-4 h-75 btn btn-${!editing ? 'dark' : editing === keys ? 'success' : 'dark'}`} 
+                        name={keys} >
+                    </input>
+                </form>
                 )
             })}
             </div>
