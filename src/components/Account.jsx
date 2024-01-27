@@ -74,9 +74,9 @@ export default function Account(props) {
                     <div className="col-4 ">
                         {keys}:
                         {
-                            editing 
+                            editing === keys
                             ? 
-                            <form className="">
+                            <form className="" onSubmit={handleEdit}>
                                 <input type="text" className='form-control' placeholder={`New ${keys}`} name={keys}/>
                             </form>
                             :
