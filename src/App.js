@@ -30,7 +30,7 @@ function App() {
     // 2
     const [loggedIn, setLoggedIn] = useState(localStorage.getItem('token') ? true : false) // here i should check if user has a valid token, then keep them logged in, dont reset the state to false after refresh
     // 3
-    const [newId, setId] = useState(0)
+    const [newId, setId] = useState(localStorage.getItem('user_id'))
     // 4
     const [ticker, setTicker] = useState('') // NEED TO SET THIS TO LOCAL STORAGE ITEM to prevent refresh?
     // 5

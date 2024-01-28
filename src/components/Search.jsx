@@ -80,8 +80,8 @@ export default function Search(props) {
             ? 
             marketNews.map((article, i) => {
                 return (
-                    <>
-                        <div className="card m-2 text-center col-12 col-md-8 col-xl-6 mx-auto" key={i} >
+                    <div key={i}>
+                        <div className="card m-2 text-center col-12 col-md-8 col-xl-6 mx-auto" >
                             <img src={article.image} className="card-img-top mx-auto col-6" alt="..."/>
                             <div className="card-body">
                                 <h5 className="card-title">{article.headline}</h5>
@@ -89,7 +89,7 @@ export default function Search(props) {
                                 <a href={article.url} className="btn btn-success" target='blank'>Full {article.source} Article</a>
                             </div>
                         </div>
-                    </>
+                    </div>
                 )
             })
             :

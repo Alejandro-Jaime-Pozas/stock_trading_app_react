@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom'
 export default function Account(props) {
 
     const [editing, setEditing] = useState(null)
+    const [changeConfirmed, setChangeConfirmed] = useState(false)
     const credentials = [
         {'username': props.info.username}, 
         {'email': props.info.email}, 
@@ -19,7 +20,8 @@ export default function Account(props) {
     useEffect(() => { 
         document.title = Account.name
         props.getUserInfo()
-    }, []) // WILL NEED TO CHANGE THIS ONCE UPDATING TO ALLOW FOR USEFFECT TO RE-RENDER AFTER USER EDITS INFO
+        setChangeConfirmed(false)
+    }, [changeConfirmed]) // WILL NEED TO CHANGE THIS ONCE UPDATING TO ALLOW FOR USEFFECT TO RE-RENDER AFTER USER EDITS INFO
     // console.log(props.info)
 
     // handle when user clicks one of the edit buttons, so that the button that's clicked changes its value from user info to input for editing. should only edit one field at a given time, flash msg otherwise, and also if they try to change page/refresh open a modal to ensure they don't want to edit.
@@ -39,35 +41,32 @@ export default function Account(props) {
 
     // this to handle the user changing their account info username, email, pwd
     const handleEdit = (e, keys) => {
-        e.preventDefault() // MAY REMOVE THIS SO THAT PAGE REFRESHES AND RE TRIGGERS USEEFFECT
+        // e.preventDefault() // MAY REMOVE THIS SO THAT PAGE REFRESHES AND RE TRIGGERS USEEFFECT
         handleConfirmClick(e, keys)
-        let username = e.target.username.value === undefined ? 'NO DATA' : e.target.username.value
-        let email = e.target.email.value === undefined ? 'NO DATA' : e.target.email.value
-        let password = e.target.password.value === undefined ? 'NO DATA' : e.target.password.value
-        console.log(username, email, password)
+        let attributeChange = e.target[0].value
 
-        // var myHeaders = new Headers();
-        // myHeaders.append("Authorization", "Bearer " + localStorage.getItem('token'));
-        // myHeaders.append("Content-Type", "application/json");
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + localStorage.getItem('token'));
+        myHeaders.append("Content-Type", "application/json");
         
-        // var raw = JSON.stringify({
-            //   "username": username,
-            //   "email": email,
-            //   "password": password
-            // });
+        var raw = JSON.stringify({
+              [keys] : attributeChange
+            });
             
-            // var requestOptions = {
-                //   method: 'PUT',
-                //   headers: myHeaders,
-                //   body: raw,
-                //   redirect: 'follow'
-                // };
-                
-                // fetch(`${urlMain}/auth/users/${props.newId}`, requestOptions)
-                //   .then(response => response.text())
-                //   .then(result => console.log(result))
-                //   .catch(error => console.log('error', error));       
-            }
+        var requestOptions = {
+                method: 'PUT',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+            
+            fetch(`${urlMain}/auth/users/${props.newId}`, requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
+
+        setChangeConfirmed(true)
+    }
             
     return (
         <>
@@ -78,12 +77,12 @@ export default function Account(props) {
                 let keys = Object.keys(cred)[0];
                 let values = Object.values(cred)[0] === undefined ? '*******' : Object.values(cred)[0]
                 return (
-                    <div>
+                    <div key={i}>
                     {
                         editing === keys
                         ?
                         // IF EDIT BUTTON HAS BEEN CLICKED, SHOW INPUT FIELD AND CONFIRM BUTTON
-                            <form className="form-group row d-flex justify-content-around my-2" onSubmit={(e) => handleEdit(e, keys)} key={i}>
+                            <form className="form-group row d-flex justify-content-around my-2" onSubmit={(e) => handleEdit(e, keys)} >
                                 <div className="col-4 ">
                                     {keys}:
                                     <input type="text" className='form-control' placeholder={`New ${keys}`} name={keys}/>

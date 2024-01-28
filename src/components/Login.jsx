@@ -84,13 +84,17 @@ export default function Login(props) {
         { 
             clicked 
             ? 
-            (
-            <div className="d-flex justify-content-center">
-                <div className="spinner-border" role="status">
-                    <span className="visually-hidden">Loading...</span>
+            <>
+                <div className="d-flex justify-content-center">
+                    <div className="spinner-border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
                 </div>
-            </div>
-            )
+                <br />
+                <div className="d-flex justify-content-center">
+                    <p>Firing up a server which could take some time since the hosting is free..</p>
+                </div>
+            </>
             :
             null
         }

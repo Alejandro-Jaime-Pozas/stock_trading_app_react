@@ -227,8 +227,8 @@ export default function Stock(props) {
             {/* add cards with latest company news */}
             {companyNews.map((article, i) => {
                 return (
-                    <div>
-                        <div className="card m-2 mb-3 text-center col-12 col-md-8 col-xl-6 mx-auto" key={i} >
+                    <div key={i}>
+                        <div className="card m-2 mb-3 text-center col-12 col-md-8 col-xl-6 mx-auto" >
                             <img 
                                 src={article.image ? article.image : 'https://image.cnbcfm.com/api/v1/image/107163364-1670512755561-gettyimages-1352401307-img_9237_1636530357.jpeg?v=1677537162&w=929&h=523&vtcrop=y'} className="card-img-top mx-auto col-6" 
                                 alt="..." 
