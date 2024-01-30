@@ -16,6 +16,21 @@ export default function Portfolio(props) {
     // flask: need to get all the user's stocks to see if they already have a stock, do a put vs post a new stock...
     // create fn to fetch all the user stocks from api and return an array of those stocks
     
+    // finnhub: need useEffect to fetch and store each stock price for each ticker in a new array, then display the desired data in return fn
+    // okay, esta muy random lo que hace el useeffect con el fetch. osea agarra las stocks random sin orden y las imprime tres veces cada una.
+    // WHAT I NEED TO DO IS, DO THE FETCH AND ALL THE FUNCTIONALITY WITHIN A FN, THEN CALL A USEEFFECT ON THE FN...
+    const currentStockPrices = async (stocks) => {
+        let prices = {}
+        for (let stock of stocks){
+                let res = await fetch(`https://finnhub.io/api/v1/quote?symbol=${stock.ticker}&token=${apiKey}`)
+            let data = await res.json()
+            prices[stock.ticker] = data.c
+            // .catch(err => console.log(err))
+        }
+        console.log(prices)
+        return prices
+    }
+    
     useEffect(() => {
         document.title = 'My Portfolio'
         let token = localStorage.getItem('token');
@@ -29,33 +44,17 @@ export default function Portfolio(props) {
             };
             fetch(`${urlMain}/portfolio/${user_id}`, requestOptions)
                 .then(response => response.json())
-                .then(result => {
+                .then(async result => {
                         setUserStocks(result)
-                        // console.log(result)
-                        setUserQuotes(currentStockPrices())
-                    })
-                    .catch(error => console.log('error', error));
+                        const stockResults = await currentStockPrices(result)
+                        setUserQuotes(stockResults)
+                })
+                .catch(error => console.log('error', error));
                 // console.log('did data above print 3?')
         props.getUserInfo()
     }, [])
     // console.log(userStocks);
     // console.log(userQuotes);
-
-    // finnhub: need useEffect to fetch and store each stock price for each ticker in a new array, then display the desired data in return fn
-    // okay, esta muy random lo que hace el useeffect con el fetch. osea agarra las stocks random sin orden y las imprime tres veces cada una.
-    // WHAT I NEED TO DO IS, DO THE FETCH AND ALL THE FUNCTIONALITY WITHIN A FN, THEN CALL A USEEFFECT ON THE FN...
-
-    const currentStockPrices = async () => {
-        let prices = []
-        for (let i in portfolio){
-            let res = await fetch(`https://finnhub.io/api/v1/quote?symbol=${portfolio[i]}&token=${apiKey}`)
-            let data = await res.json()
-            prices.push(data)
-            // .catch(err => console.log(err))
-        }
-        // console.log(prices)
-        return prices
-    }
     
 
     const handleClick = e => {
@@ -71,6 +70,7 @@ export default function Portfolio(props) {
         }
         return Number(total?.toFixed(0))
     }
+    console.log(userQuotes)
 
 
 
@@ -102,7 +102,12 @@ export default function Portfolio(props) {
                             return (
                                 <div key={i} className="row border-top align-items-center ">
                                     <Link className="col-3 btn btn-dark " to='/stock' onClick={handleClick} >{stock.ticker}</Link>
-                                    <p className="col-3 mt-3 ">${Number(stock.new_price?.toFixed(2)).toLocaleString()}</p>
+                                    {/* if 429 error for too many requests, just output last stock price in userStocks */}
+                                    <p className="col-3 mt-3 ">${Number(
+                                        userQuotes[stock.ticker] !== undefined 
+                                        ? userQuotes[stock.ticker] 
+                                        : stock.new_price?.toFixed(2)
+                                        ).toLocaleString()}</p>
                                     <p className="col-3 mt-3 ">{stock.total_shares?.toLocaleString()}</p>
                                     <p className="col-3 mt-3 ">${Number(stock.real_value?.toFixed(2)).toLocaleString()}</p>
                                 </div>
