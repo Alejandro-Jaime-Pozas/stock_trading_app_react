@@ -1,6 +1,5 @@
 // TODO
     // be able to fetch multiple requests to display each stock's real price quote...
-    // add cash funds uninvested to portfolio view on top of page
 // SHOWS USERS PORTFOLIO TOTAL VALUE, HISTORIC PRICE, STOCKS THEY OWN, STOCKS IN THEIR WATCHLIST
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'

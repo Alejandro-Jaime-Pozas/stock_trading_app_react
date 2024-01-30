@@ -20,7 +20,7 @@ export default function Search(props) {
 
     // create useEffect to display on every search render, include url w dynamic search keyword option, fetch list data (console.log)
     useEffect(() => {
-        document.title = Search.name
+        document.title = 'Search'
         // place the user's cursor in the search bar on first page render
         searchInputRef.current.focus()
         if (search) {

@@ -18,7 +18,7 @@ export default function Account(props) {
 
     // fetch user's info to display
     useEffect(() => { 
-        document.title = Account.name
+        document.title = 'Account'
         props.getUserInfo()
         setChangeConfirmed(false)
     }, [changeConfirmed]) // WILL NEED TO CHANGE THIS ONCE UPDATING TO ALLOW FOR USEFFECT TO RE-RENDER AFTER USER EDITS INFO
@@ -40,7 +40,7 @@ export default function Account(props) {
     // console.log(editing);
 
     // this to handle the user changing their account info username, email, pwd
-    const handleEdit = (e, keys) => {
+    const handleEdit = async (e, keys) => {
         // e.preventDefault() // MAY REMOVE THIS SO THAT PAGE REFRESHES AND RE TRIGGERS USEEFFECT
         handleConfirmClick(e, keys)
         let attributeChange = e.target[0].value
@@ -48,7 +48,7 @@ export default function Account(props) {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + localStorage.getItem('token'));
         myHeaders.append("Content-Type", "application/json");
-        
+
         var raw = JSON.stringify({
               [keys] : attributeChange
             });
@@ -59,11 +59,20 @@ export default function Account(props) {
                 body: raw,
                 redirect: 'follow'
             };
-            
-            fetch(`${urlMain}/auth/users/${props.newId}`, requestOptions)
-                .then(response => response.text())
-                .then(result => console.log(result))
-                .catch(error => console.log('error', error));
+        
+        let response = await fetch(`${urlMain}/auth/users/${props.newId}`, requestOptions)
+        if (response.ok) {
+            let result = await response.text()
+            console.log(result)
+            props.flashMsg(`Your ${keys} has been successfully updated.`, 'info')
+        } else {
+            console.error(`Something wrong with '${keys}: ${attributeChange}', cannot update with PUT method`)
+            props.flashMsg(`${keys}: ${attributeChange} already exists.`, 'warning')
+            return 
+        }
+                // .then(response => response.text())
+                // .then(result => console.log(result))
+                // .catch(error => console.log('error', error));
 
         setChangeConfirmed(true)
     }
@@ -85,7 +94,7 @@ export default function Account(props) {
                             <form className="form-group row d-flex justify-content-around my-2" onSubmit={(e) => handleEdit(e, keys)} >
                                 <div className="col-4 ">
                                     {keys}:
-                                    <input type="text" className='form-control' placeholder={`New ${keys}`} name={keys}/>
+                                    <input type="text" className='form-control' placeholder={`New ${keys}`} name={keys} required/>
                                 </div>
                                 <input 
                                     type='submit'

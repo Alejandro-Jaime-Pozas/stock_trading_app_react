@@ -9,7 +9,7 @@ export default function Login(props) {
     let navigate = useNavigate()
 
     useEffect(() => {
-        document.title = Login.name 
+        document.title = 'Login'
     }, [])
 
     const [clicked, setClicked] = useState(false)
