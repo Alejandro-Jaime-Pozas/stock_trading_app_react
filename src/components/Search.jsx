@@ -67,12 +67,14 @@ export default function Search(props) {
     
     
     return (
-        <>
-            <div className="input-group rounded mb-4">
-                <input onChange={handleSearch} type="search" className="form-control rounded" ref={searchInputRef} placeholder="Search a ticker/company name" aria-label="Search" aria-describedby="search-addon" />
+        <div className='row'>
+            <div className='col-12 col-md-8 col-xl-6 mx-auto'>
+            <div className="input-group rounded mb-4 ">
+                <input onChange={handleSearch} type="search" className="form-control rounded " ref={searchInputRef} placeholder="Search a ticker/company name" aria-label="Search" aria-describedby="search-addon" />
                 <span className="input-group-text border-0" id="search-addon">
                     <i className="fas fa-search"></i>
                 </span>
+            </div>
             </div>
             {
             // if no search params, show market news
@@ -103,6 +105,6 @@ export default function Search(props) {
                     )
             })
             }
-        </>
+        </div>
     )
 }

@@ -9,7 +9,7 @@ export default function Portfolio(props) {
 
 
     const [userStocks, setUserStocks] = useState([])
-    const [userQuotes, setUserQuotes] = useState(123)
+    const [userQuotes, setUserQuotes] = useState({})
                 
     // flask: need to get all the user's stocks to see if they already have a stock, do a put vs post a new stock...
     // create fn to fetch all the user stocks from api and return an array of those stocks
