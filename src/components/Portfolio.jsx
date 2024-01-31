@@ -8,8 +8,6 @@ import { apiKey, urlMain } from '../Keys'
 export default function Portfolio(props) {
 
 
-    // console.log(props.loggedIn)
-    let portfolio = ['AAPL', 'AMZN', 'ROKU']
     const [userStocks, setUserStocks] = useState([])
     const [userQuotes, setUserQuotes] = useState(123)
                 
@@ -27,7 +25,6 @@ export default function Portfolio(props) {
             prices[stock.ticker] = data.c
             // .catch(err => console.log(err))
         }
-        console.log(prices)
         return prices
     }
     
@@ -37,24 +34,36 @@ export default function Portfolio(props) {
         let user_id = localStorage.getItem('user_id');
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token);
+
+        // AbortController allows you to cancel a fetch request if user abandons page
+        const controller = new AbortController();
+        const signal = controller.signal; // include this in requestOptions
+        
         var requestOptions = {
             method: 'GET',
             headers: myHeaders,
-            redirect: 'follow'
+            redirect: 'follow',
+            signal
             };
             fetch(`${urlMain}/portfolio/${user_id}`, requestOptions)
                 .then(response => response.json())
+                // create async fn within promise to handle fetch in currentStockPrices()
                 .then(async result => {
-                        setUserStocks(result)
-                        const stockResults = await currentStockPrices(result)
-                        setUserQuotes(stockResults)
+                    setUserStocks(result)
+                    const stockResults = await currentStockPrices(result)
+                    
+                    await Promise.all([
+                        setUserQuotes(stockResults),
+                        props.getUserInfo()
+                    ])
                 })
                 .catch(error => console.log('error', error));
-                // console.log('did data above print 3?')
-        props.getUserInfo()
+
+        // cleanup
+        return () => {
+            controller.abort();
+        }
     }, [])
-    // console.log(userStocks);
-    // console.log(userQuotes);
     
 
     const handleClick = e => {
@@ -112,7 +121,7 @@ export default function Portfolio(props) {
                                     <p className="col-3 mt-3 ">${Number(stock.real_value?.toFixed(2)).toLocaleString()}</p>
                                 </div>
                             )
-                        })}    
+                        })}
                 </div>
             <div className="my-5 text-center container">
                 {userStocks[0] ? null : <Link to='/search' className='btn btn-dark col p-2' >Search for some stocks</Link>}
