@@ -98,10 +98,10 @@ export default function Search(props) {
             // else show stock search results
             results.map((stock, i) => {
                 return (
-                    <>
-                        <p key={i} className='m-2'>{stock.description}</p>
+                    <div className='col-12 col-md-8 mx-auto'>
+                        <p key={i} className='m-2 '>{stock.description}</p>
                         <Link onClick={handleClick} to='/stock' className="row border rounded my-1 btn btn-light w-100 fs-1">{stock.symbol}</Link>
-                    </>
+                    </div>
                     )
             })
             }

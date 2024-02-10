@@ -14,9 +14,9 @@ export default function Home() {
     return (
         <div>
 
-            <div className='row text-center m-0'>
+            <div className='row text-center m-5'>
                 <h1>Welcome to the Lean Stock Trading App.</h1>
-                <p className='col w-50 '>
+                <p className='col w-50 m-3'>
                     It's never been so easy to invest in the stocks you want. Just look a stock up, view its info, and decide how much to invest.
                 </p>
             </div>
