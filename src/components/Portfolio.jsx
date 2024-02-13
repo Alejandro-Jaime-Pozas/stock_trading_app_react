@@ -124,7 +124,13 @@ export default function Portfolio(props) {
                         })}
                 </div>
             <div className="my-5 text-center container">
-                {userStocks[0] ? null : <Link to='/search' className='btn btn-dark col p-2' >Search for some stocks</Link>}
+                {
+                    userStocks[0] ? null :
+                    <>
+                        <Link to='/account' className='btn btn-success col p-2 m-3' >Add funds to your account</Link>
+                        <Link to='/search' className='btn btn-dark col p-2 m-3' >Search for some stocks</Link>
+                    </>
+                }
             </div>
         </div>
     )
