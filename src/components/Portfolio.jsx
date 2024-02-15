@@ -79,7 +79,7 @@ export default function Portfolio(props) {
         }
         return Number(total?.toFixed(0))
     }
-    console.log(userQuotes)
+    // console.log(userQuotes)
 
 
 
@@ -108,8 +108,10 @@ export default function Portfolio(props) {
                     {/* this will be the data output for userStocks */}
                     {/* the reason this doesn't update is it's not linked at all to the stock's real price. need to do multiple fetches one for each stock user owns to get real time quote */}
                         {userStocks.map((stock, i) => {
-                            return (
-                                <div key={i} className="row border-top align-items-center ">
+                            // since backend also stores user's past stocks with no shares, check only for active stock shares
+                            if (stock.total_shares > 0) {
+                                return (
+                                    <div key={i} className="row border-top align-items-center ">
                                     <Link className="col-3 btn btn-dark " to='/stock' onClick={handleClick} >{stock.ticker}</Link>
                                     {/* if 429 error for too many requests, just output last stock price in userStocks */}
                                     <p className="col-3 mt-3 ">${Number(
@@ -120,7 +122,8 @@ export default function Portfolio(props) {
                                     <p className="col-3 mt-3 ">{stock.total_shares?.toLocaleString()}</p>
                                     <p className="col-3 mt-3 ">${Number(stock.real_value?.toFixed(2)).toLocaleString()}</p>
                                 </div>
-                            )
+                                )
+                            }
                         })}
                 </div>
             <div className="my-5 text-center container">

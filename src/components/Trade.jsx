@@ -43,12 +43,12 @@ export default function Trade(props) {
                         for (let stock of result){
                             if (stock.ticker === props.ticker){
                                 setTotalShares(stock.total_shares)
-                                console.log('stock equals props.ticker')
+                                // console.log('stock equals props.ticker')
                             }
                         }
                         // console.log(userStocks)
                     })
-                    .catch(error => console.log('error', error));
+                .catch(error => console.log('error', error));
                 // console.log('did data above print 3?')
     }, [])
 
@@ -56,7 +56,6 @@ export default function Trade(props) {
     const handleBuy = async e => {
         e.preventDefault();
         // get num shares to buy
-        // console.log(buy)
         let token = localStorage.getItem('token');
         let new_price = quote.c;
         let new_shares = e.target.buy.value;
@@ -74,8 +73,9 @@ export default function Trade(props) {
                 myHeaders.append("Content-Type", "application/json");
                 
                 let raw = JSON.stringify({
-                "new_price": new_price,
-                "new_shares": Number(new_shares) // for some reason does not allow int-str transformation by aPI...
+                    "ticker": props.ticker,
+                    "new_price": new_price,
+                    "new_shares": Number(new_shares) // for some reason does not allow int-str transformation by aPI...
                 });
                 
                 let requestOptions = {
@@ -98,15 +98,14 @@ export default function Trade(props) {
             }
         } 
         // if user does not own stock, DO A POST CREATE NEW STOCK
-        let ticker = props.ticker;
         let myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token);
         myHeaders.append("Content-Type", "application/json");
         
         let raw = JSON.stringify({
-        "ticker": ticker,
-        "new_price": new_price,
-        "new_shares": Number(new_shares)
+            "ticker": props.ticker,
+            "new_price": new_price,
+            "new_shares": Number(new_shares)
         });
         
         let requestOptions = {
@@ -144,8 +143,9 @@ export default function Trade(props) {
                 myHeaders.append("Content-Type", "application/json");
                 
                 let raw = JSON.stringify({
-                  "new_price": new_price,
-                  "new_shares": Number(new_shares) // for some reason does not allow int/str transformation by aPI...
+                    "ticker": props.ticker,
+                    "new_price": new_price,
+                    "new_shares": Number(new_shares) // for some reason does not allow int/str transformation by aPI...
                 });
                 
                 let requestOptions = {

@@ -5,8 +5,8 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 // import { useEffect } from "react";
 import Account from "./components/Account";
 import AlertMsg from "./components/AlertMsg";
-import BarChart from "./components/BarChart";
-import Edit from "./components/Edit";
+import BarChart from "./components/extra/BarChart";
+import Edit from "./components/extra/Edit";
 import Funds from "./components/Funds";
 import Home from "./components/Home";
 import Login from "./components/Login";
@@ -17,6 +17,7 @@ import Signup from "./components/Signup";
 import Stock from "./components/Stock";
 import Trade from "./components/Trade";
 import { urlMain } from "./Keys";
+import Transactions from "./components/Transactions";
 
 // NEED TO HAVE FROM BACKEND THE USER'S STOCK DATA...SO WHAT STOCKS THEY OWN, WHAT PRICE THEY BOUGHT THEM, AND HOW MANY SHARES...IN ORDER TO USE THAT DATA HERE IN THE FRONT END AND DISPLAY TO THE USER
 
@@ -101,6 +102,7 @@ function App() {
                     <Route path='/portfolio' element={<Portfolio loggedIn={loggedIn} ticker={ticker} changeTicker={changeTicker} newId={newId} getUserInfo={getUserInfo} info={info} />} />
                     <Route path='/account' element={<Account flashMsg={flashMsg} logout={logout} newId={newId} info={info} getUserInfo={getUserInfo} />} />
                     {/* CHECK FUNDS LATER, SEE IF REMOVING CODE BELOW CHANGES ANYTHING SINCE FUNDS IS ALREADY PASSED INTO THE ACCOUNT COMPONENT */}
+                    <Route path={`/account/${newId}/transactions`} element={<Transactions  />} />
                     <Route path='/account' element={<Funds flashMsg={flashMsg} logout={logout} newId={newId} />} />
                     <Route path='/search' element={<Search changeTicker={changeTicker} />} />
                     <Route path='/edit' element={<Edit />} />
