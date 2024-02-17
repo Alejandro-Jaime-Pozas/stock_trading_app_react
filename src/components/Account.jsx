@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import Funds from './Funds'
 import { urlMain } from '../Keys'
 // import Edit from './Edit'
-import { Link } from 'react-router-dom'
+import { Link,  } from 'react-router-dom'
 
 export default function Account(props) {
 
@@ -76,7 +76,8 @@ export default function Account(props) {
 
         setChangeConfirmed(true)
     }
-            
+
+
     return (
         <>
             <h4 className="text-center">Account</h4>
@@ -119,10 +120,17 @@ export default function Account(props) {
             })}
             </div>
             <br /><br />
-            <div className="row text-center">
+            <div className="row text-center ">
                 <div className="col">Your Cash Funds</div>
                 <p className="col lead h-75 text-center text-success fw-normal" name='cash' >${props.info.cash ? Number(props.info.cash?.toFixed(2)).toLocaleString() : 0}</p>
-            </div><br /><br />
+            </div>
+            <div className="row mt-3 text-center d-flex justify-content-around ">
+                <div className="col-4">Your Transactions</div>
+                <Link to={`/account/${props.newId}/transactions`} type="button" className="col-4 btn btn-dark " >
+                    Transactions
+                </Link>
+            </div>
+            <br /><br />
             <div className="row gy-3 p-0 justify-content-center ">
                 <br />
                 <Funds info={props.info} flashMsg={props.flashMsg} /><br /><br />

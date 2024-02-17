@@ -27,7 +27,10 @@ function App() {
     // SET USER INFO AND PASS INTO CHILDREN COMPONENTS
     // THIS NOT WORKING, STILL TAKES AN ADDITIONAL RENDER TO UPDATE USER'S INFO...useEffect only triggers once, and not when any component renders....
     // 1
-    const [info, setinfo] = useState({})
+    const [info, setinfo] = useState({
+        "cash": 0.00,
+        "total_transactions": 0
+    })
     // 2
     const [loggedIn, setLoggedIn] = useState(localStorage.getItem('token') ? true : false) // here i should check if user has a valid token, then keep them logged in, dont reset the state to false after refresh
     // 3
