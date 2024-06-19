@@ -13,10 +13,10 @@ export default function Navbar(props) {
                 <div className="collapse navbar-collapse row text-center" id="navbarNav">
                     <ul className="navbar-nav p-0">
                         <li className="nav-item col">
-                        {props.loggedIn ? 
-                        <Link className="nav-link " to="/portfolio"><i className="fa-solid fa-sack-dollar fa-xl"></i></Link> 
-                        : 
-                        <Link className="nav-link" to="/"><i className="fa-solid fa-house fa-xl"></i></Link>
+                        {props.loggedIn ?
+                            <Link className="nav-link " to="/portfolio"><i className="fa-solid fa-sack-dollar fa-xl"></i></Link>
+                            :
+                            <Link className="nav-link" to="/"><i className="fa-solid fa-house fa-xl"></i></Link>
                         }
                         </li>
                         <li className="nav-item col">

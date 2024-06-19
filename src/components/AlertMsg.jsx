@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
 export default function AlertMsg(props) {
+
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     let timeout;
 
     if (visible) {
-      // Auto-hide the alert after 5 seconds
+      // Auto-hide the alert after 4 seconds
       timeout = setTimeout(() => {
         setVisible(false)
         console.log('visible has been set to false');;

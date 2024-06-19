@@ -1,5 +1,5 @@
 // FINNHUB CAN ONLY DO MAX OF 30 REQUESTS PER MINUTE OF API...
-// maybe worth splitting functions below 
+// maybe worth splitting functions below
 import { useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 // import { useEffect } from "react";
@@ -43,7 +43,7 @@ function App() {
     const [category, setCategory] = useState(null)
 
     const navigate = useNavigate()
-    
+
     // CREATE FN TO GET USER INFO AND CALL FN IN OTHER COMPONENTS. THIS VS USEEFFECT WHICH DOESN'T WORK.
     // get user info and change the state if applicable
     const getUserInfo = () => {
@@ -52,20 +52,19 @@ function App() {
         if (token) {
             var myHeaders = new Headers();
             myHeaders.append("Authorization", "Bearer " + token);
-            
+
             var requestOptions = {
                 method: 'GET',
                 headers: myHeaders,
                 redirect: 'follow'
             };
-            
+
             fetch(`${urlMain}/auth/me`, requestOptions)
             .then(response => response.json())
             .then(result => setinfo(result))
-            .catch(error => console.log('error', error));   
+            .catch(error => console.log('error', error));
         }
-    }
-    
+    };
     const flashMsg = (message, category) => {
         setMessage(message);
         setCategory(category);
@@ -78,7 +77,7 @@ function App() {
     };
     const login = () => {
         setLoggedIn(true)
-    }
+    };
     const logout = () => {
         setinfo({})
         localStorage.removeItem('token')
@@ -86,8 +85,8 @@ function App() {
         localStorage.removeItem('user_id')
         setLoggedIn(false)
         navigate('/login')
-    }
-    
+    };
+
     // if user loggedin, then hide homepage, signup, login, etc. if logged out, hide account page, stock, trade, etc
     return (
         <>
@@ -115,6 +114,6 @@ function App() {
             </div>
         </>
     );
-}
+};
 
 export default App;
