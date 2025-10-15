@@ -11,13 +11,13 @@ export default function Account(props) {
     const [editing, setEditing] = useState(null)
     const [changeConfirmed, setChangeConfirmed] = useState(false)
     const credentials = [
-        {'username': props.info.username}, 
-        {'email': props.info.email}, 
+        {'username': props.info.username},
+        {'email': props.info.email},
         {'password': props.info.password},
     ]
 
     // fetch user's info to display
-    useEffect(() => { 
+    useEffect(() => {
         document.title = 'Account'
         props.getUserInfo()
         setChangeConfirmed(false)
@@ -36,7 +36,7 @@ export default function Account(props) {
         let editing_field = e.target.elements[keys].name
         !editing ? setEditing(editing_field) : setEditing(null)
     }
-    
+
     // console.log(editing);
 
     // this to handle the user changing their account info username, email, pwd
@@ -52,14 +52,14 @@ export default function Account(props) {
         var raw = JSON.stringify({
               [keys] : attributeChange
             });
-            
+
         var requestOptions = {
                 method: 'PUT',
                 headers: myHeaders,
                 body: raw,
                 redirect: 'follow'
             };
-        
+
         let response = await fetch(`${urlMain}/auth/users/${props.newId}`, requestOptions)
         if (response.ok) {
             let result = await response.text()
@@ -68,7 +68,7 @@ export default function Account(props) {
         } else {
             console.error(`Something wrong with '${keys}: ${attributeChange}', cannot update with PUT method`)
             props.flashMsg(`${keys}: ${attributeChange} already exists.`, 'warning')
-            return 
+            return
         }
                 // .then(response => response.text())
                 // .then(result => console.log(result))
@@ -85,7 +85,7 @@ export default function Account(props) {
             <div className="row align-items-center text-center mb-5 " >
             {credentials.map((cred, i) => {
                 let keys = Object.keys(cred)[0];
-                let values = Object.values(cred)[0] === undefined ? '*******' : Object.values(cred)[0]
+                let values = Object.values(cred)[0] === undefined ? '******' : Object.values(cred)[0]
                 return (
                     <div key={i}>
                     {
@@ -97,14 +97,14 @@ export default function Account(props) {
                                     {keys}:
                                     <input type="text" className='form-control' placeholder={`New ${keys}`} name={keys} required/>
                                 </div>
-                                <input 
+                                <input
                                     type='submit'
-                                    value='Confirm' 
-                                    className={`col-4 h-75 btn btn-success`} 
+                                    value='Confirm'
+                                    className={`col-4 h-75 btn btn-success`}
                                     name={keys} >
                                 </input>
                             </form>
-                        : 
+                        :
                         // IF EDIT BUTTON HAS NOT BEEN CLICKED SHOW EDIT BUTTON
                             <div className=" row d-flex justify-content-around my-2" key={i}>
                                 <div className="col-4 ">
