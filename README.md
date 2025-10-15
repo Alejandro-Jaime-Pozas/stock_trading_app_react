@@ -4,6 +4,8 @@
 
 ## CURRENT LIVE BACKEND WEBSITE IS DEPLOYED ON RENDER HOSTING HERE: https://dashboard.render.com/web/srv-d3n7a5be5dus73emnodg
 
+## CURRENT LIVE DB HOSTING WEBSITE IS DEPLOYED ON NEON DB HOSTING HERE: https://console.neon.tech/app/projects/rough-block-72047923?branchId=br-hidden-cloud-a4i2f6nz
+
 ## Overview
 
 This project is a React frontend single-page application designed to provide users with a seamless experience in managing various financial activities. The application facilitates user signup, login, cash deposits, and withdrawals. Additionally, it supports buying and selling of stocks, ETFs, and bonds. Users can search for stocks and stock market tickers, as well as stay informed about market news and company updates.
